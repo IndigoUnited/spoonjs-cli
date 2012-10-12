@@ -6,8 +6,8 @@ var Project = d.Class.declare({
     $name: 'Project',
     $extends: BaseModule,
 
-    create: function (name) {
-        console.log('creating project: ' + name);
+    create: function (name, something) {
+        console.log('creating project: ' + name + something);
     },
 
     test: function () {
@@ -24,7 +24,7 @@ var Project = d.Class.declare({
 
     getCommands: function () {
         return {
-            'create <name>': {
+            'create <name> <something>': {
                 description: "Create a new project",
                 options: [
                     ['-l, --location', 'Where the project will be created. Defaults to the current working directory', process.cwd()]

@@ -43,28 +43,27 @@ var Engine = d.Class.declare({
         // if user didn't specify enough args, show usage
         if (this._argv.length < 4) {
             this.showUsage();
-
             process.exit();
         }
 
-        module  = this._argv[2];
-        command = this._argv[3];
-
-        // try to run the command that the user specified
-        if (this._existsHandler(module, command)) {
-            this.run(module, command);
-        }
-        else {
-            console.error('\nInvalid command'.error);
-
-            this.showUsage();
-        }
+        // run the command
+        this.run(this._argv[2], this._argv[3]);
 
         return this;
     },
 
     run: function (module, command) {
-        var fn = this._modules[module][command];
+        // if command doesn't exist, show usage
+        if (!this._existsHandler(module, command)) {
+            console.error('\nInvalid command'.error);
+
+            this.showUsage();
+            process.exit();
+        }
+
+        // TODO: check if all the required arguments were provided
+
+        // run the command
         this._modules[module][command].apply(this._modules[module], this._argv.slice(4));
 
         return this;
