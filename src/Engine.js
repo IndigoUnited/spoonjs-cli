@@ -13,8 +13,6 @@ colors.setTheme({
     warn:  'yellow',
     debug: 'blue',
     error: 'red',
-
-
 });
 
 var Engine = d.Class.declare({
@@ -24,10 +22,11 @@ var Engine = d.Class.declare({
         COMMAND_USAGE_WIDTH: 30
     },
 
-    _version:    '0.0.1',
-    _modulesDir: __dirname + '/modules/',
-    _modules:    [],
-    _argv:       null,
+    _version:        '0.0.1',
+    _modulesDir:     __dirname + '/modules/',
+    _modules:        [],
+    _moduleCommands: [],
+    _argv:           null,
 
     initialize: function (argv) {
         this._loadModules();
@@ -42,8 +41,7 @@ var Engine = d.Class.declare({
 
         // if user didn't specify enough args, show usage
         if (this._argv.length < 4) {
-            this.showUsage();
-            process.exit();
+            this.exitWithUsage();
         }
 
         // run the command
@@ -55,13 +53,16 @@ var Engine = d.Class.declare({
     run: function (module, command) {
         // if command doesn't exist, show usage
         if (!this._existsHandler(module, command)) {
-            console.error('\nInvalid command'.error);
-
-            this.showUsage();
-            process.exit();
+            this.exitWithUsage('Invalid command');
         }
 
         // TODO: check if all the required arguments were provided
+        var cmdArgCount      = this._moduleCommands[module][command].argCount,
+            providedArgCount = this._argv.length - 4
+        ;
+        if (cmdArgCount != providedArgCount) {
+            this.exitWithUsage('Invalid argument count');
+        }
 
         // run the command
         this._modules[module][command].apply(this._modules[module], this._argv.slice(4));
@@ -86,7 +87,7 @@ var Engine = d.Class.declare({
 
             for (var command in commands) {
                 var description = commands[command].description;
-                output.push(this._pad("  " + command, this.$self.COMMAND_USAGE_WIDTH).grey + description);
+                output.push(this._pad("  " + command, this.$self.COMMAND_USAGE_WIDTH).grey + " " + description);
             }
 
             output.push('');
@@ -95,6 +96,15 @@ var Engine = d.Class.declare({
         this._output(output);
 
         return this;
+    },
+
+    exitWithUsage: function (err) {
+        if (utils.lang.isString(err)) {
+            console.error('\n' + err.error);
+        }
+
+        this.showUsage();
+        process.exit();
     },
 
     _loadModules: function () {
@@ -107,14 +117,32 @@ var Engine = d.Class.declare({
             moduleName = filenames[i].split('.',1)[0];
 
             // load the module
-            this._loadModule(moduleName, this._modulesDir + moduleName);
+            this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName);
         }
     },
 
     _loadModule: function (name, file) {
-        var module = require(file);
+        var module = require(file),
+            modInstance,
+            command,
+            cmdName,
+            cmdArgs;
 
-        this._modules[name.toLowerCase()] = new module(this);
+        this._modules[name.toLowerCase()] = modInstance = new module(this);
+
+        this._moduleCommands[name] = {};
+
+        // for each of the commands
+        for (command in modInstance.getCommands()) {
+            // check how many arguments are required
+            cmdName = command.split(/\s+/)[0];
+            cmdArgs = command.match(/<[^>]+>/g);
+
+            // save information for later validation
+            this._moduleCommands[name][cmdName] = {
+                argCount: utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0
+            }
+        }
     },
 
     _existsHandler: function (module, command) {
