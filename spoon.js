@@ -3,6 +3,6 @@
 var Engine = require('./src/Engine'),
     spooncli;
 
-spooncli = new Engine();
+spooncli = new Engine(process.argv);
 
-spooncli.parse(process.argv);
+spooncli.parse();

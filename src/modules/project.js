@@ -1,23 +1,46 @@
-var d  = require('dejavu');
+var d          = require('dejavu'),
+    BaseModule = require('../BaseModule')
+;
 
 var Project = d.Class.declare({
     $name: 'Project',
+    $extends: BaseModule,
 
-    create: function (options) {
+    create: function (name) {
+        console.log('creating project: ' + name);
+    },
+
+    test: function () {
 
     },
 
-    test: function (options) {
+    run: function () {
 
     },
 
-    run: function (options) {
+    deploy: function () {
 
     },
 
-    deploy: function (options) {
-
-    },
+    getCommands: function () {
+        return {
+            'create <name>': {
+                description: "Create a new project",
+                options: [
+                    ['-l, --location', 'Where the project will be created. Defaults to the current working directory', process.cwd()]
+                ]
+            },
+            'test': {
+                description: "Run the unit tests of the whole project"
+            },
+            'run': {
+                description: "Run the project"
+            },
+            'deploy': {
+                description: "Deploy the project"
+            },
+        };
+    }
 });
 
-module.exports = new Project;
+module.exports = Project;

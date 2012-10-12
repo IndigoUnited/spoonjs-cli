@@ -2,7 +2,8 @@
     "name": "spoon.js-cli",
     "version": "0.0.1",
     "dependencies": {
-        "colors": "0.6.x",
-        "dejavu": "0.0.x"
+        "dejavu":    "0.0.x",
+        "colors":    "0.6.x",
+        "amd-utils": "0.6.x"
     }
 }
