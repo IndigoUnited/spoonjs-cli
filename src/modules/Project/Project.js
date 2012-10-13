@@ -24,16 +24,31 @@ var Project = d.Class.declare({
         this._setUpComponents($location, { 'name': name});
 
         // install components with Bower
+        this._installComponents($location);
 
         // set up package.json
+        this._setUpPackage($location, { 'name': name});
 
         // install server-side dependencies with npm
+        this._installPackage($location);
     },
 
     _setUpComponents: function (location, args) {
         var contents = this._renderTemplate(this._tmplComponents, args);
 
         fs.writeFileSync(location + '/components.json', contents);
+    },
+
+    _installComponents: function (location) {
+
+    },
+
+    _setUpPackage: function (location, args) {
+
+    },
+
+    _installPackage: function (location) {
+
     },
 
     // --------------------------------------------------
