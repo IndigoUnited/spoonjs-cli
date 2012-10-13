@@ -1,5 +1,5 @@
 var d          = require('dejavu'),
-    BaseModule = require('../BaseModule')
+    BaseModule = require('../../BaseModule')
 ;
 
 var Module = d.Class.declare({

@@ -1,5 +1,6 @@
 var d          = require('dejavu'),
-    BaseModule = require('../BaseModule')
+    BaseModule = require('../../BaseModule'),
+    dot        = require('dot')
 ;
 
 var Project = d.Class.declare({
@@ -10,17 +11,30 @@ var Project = d.Class.declare({
         console.log(('creating project: ' + name).info);
     },
 
+    _setUpComponents: function () {
+        
+    }
+
+    // --------------------------------------------------
+
     test: function () {
 
     },
+
+    // --------------------------------------------------
 
     run: function () {
 
     },
 
+    // --------------------------------------------------
+
     deploy: function () {
 
     },
+
+    // --------------------------------------------------
+    // --------------------------------------------------
 
     getCommands: function () {
         return {

@@ -56,7 +56,7 @@ var Engine = d.Class.declare({
             this.exitWithUsage('Invalid command');
         }
 
-        // TODO: check if all the required arguments were provided
+        // check if all the required arguments were provided
         var cmdArgCount      = this._moduleCommands[module][command].argCount,
             providedArgCount = this._argv.length - 4
         ;
@@ -117,7 +117,7 @@ var Engine = d.Class.declare({
             moduleName = filenames[i].split('.',1)[0];
 
             // load the module
-            this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName);
+            this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName + '/' + moduleName);
         }
     },
 

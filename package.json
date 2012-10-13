@@ -5,6 +5,7 @@
     "dependencies": {
         "dejavu":    "0.0.x",
         "colors":    "0.6.x",
-        "amd-utils": "0.6.x"
+        "amd-utils": "0.6.x",
+        "dot": "~0.2.6"
     }
 }
