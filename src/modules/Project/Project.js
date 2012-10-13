@@ -13,7 +13,7 @@ var Project = d.Class.declare({
 
     _setUpComponents: function () {
         
-    }
+    },
 
     // --------------------------------------------------
 
