@@ -1,7 +1,8 @@
 var d       = require('dejavu'),
     fs      = require('fs'),
     colors  = require('colors') // https://github.com/Marak/colors.js
-    utils   = require('amd-utils')
+    utils   = require('amd-utils'),
+    os      = require('os')
 ;
 
 // set up a useful set of formats
@@ -71,7 +72,7 @@ var Engine = d.Class.declare({
     },
 
     showUsage: function () {
-        var script = this._argv[1].split(/\//),
+        var script = this._argv[1].split(os.platform().match(/win32/) ? (/\\/) : (/\//)),
             moduleName,
             output;
 
