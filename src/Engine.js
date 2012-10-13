@@ -146,7 +146,6 @@ var Engine = d.Class.declare({
     },
 
     _existsHandler: function (module, command) {
-console.log(this._modules[module], module, command);
         if (!utils.lang.isUndefined(this._modules[module]) && utils.lang.isFunction(this._modules[module][command])) {
             return true;
         }
