@@ -1,10 +1,17 @@
-var d      = require('dejavu')
-    Engine = require('./Engine')
+var d      = require('dejavu'),
+    Engine = require('./Engine'),
+    utils  = require('amd-utils'),
+    fs     = require('fs'),
+    doT    = require('dot')
 ;
+
+// keep spaces and line changes in templates
+doT.templateSettings.strip = false;
 
 var BaseModule = d.AbstractClass.declare({
     $name: 'BaseModule',
     _engine: null,
+    __templateCache: {},
 
     initialize: function (engine) {
         // check if the engine is correct
@@ -34,6 +41,30 @@ var BaseModule = d.AbstractClass.declare({
         };
         */
         getCommands: function () {}
+    },
+
+    _renderTemplate: function (filename, $args) {
+        $args = $args || {};
+
+        var tmpl = this.__getTemplate(filename);
+
+        return tmpl($args);
+    },
+
+    __getTemplate: function (filename) {
+        // find template real path
+        try {
+            var tmplPath = fs.realpathSync(filename);
+        } catch (e) {
+            throw new Error('Couldn\'t find template file "' + filename + '"');
+        }
+
+        // if template hasn't been compiled yet, compile and cache it
+        if (utils.lang.isUndefined(this.__templateCache[tmplPath])) {
+            this.__templateCache[tmplPath] = doT.template(fs.readFileSync(tmplPath, 'utf8'));
+        }
+
+        return this.__templateCache[tmplPath];
     }
 });
 

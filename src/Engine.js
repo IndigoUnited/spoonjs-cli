@@ -58,6 +58,7 @@ var Engine = d.Class.declare({
         }
 
         // check if all the required arguments were provided
+        // TODO: show usage for the specific command that the user executed
         var cmdArgCount      = this._moduleCommands[module][command].argCount,
             providedArgCount = this._argv.length - 4
         ;
