@@ -7,7 +7,7 @@ var Project = d.Class.declare({
     $name: 'Project',
     $extends: BaseModule,
 
-    create: function (name) {
+    create: function (name, location) {
         console.log(('creating project: ' + name).info);
     },
 
