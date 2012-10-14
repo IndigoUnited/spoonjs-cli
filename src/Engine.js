@@ -49,6 +49,7 @@ var Engine = d.Class.declare({
             this.exitWithUsage();
         }
 
+        // build the request
         this._request.module  = module  = this._argv[2];
         this._request.command = command = this._argv[3];
         this._assertHandlerExists(module, command);
@@ -56,6 +57,7 @@ var Engine = d.Class.declare({
         this._request.args    = [];
         this._request.options = {};
 
+        // divide each of the remaining arguments into args and options
         for (var i = 4; i < argvLen; ++i) {
             if (utils.lang.isUndefined(this._argv[i])) break;
 
@@ -68,11 +70,9 @@ var Engine = d.Class.declare({
                 this.exitWithCmdUsage(null, module, command);
             }
 
-            // if arg is a shortcut for an option
+            // if arg is a shortcut for an option, translate into its respective option
             if (/^-[^\-]/.exec(arg)) {
                 this._assertOptionShortcutExists(module, command, arg[1]);
-
-                // translate the shortcut to the option
                 arg = '--' + this._moduleCommands[module][command].optionShortcuts[arg];
             }
 
@@ -80,15 +80,11 @@ var Engine = d.Class.declare({
             if (/--/.exec(arg)) {
                 var eqPos = arg.indexOf('=');
 
-                // if the value was specified
+                // if the value was specified, get it and run the casting function, if one is set
                 if (eqPos > 0) {
                     optK = arg.slice(2, eqPos);
-
                     this._assertOptionExists(module, command, optK);
-
                     optV = arg.slice(eqPos + 1);
-
-                    // if there is a casting function, run it
                     castFn = this._moduleCommands[module][command].options[optK].cast;
                     if (utils.lang.isFunction(castFn)) {
                         optV = castFn(optV);
@@ -97,16 +93,14 @@ var Engine = d.Class.declare({
                 // only the option was passed, use its default value
                 else {
                     optK = arg.slice(2);
-
                     this._assertOptionExists(module, command, optK);
-
                     optV = this._moduleCommands[module][command].options[optK].deflt;
                 }
                 
                 // save the option
                 this._request.options[optK] = optV;
             }
-            // arg is not an option
+            // arg is not an option, add it to the arguments list
             else {
                 this._request.args.push(arg);
             }
