@@ -16,7 +16,6 @@ var Project = d.Class.declare({
 
     create: function (options, name, $location) {
         console.log(('Creating project: ' + name).info);
-console.log(options);
         $location = $location || process.cwd() + '/' + name;
 
         // TODO: check if destination folder already exists, and has contents
@@ -130,8 +129,8 @@ console.log(options);
                 description: "Create a new project",
                 options: [
                     ['-l, --location', 'Where the project will be created. Defaults to the current working directory', process.cwd()],
-                    ['-b, --no-boilerplate', 'If the HTML 5 boilerplate should be bundled with the project. Included by default.', false, this._parseBoolean],
-                    ['--with-bootstrap', 'If the Twitter Bootstrap should be bundled with the project', false, this._parseBoolean]
+                    ['-b, --boilerplate', 'If the HTML 5 boilerplate should be bundled with the project. Included by default.', true, this._parseBoolean],
+                    ['--bootstrap', 'If the Twitter Bootstrap should be bundled with the project', false, this._parseBoolean]
                 ]
             },
             'test': {

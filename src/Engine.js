@@ -63,6 +63,11 @@ var Engine = d.Class.declare({
                 optK,
                 optV;
 
+            // if user requested help, show command usage
+            if (arg == '--help' || arg == '-h') {
+                this.exitWithCmdUsage(null, module, command);
+            }
+
             // if arg is a shortcut for an option
             if (/^-[^\-]/.exec(arg)) {
                 this._assertOptionShortcutExists(module, command, arg[1]);
@@ -125,8 +130,14 @@ var Engine = d.Class.declare({
             this.exitWithCmdUsage('Missing required arguments', module, command);
         }
 
+        // fill in the options
+        var opt = {};
+        for (var optName in this._moduleCommands[module][command].options) {
+            opt[optName] = !utils.lang.isUndefined(options[optName]) ? options[optName] : this._moduleCommands[module][command].options[optName].deflt;
+        }
+
         // run the command
-        this._modules[module][command].apply(this._modules[module], [options].concat(args));
+        this._modules[module][command].apply(this._modules[module], [opt].concat(args));
 
         return this;
     },
