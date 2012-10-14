@@ -2,7 +2,8 @@ var d       = require('dejavu'),
     fs      = require('fs'),
     colors  = require('colors') // https://github.com/Marak/colors.js
     utils   = require('amd-utils'),
-    os      = require('os')
+    os      = require('os'),
+    inspect = require('util').inspect
 ;
 
 // set up a useful set of formats
@@ -54,7 +55,7 @@ var Engine = d.Class.declare({
     run: function (module, command) {
         // if command doesn't exist, show usage
         if (!this._existsHandler(module, command)) {
-            this.exitWithUsage('Invalid command');
+            this.exitWithUsage('Unrecognized command');
         }
 
         // check if all the required arguments were provided
@@ -63,7 +64,7 @@ var Engine = d.Class.declare({
             providedArgCount = this._argv.length - 4
         ;
         if (cmdArgCount != providedArgCount) {
-            this.exitWithUsage('Invalid argument count');
+            this.exitWithCmdUsage('Missing required arguments', module, command);
         }
 
         // run the command
@@ -73,14 +74,11 @@ var Engine = d.Class.declare({
     },
 
     showUsage: function () {
-        var script = this._argv[1].split(os.platform().match(/win32/) ? (/\\/) : (/\//)),
-            moduleName,
+        var moduleName,
             output;
 
-        script = script[script.length - 1];
-
         output = [
-            '\nUsage: ' + (script + ' <module> <command> [options]\n').cyan
+            '\nUsage: ' + (this._getScriptName() + ' <module> <command> [options]\n').cyan
         ];
 
         for (moduleName in this._modules) {
@@ -89,7 +87,7 @@ var Engine = d.Class.declare({
 
             for (var command in commands) {
                 var description = commands[command].description;
-                output.push(this._pad("  " + command, this.$self.COMMAND_USAGE_WIDTH).grey + " " + description);
+                output.push(utils.string.rpad("  " + command, this.$self.COMMAND_USAGE_WIDTH).grey + " " + description);
             }
 
             output.push('');
@@ -100,12 +98,32 @@ var Engine = d.Class.declare({
         return this;
     },
 
+    showCommandUsage: function (module, command) {
+        var output;
+
+        output = [
+            '\nUsage: ' + (this._getScriptName() + ' ' + module + ' ' + this._moduleCommands[module][command].definition + '\n').cyan
+        ];
+
+        this._output(output);
+        process.exit();
+    },
+
     exitWithUsage: function (err) {
         if (utils.lang.isString(err)) {
             console.error('\n' + err.error);
         }
 
         this.showUsage();
+        process.exit();
+    },
+
+    exitWithCmdUsage: function (err, module, command) {
+        if (utils.lang.isString(err)) {
+            console.error('\n' + err.error);
+        }
+
+        this.showCommandUsage(module, command);
         process.exit();
     },
 
@@ -121,28 +139,57 @@ var Engine = d.Class.declare({
             // load the module
             this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName + '/' + moduleName);
         }
+
+//        console.log(inspect(this._moduleCommands, false, null));
     },
 
     _loadModule: function (name, file) {
         var module = require(file),
             modInstance,
+            commands,
             command,
             cmdName,
-            cmdArgs;
+            cmdArgs,
+            options,
+            option;
 
         this._modules[name.toLowerCase()] = modInstance = new module(this);
 
         this._moduleCommands[name] = {};
 
         // for each of the commands
-        for (command in modInstance.getCommands()) {
+        commands = modInstance.getCommands();
+        for (command in commands) {
             // check how many arguments are required
             cmdName = command.split(/\s+/)[0];
             cmdArgs = command.match(/<[^>]+>/g);
 
             // save information for later validation
             this._moduleCommands[name][cmdName] = {
-                argCount: utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0
+                'definition'      : command,
+                'argCount'        : utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0,
+                'options'         : {},
+                'optionShortcuts' : {}
+            }
+
+            // store option list
+            options = commands[command].options;
+            for (option in options) {
+                var opt            = options[option],
+                    optionName     = opt[0].split(/--/)[1],
+                    optionShortcut = opt[0].split(/,/).length > 1 ? opt[0][1] : null;
+
+                // save the option definition
+                this._moduleCommands[name][cmdName].options[optionName] = {
+                    description : opt[1],
+                    deflt       : opt[2], // default value
+                    cast        : opt[3]  // casting function
+                }
+
+                // if option has a shortcut, store it
+                if (!utils.lang.isNull(optionShortcut)) {
+                    this._moduleCommands[name][cmdName].optionShortcuts[optionShortcut] = optionName;                
+                }
             }
         }
     },
@@ -155,18 +202,16 @@ var Engine = d.Class.declare({
         return false;
     },
 
-    _pad: function (str, width) {
-        var len = Math.max(0, width - str.length);
-
-        return str + Array(len + 1).join(' ');
-    },
-
     _output: function (outputArr) {
         for (var i in outputArr) {
             console.log(outputArr[i]);
         }
-    }
+    },
 
+    _getScriptName: function () {
+        var script = this._argv[1].split(os.platform().match(/win32/) ? (/\\/) : (/\//));
+        return script[script.length - 1];
+    }
 });
 
 module.exports = Engine;

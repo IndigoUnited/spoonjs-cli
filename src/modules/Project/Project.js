@@ -129,8 +129,8 @@ var Project = d.Class.declare({
                 description: "Create a new project",
                 options: [
                     ['-l, --location', 'Where the project will be created. Defaults to the current working directory', process.cwd()],
-                    ['-b, --with-h5b <include>', 'If the HTML 5 boilerplate should be bundled with the project. Included by default.', true],
-                    ['-t, --with-bootstrap <include>', 'If the Twitter Bootstrap should be bundled with the project', false]
+                    ['-b, --no-boilerplate', 'If the HTML 5 boilerplate should be bundled with the project. Included by default.', false, this._parseBoolean],
+                    ['--with-bootstrap', 'If the Twitter Bootstrap should be bundled with the project', false, this._parseBoolean]
                 ]
             },
             'test': {

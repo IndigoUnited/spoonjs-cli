@@ -65,6 +65,17 @@ var BaseModule = d.AbstractClass.declare({
         }
 
         return this.__templateCache[tmplPath];
+    },
+
+    _parseBoolean: function (v) {
+        if (/t|y|1|true|yes/.exec(v.toString())) {
+            return true;
+        }
+        else if (/f|n|0|false|no/.exec(v.toString())) {
+            return false;
+        }
+
+        throw new Error('Invalid boolean option'.error);
     }
 });
 
