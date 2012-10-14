@@ -7,7 +7,7 @@ var Framework = d.Class.declare({
     $extends: BaseModule,
 
 
-    update: function () {
+    update: function (options) {
 
     },
 

@@ -21,7 +21,7 @@ var Engine = d.Class.declare({
     $name: 'Engine',
 
     $constants: {
-        COMMAND_USAGE_WIDTH: 30
+        FIRST_COLUMN_WIDTH: 30
     },
 
     _version:        '0.0.1',
@@ -29,6 +29,7 @@ var Engine = d.Class.declare({
     _modules:        [],
     _moduleCommands: [],
     _argv:           null,
+    _request:        {},
 
     initialize: function (argv) {
         this._loadModules();
@@ -38,31 +39,92 @@ var Engine = d.Class.declare({
 
     parse: function () {
         var module,
-            command
+            command,
+            options,
+            argvLen = this._argv.length;
         ;
 
         // if user didn't specify enough args, show usage
-        if (this._argv.length < 4) {
+        // TODO: do not take into account options (--something or -s)
+        if (argvLen < 4) {
             this.exitWithUsage();
         }
 
+        this._request.module  = module  = this._argv[2];
+        this._request.command = command = this._argv[3];
+        this._request.args    = [];
+        this._request.options = {};
+
+        for (var i = 4; i < argvLen; ++i) {
+            if (utils.lang.isUndefined(this._argv[i])) break;
+
+            var arg = this._argv[i],
+                optK,
+                optV;
+
+            // if arg is a shortcut for an option
+            if (/-/.exec(arg)) {
+                // translate the shortcut to the option
+                //if ()
+            }
+
+            // if arg is an option
+            if (/--/.exec(arg)) {
+                var eqPos = arg.indexOf('=');
+
+                // if the value was specified
+                if (eqPos > 0) {
+                    optK = arg.slice(2, eqPos);
+
+                    this._assertOptionExists(module, command, optK);
+
+                    optV = arg.slice(eqPos + 1);
+
+                    // if there is a casting function, run it
+                    castFn = this._moduleCommands[module][command].options[optK].cast;
+                    if (utils.lang.isFunction(castFn)) {
+                        console.log('casting');
+                        optV = castFn(optV);
+                    }
+                }
+                // only the option was passed, use its default value
+                else {
+                    optK = arg.slice(2);
+
+                    this._assertOptionExists(module, command, optK);
+
+                    optV = this._moduleCommands[module][command].options[optK].deflt;
+                }
+                
+                // save the option
+                this._request.options[optK] = optV;
+            }
+            // arg is not an option
+            else {
+                this._request.args.push(arg);
+            }
+        }
+
+        console.log(this._request);
+        process.exit();
+
         // run the command
-        this.run(this._argv[2], this._argv[3]);
+        this.run(this._request.module, this._request.command, this._request.args, this._request.options);
 
         return this;
     },
 
-    run: function (module, command) {
+    run: function (module, command, args, options) {
         // if command doesn't exist, show usage
         if (!this._existsHandler(module, command)) {
             this.exitWithUsage('Unrecognized command');
         }
 
         // check if all the required arguments were provided
-        // TODO: show usage for the specific command that the user executed
         var cmdArgCount      = this._moduleCommands[module][command].argCount,
             providedArgCount = this._argv.length - 4
         ;
+        // TODO: do not take into account options (--something or -s)
         if (cmdArgCount != providedArgCount) {
             this.exitWithCmdUsage('Missing required arguments', module, command);
         }
@@ -87,7 +149,7 @@ var Engine = d.Class.declare({
 
             for (var command in commands) {
                 var description = commands[command].description;
-                output.push(utils.string.rpad("  " + command, this.$self.COMMAND_USAGE_WIDTH).grey + " " + description);
+                output.push(utils.string.rpad("  " + command, this.$self.FIRST_COLUMN_WIDTH).grey + " " + description);
             }
 
             output.push('');
@@ -99,11 +161,20 @@ var Engine = d.Class.declare({
     },
 
     showCommandUsage: function (module, command) {
-        var output;
+        var output,
+            optName,
+            opts = this._moduleCommands[module][command].options;
 
         output = [
-            '\nUsage: ' + (this._getScriptName() + ' ' + module + ' ' + this._moduleCommands[module][command].definition + '\n').cyan
+            '\n' + this._moduleCommands[module][command].description.info + '\n',
+            'Usage: ' + (this._getScriptName() + ' ' + module + ' ' + this._moduleCommands[module][command].definition + '\n').cyan
         ];
+
+        for (optName in opts) {
+            output.push(utils.string.rpad('  ' + opts[optName].definition, this.$self.FIRST_COLUMN_WIDTH).grey + " " + opts[optName].description);
+        }
+
+        output.push('');
 
         this._output(output);
         process.exit();
@@ -119,6 +190,10 @@ var Engine = d.Class.declare({
     },
 
     exitWithCmdUsage: function (err, module, command) {
+        if (utils.lang.isUndefined(this._moduleCommands[module][command])) {
+            this.exitWithUsage('Invalid command provided');
+        }
+
         if (utils.lang.isString(err)) {
             console.error('\n' + err.error);
         }
@@ -167,6 +242,7 @@ var Engine = d.Class.declare({
             // save information for later validation
             this._moduleCommands[name][cmdName] = {
                 'definition'      : command,
+                'description'     : commands[command].description,
                 'argCount'        : utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0,
                 'options'         : {},
                 'optionShortcuts' : {}
@@ -181,6 +257,7 @@ var Engine = d.Class.declare({
 
                 // save the option definition
                 this._moduleCommands[name][cmdName].options[optionName] = {
+                    definition  : opt[0],
                     description : opt[1],
                     deflt       : opt[2], // default value
                     cast        : opt[3]  // casting function
@@ -211,6 +288,12 @@ var Engine = d.Class.declare({
     _getScriptName: function () {
         var script = this._argv[1].split(os.platform().match(/win32/) ? (/\\/) : (/\//));
         return script[script.length - 1];
+    },
+
+    _assertOptionExists: function (module, command, opt) {
+        if (utils.lang.isUndefined(this._moduleCommands[module][command].options[opt])) {
+            this.exitWithCmdUsage('Invalid option provided \'--' + opt + '\'', module, command);
+        }
     }
 });
 

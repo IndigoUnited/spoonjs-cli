@@ -6,11 +6,11 @@ var Module = d.Class.declare({
     $name: 'Module',
     $extends: BaseModule,
 
-    create: function (name) {
+    create: function (options, name) {
         console.log('creating module: ' + name);
     },
 
-    test: function (name) {
+    test: function (options, name) {
         console.log('testing module: ' + name);
     },
 

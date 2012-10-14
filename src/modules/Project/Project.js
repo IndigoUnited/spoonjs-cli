@@ -14,7 +14,7 @@ var Project = d.Class.declare({
     _tmplComponent: __dirname + '/templates/component.json.tmpl',
     _tmplPackage:   __dirname + '/templates/package.json.tmpl',
 
-    create: function (name, $location) {
+    create: function (options, name, $location) {
         console.log(('Creating project: ' + name).info);
         $location = $location || process.cwd() + '/' + name;
 
@@ -104,19 +104,19 @@ var Project = d.Class.declare({
 
     // --------------------------------------------------
 
-    test: function () {
+    test: function (options) {
 
     },
 
     // --------------------------------------------------
 
-    run: function () {
+    run: function (options) {
 
     },
 
     // --------------------------------------------------
 
-    deploy: function () {
+    deploy: function (options) {
 
     },
 

@@ -30,7 +30,7 @@ var BaseModule = d.AbstractClass.declare({
                 'something': {
                     description: "Do something and what not. Note that the module must have a 'something' public method"
                     options: [
-                        ['-s, --some-option [arg]', 'The option description. Note that is can have a optional arg', 'the default value for arg'],
+                        ['-s, --some-option', 'The option description. Note that is can have a optional arg', 'the default value for arg'],
                         ['-o, --other-option', 'This option does not have an arg'],
                     ]
                 },
