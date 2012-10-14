@@ -45,13 +45,14 @@ var Engine = d.Class.declare({
         ;
 
         // if user didn't specify enough args, show usage
-        // TODO: do not take into account options (--something or -s)
-        if (argvLen < 4) {
+        if (this._request.args < 4) {
             this.exitWithUsage();
         }
 
         this._request.module  = module  = this._argv[2];
         this._request.command = command = this._argv[3];
+        this._assertHandlerExists(module, command);
+
         this._request.args    = [];
         this._request.options = {};
 
@@ -63,9 +64,11 @@ var Engine = d.Class.declare({
                 optV;
 
             // if arg is a shortcut for an option
-            if (/-/.exec(arg)) {
+            if (/^-[^\-]/.exec(arg)) {
+                this._assertOptionShortcutExists(module, command, arg[1]);
+
                 // translate the shortcut to the option
-                //if ()
+                arg = '--' + this._moduleCommands[module][command].optionShortcuts[arg];
             }
 
             // if arg is an option
@@ -83,7 +86,6 @@ var Engine = d.Class.declare({
                     // if there is a casting function, run it
                     castFn = this._moduleCommands[module][command].options[optK].cast;
                     if (utils.lang.isFunction(castFn)) {
-                        console.log('casting');
                         optV = castFn(optV);
                     }
                 }
@@ -105,9 +107,6 @@ var Engine = d.Class.declare({
             }
         }
 
-        console.log(this._request);
-        process.exit();
-
         // run the command
         this.run(this._request.module, this._request.command, this._request.args, this._request.options);
 
@@ -115,14 +114,11 @@ var Engine = d.Class.declare({
     },
 
     run: function (module, command, args, options) {
-        // if command doesn't exist, show usage
-        if (!this._existsHandler(module, command)) {
-            this.exitWithUsage('Unrecognized command');
-        }
+        this._assertHandlerExists(module, command);
 
         // check if all the required arguments were provided
         var cmdArgCount      = this._moduleCommands[module][command].argCount,
-            providedArgCount = this._argv.length - 4
+            providedArgCount = args.length
         ;
         // TODO: do not take into account options (--something or -s)
         if (cmdArgCount != providedArgCount) {
@@ -130,7 +126,7 @@ var Engine = d.Class.declare({
         }
 
         // run the command
-        this._modules[module][command].apply(this._modules[module], this._argv.slice(4));
+        this._modules[module][command].apply(this._modules[module], [options].concat(args));
 
         return this;
     },
@@ -265,7 +261,7 @@ var Engine = d.Class.declare({
 
                 // if option has a shortcut, store it
                 if (!utils.lang.isNull(optionShortcut)) {
-                    this._moduleCommands[name][cmdName].optionShortcuts[optionShortcut] = optionName;                
+                    this._moduleCommands[name][cmdName].optionShortcuts[optionShortcut] = optionName;
                 }
             }
         }
@@ -290,9 +286,21 @@ var Engine = d.Class.declare({
         return script[script.length - 1];
     },
 
+    _assertHandlerExists: function (module, command) {
+        if (!this._existsHandler(module, command)) {
+            this.exitWithUsage('Unrecognized command');
+        }
+    },
+
     _assertOptionExists: function (module, command, opt) {
         if (utils.lang.isUndefined(this._moduleCommands[module][command].options[opt])) {
             this.exitWithCmdUsage('Invalid option provided \'--' + opt + '\'', module, command);
+        }
+    },
+
+    _assertOptionShortcutExists: function (module, command, shortcut) {
+        if (utils.lang.isUndefined(this._moduleCommands[module][command].optionShortcuts[shortcut])) {
+            this.exitWithCmdUsage('Invalid option provided \'-' + shortcut + '\'', module, command);
         }
     }
 });

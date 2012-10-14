@@ -16,6 +16,7 @@ var Project = d.Class.declare({
 
     create: function (options, name, $location) {
         console.log(('Creating project: ' + name).info);
+console.log(options);
         $location = $location || process.cwd() + '/' + name;
 
         // TODO: check if destination folder already exists, and has contents
