@@ -24,7 +24,7 @@ var Project = d.Class.declare({
 
         async.series([
             // set up project folder
-            function(callback) {
+            function (callback) {
                 console.log('  setting up project folder'.grey);
 
                 mkdirp.sync($location);
@@ -32,7 +32,7 @@ var Project = d.Class.declare({
                 callback();
             },
             // set up components.json and install components with Bower
-            function(callback) {
+            function (callback) {
                 console.log('  setting up project dependencies... (can take a few seconds)'.grey);
 
                 that.setUpComponents($location, { 'name': name});
@@ -40,7 +40,7 @@ var Project = d.Class.declare({
                 that.installComponents($location, callback);
             },
             // set up package.json and install server-side dependencies with npm
-            function(callback) {
+            function (callback) {
                 that.setUpPackage($location, { 'name': name});
 
                 that.installPackage($location, callback);
@@ -75,7 +75,8 @@ var Project = d.Class.declare({
     installComponents: function (location, callback) {
         exec('bower install', { cwd: location }, function (error, stdout, stderr) {
             // TODO: this error check doesn't work, because there is no error or stderr
-            // present when some error happens, only stdout. Need to rework this
+            // present when some error happens, only stdout. Need to rework this.
+            // Maybe include the bower module and use it directly in node?
             if (error !== null) {
                 console.log(('Error running bower install: ' + stdout).error);
                 process.exit();
@@ -126,7 +127,7 @@ var Project = d.Class.declare({
     getCommands: function () {
         return {
             'create <name>': {
-                description: "Create a new project",
+                description: 'Create a new project',
                 options: [
                     ['-l, --location', 'Where the project will be created. Defaults to the current working directory', process.cwd()],
                     ['-b, --boilerplate', 'If the HTML 5 boilerplate should be bundled with the project. Included by default.', true, this._parseBoolean],
@@ -134,14 +135,14 @@ var Project = d.Class.declare({
                 ]
             },
             'test': {
-                description: "Run the unit tests of the whole project"
+                description: 'Run the unit tests of the whole project'
             },
             'run': {
-                description: "Run the project"
+                description: 'Run the project'
             },
             'deploy': {
-                description: "Deploy the project"
-            },
+                description: 'Deploy the project'
+            }
         };
     }
 });
