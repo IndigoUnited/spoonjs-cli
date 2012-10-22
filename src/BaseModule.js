@@ -52,9 +52,11 @@ var BaseModule = d.AbstractClass.declare({
     },
 
     __getTemplate: function (filename) {
+        var tmplPath;
+
         // find template real path
         try {
-            var tmplPath = fs.realpathSync(filename);
+            tmplPath = fs.realpathSync(filename);
         } catch (e) {
             throw new Error('Couldn\'t find template file "' + filename + '"');
         }
