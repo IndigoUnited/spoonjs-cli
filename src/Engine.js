@@ -1,6 +1,6 @@
 var d       = require('dejavu'),
     fs      = require('fs'),
-    colors  = require('colors') // https://github.com/Marak/colors.js
+    colors  = require('colors'), // https://github.com/Marak/colors.js
     utils   = require('amd-utils'),
     os      = require('os'),
     inspect = require('util').inspect
@@ -14,7 +14,7 @@ colors.setTheme({
     help:  'cyan',
     warn:  'yellow',
     debug: 'blue',
-    error: 'red',
+    error: 'red'
 });
 
 var Engine = d.Class.declare({
@@ -40,33 +40,28 @@ var Engine = d.Class.declare({
     parse: function () {
         var module,
             command,
-            options,
-            argvLen = this._argv.length;
+            argvLen = this._argv.length,
+            castFn,
+            eqPos,
+            i,
+            arg,
+            optK,
+            optV
         ;
-
-        // if user didn't specify enough args, show usage
-        if (this._request.args < 4) {
-            this.exitWithUsage();
-        }
-
-        // build the request
-        this._request.module  = module  = this._argv[2];
-        this._request.command = command = this._argv[3];
-        this._assertHandlerExists(module, command);
 
         this._request.args    = [];
         this._request.options = {};
 
         // divide each of the remaining arguments into args and options
-        for (var i = 4; i < argvLen; ++i) {
-            if (utils.lang.isUndefined(this._argv[i])) break;
+        for (i = 4; i < argvLen; ++i) {
+            if (utils.lang.isUndefined(this._argv[i])) {
+                break;
+            }
 
-            var arg = this._argv[i],
-                optK,
-                optV;
+            arg = this._argv[i];
 
             // if user requested help, show command usage
-            if (arg == '--help' || arg == '-h') {
+            if (arg === '--help' || arg === '-h') {
                 this.exitWithCmdUsage(null, module, command);
             }
 
@@ -78,7 +73,7 @@ var Engine = d.Class.declare({
 
             // if arg is an option
             if (/--/.exec(arg)) {
-                var eqPos = arg.indexOf('=');
+                eqPos = arg.indexOf('=');
 
                 // if the value was specified, get it and run the casting function, if one is set
                 if (eqPos > 0) {
@@ -106,6 +101,18 @@ var Engine = d.Class.declare({
             }
         }
 
+        // build the request
+        this._request.module  = module  = this._argv[2];
+        this._request.command = command = this._argv[3];
+
+        // if user didn't specify enough args, show usage
+        if (!module || !command) {
+            this.exitWithUsage();
+        }
+
+        // make sure that the command is valid
+        this._assertHandlerExists(module, command);
+
         // run the command
         this.run(this._request.module, this._request.command, this._request.args, this._request.options);
 
@@ -117,16 +124,18 @@ var Engine = d.Class.declare({
 
         // check if all the required arguments were provided
         var cmdArgCount      = this._moduleCommands[module][command].argCount,
-            providedArgCount = args.length
+            providedArgCount = args.length,
+            opt,
+            optName
         ;
         // TODO: do not take into account options (--something or -s)
-        if (cmdArgCount != providedArgCount) {
+        if (cmdArgCount !== providedArgCount) {
             this.exitWithCmdUsage('Missing required arguments', module, command);
         }
 
         // fill in the options
-        var opt = {};
-        for (var optName in this._moduleCommands[module][command].options) {
+        opt = {};
+        for (optName in this._moduleCommands[module][command].options) {
             opt[optName] = !utils.lang.isUndefined(options[optName]) ? options[optName] : this._moduleCommands[module][command].options[optName].deflt;
         }
 
@@ -138,19 +147,22 @@ var Engine = d.Class.declare({
 
     showUsage: function () {
         var moduleName,
-            output;
+            output,
+            commands,
+            command,
+            description;
 
         output = [
             '\nUsage: ' + (this._getScriptName() + ' <module> <command> [options]\n').cyan
         ];
 
         for (moduleName in this._modules) {
-            var commands = this._modules[moduleName].getCommands();
+            commands = this._modules[moduleName].getCommands();
             output.push(moduleName.green);
 
-            for (var command in commands) {
-                var description = commands[command].description;
-                output.push(utils.string.rpad("  " + command, this.$self.FIRST_COLUMN_WIDTH).grey + " " + description);
+            for (command in commands) {
+                description = commands[command].description;
+                output.push(utils.string.rpad('  ' + command, this.$self.FIRST_COLUMN_WIDTH).grey + ' ' + description);
             }
 
             output.push('');
@@ -172,7 +184,7 @@ var Engine = d.Class.declare({
         ];
 
         for (optName in opts) {
-            output.push(utils.string.rpad('  ' + opts[optName].definition, this.$self.FIRST_COLUMN_WIDTH).grey + " " + opts[optName].description);
+            output.push(utils.string.rpad('  ' + opts[optName].definition, this.$self.FIRST_COLUMN_WIDTH).grey + ' ' + opts[optName].description);
         }
 
         output.push('');
@@ -210,7 +222,7 @@ var Engine = d.Class.declare({
         ;
         // foreach file in the modules folder, load it, and initialize it
         for (i in filenames) {
-            moduleName = filenames[i].split('.',1)[0];
+            moduleName = filenames[i].split('.', 1)[0];
 
             // load the module
             this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName + '/' + moduleName);
@@ -227,7 +239,10 @@ var Engine = d.Class.declare({
             cmdName,
             cmdArgs,
             options,
-            option;
+            option,
+            opt,
+            optionName,
+            optionShortcut;
 
         this._modules[name.toLowerCase()] = modInstance = new module(this);
 
@@ -247,14 +262,14 @@ var Engine = d.Class.declare({
                 'argCount'        : utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0,
                 'options'         : {},
                 'optionShortcuts' : {}
-            }
+            };
 
             // store option list
             options = commands[command].options;
             for (option in options) {
-                var opt            = options[option],
-                    optionName     = opt[0].split(/--/)[1],
-                    optionShortcut = opt[0].split(/,/).length > 1 ? opt[0][1] : null;
+                opt            = options[option];
+                optionName     = opt[0].split(/--/)[1];
+                optionShortcut = opt[0].split(/,/).length > 1 ? opt[0][1] : null;
 
                 // save the option definition
                 this._moduleCommands[name][cmdName].options[optionName] = {
@@ -262,7 +277,7 @@ var Engine = d.Class.declare({
                     description : opt[1],
                     deflt       : opt[2], // default value
                     cast        : opt[3]  // casting function
-                }
+                };
 
                 // if option has a shortcut, store it
                 if (!utils.lang.isNull(optionShortcut)) {
@@ -293,7 +308,7 @@ var Engine = d.Class.declare({
 
     _assertHandlerExists: function (module, command) {
         if (!this._existsHandler(module, command)) {
-            this.exitWithUsage('Unrecognized command');
+            this.exitWithUsage('Invalid command');
         }
     },
 
