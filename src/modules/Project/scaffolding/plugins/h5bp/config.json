@@ -1,0 +1,28 @@
+{
+    "author" : "Indigo United",
+    "name" : "HTML 5 Boilerplate",
+    "id" : "h5bp",
+    "tasks" :
+    [
+        {
+            "description": ""
+            "what" : "boot-hero.html",
+            "where" : "index.html/body/content"
+        },
+        {
+            "what" : "hero-scripts.html",
+            "where" : "index.html/body/jslib2"
+        },
+        {
+            "mode" : "css",
+            "what" : "style-hero.html",
+            "where" : "index.html/head/styleslib2"
+        },
+        {
+            "mode" : "less",
+            "what" : "style-hero.less",
+            "where" : "style.less/boilerplate2"
+        }
+    ],
+    "incompatibilities": ["h5bp-content", "izr-responsive"]
+}

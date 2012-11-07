@@ -47,7 +47,11 @@ var Project = d.Class.declare({
             },
             // scaffold the project
             function (callback) {
+                // inspired by Initializr. Thanks to them
                 console.log('  scaffolding the project...'.grey);
+
+                
+
                 callback();
             },
             // project ready
@@ -106,19 +110,19 @@ var Project = d.Class.declare({
     // --------------------------------------------------
 
     test: function (options) {
-
+        console.log('Not implemented yet'.warning);
     },
 
     // --------------------------------------------------
 
     run: function (options) {
-
+        console.log('Not implemented yet'.warning);
     },
 
     // --------------------------------------------------
 
     deploy: function (options) {
-
+        console.log('Not implemented yet'.warning);
     },
 
     // --------------------------------------------------
