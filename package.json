@@ -1,13 +1,14 @@
 {
-    "name": "spoonjs",
-    "description": "Spoon.js CLI tool",
-    "version": "0.0.1",
-    "dependencies": {
-        "dejavu":    "0.0.x",
-        "colors":    "0.6.x",
-        "amd-utils": "0.6.x",
-        "dot": "~0.2.6",
-        "mkdirp": "~0.3.4",
-        "async": "~0.1.22"
-    }
+  "name": "spoonjs",
+  "description": "Spoon.js CLI tool",
+  "version": "0.0.2",
+  "dependencies": {
+    "dejavu": "~0.1.8",
+    "colors": "0.6.x",
+    "amd-utils": "0.6.x",
+    "dot": "~0.2.6",
+    "mkdirp": "~0.3.4",
+    "async": "~0.1.22",
+    "automaton": "~0.0.6"
+  }
 }
