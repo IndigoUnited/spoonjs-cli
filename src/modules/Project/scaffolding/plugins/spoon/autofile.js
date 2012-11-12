@@ -18,7 +18,7 @@ var task = {
     tasks: [
         {
             task: 'mkdir',
-            description: 'create the project root folder',
+            description: 'Create the project root folder',
             options: {
                 dir: '{{dir}}'
             }
@@ -50,6 +50,7 @@ var task = {
             }
         },
         {
+            on: '{{dir}}',
             task: 'run',
             description: 'Install dependencies',
             options: {
