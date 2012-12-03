@@ -20,7 +20,9 @@ var Project = d.Class.declare({
         var spoon_scaffolding = require('./scaffolding/plugins/spoon/autofile');
 
         // for each of the plugins that the user requested, run its autofile
-        automaton.run(spoon_scaffolding, { dir: $location });
+        automaton.run(spoon_scaffolding, { dir: $location }, function (err) {
+            console.log('PROJECT ESCULDADO!');
+        });
 
         // finish up the scaffolding
     },

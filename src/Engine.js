@@ -224,6 +224,10 @@ var Engine = d.Class.declare({
         for (i in filenames) {
             moduleName = filenames[i].split('.', 1)[0];
 
+            if (!moduleName) {
+                continue;
+            }
+
             // load the module
             this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName + '/' + moduleName);
         }
