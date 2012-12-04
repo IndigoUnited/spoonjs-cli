@@ -11,5 +11,9 @@
     "async": "~0.1.22",
     "automaton": "~0.0.6",
     "bower": "~0.6.4"
-  }
+  },
+  "bin": {
+    "spoonjs": "bin/spoon.js"
+  },
+  "preferGlobal": true
 }

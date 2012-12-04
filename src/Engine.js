@@ -2,8 +2,7 @@ var d       = require('dejavu'),
     fs      = require('fs'),
     colors  = require('colors'), // https://github.com/Marak/colors.js
     utils   = require('amd-utils'),
-    os      = require('os'),
-    inspect = require('util').inspect
+    os      = require('os')
 ;
 
 // set up a useful set of formats
@@ -52,6 +51,10 @@ var Engine = d.Class.declare({
         this._request.args    = [];
         this._request.options = {};
 
+        // build the request
+        this._request.module  = module  = this._argv[2];
+        this._request.command = command = this._argv[3];
+
         // divide each of the remaining arguments into args and options
         for (i = 4; i < argvLen; ++i) {
             if (utils.lang.isUndefined(this._argv[i])) {
@@ -91,7 +94,7 @@ var Engine = d.Class.declare({
                     this._assertOptionExists(module, command, optK);
                     optV = this._moduleCommands[module][command].options[optK].deflt;
                 }
-                
+
                 // save the option
                 this._request.options[optK] = optV;
             }
@@ -100,10 +103,6 @@ var Engine = d.Class.declare({
                 this._request.args.push(arg);
             }
         }
-
-        // build the request
-        this._request.module  = module  = this._argv[2];
-        this._request.command = command = this._argv[3];
 
         // if user didn't specify enough args, show usage
         if (!module || !command) {
@@ -130,7 +129,7 @@ var Engine = d.Class.declare({
         ;
         // TODO: do not take into account options (--something or -s)
         if (cmdArgCount !== providedArgCount) {
-            this.exitWithCmdUsage('Missing required arguments', module, command);
+            this.exitWithCmdUsage('Wrong arguments count', module, command);
         }
 
         // fill in the options
@@ -231,12 +230,10 @@ var Engine = d.Class.declare({
             // load the module
             this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName + '/' + moduleName);
         }
-
-//        console.log(inspect(this._moduleCommands, false, null));
     },
 
     _loadModule: function (name, file) {
-        var module = require(file),
+        var Module = require(file),
             modInstance,
             commands,
             command,
@@ -248,7 +245,7 @@ var Engine = d.Class.declare({
             optionName,
             optionShortcut;
 
-        this._modules[name.toLowerCase()] = modInstance = new module(this);
+        this._modules[name.toLowerCase()] = modInstance = new Module(this);
 
         this._moduleCommands[name] = {};
 
