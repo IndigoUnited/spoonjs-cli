@@ -58,10 +58,20 @@ var task = {
         {
             on: '{{dir}}',
             task: 'run',
-            description: 'Install dependencies',
+            description: 'Install client environment dependencies',
             options: {
                 // TODO: bower should be called programatically
                 cmd: 'bower install',
+                cwd: '{{dir}}'
+            }
+        },
+        {
+            on: '{{dir}}',
+            task: 'run',
+            description: 'Install node environment dependencies',
+            options: {
+                // TODO: bower should be called programatically
+                cmd: 'npm install',
                 cwd: '{{dir}}'
             }
         }

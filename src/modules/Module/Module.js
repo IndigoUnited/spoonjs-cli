@@ -1,7 +1,8 @@
 var d          = require('dejavu'),
     path       = require('path'),
     automaton  = require('automaton'),
-    BaseModule = require('../../BaseModule')
+    BaseModule = require('../../BaseModule'),
+    findModule = require('../../util/find-module')
 ;
 
 var Module = d.Class.declare({
@@ -16,20 +17,39 @@ var Module = d.Class.declare({
 
         var cwd = path.normalize(process.cwd()),
             autofile,
-            location = path.join(options.location + '/' + name);
+            location,
+            locations,
+            target;
+
+        // Find the module according to the location
+        locations = findModule(options.location);
+        if (!locations.length) {
+            this._printError('Unknown location', 1);
+        }
+        if (locations.length > 1) {
+            this._printError('Location is ambigous: ' + locations.join(', '), 1);
+        }
+
+        location = path.normalize(locations[0]);
 
         // location path must belong to the cwd
-        // TODO: add location guessing
         if (location.indexOf(cwd) !== 0) {
             this._printError('Module location does not belong to the current working directory', 1);
         }
 
         // check if module already exists
-        if (this._fileExists(location)) {
-            this._printError(location + ' already exists', 1);
+        target = path.join(location, name);
+        if (this._fileExists(target)) {
+            this._printError(target + ' already exists', 1);
         }
 
         // create the module
+        // use the generator autofile or the local one if not available
+        autofile = path.join(process.cwd(), '/app/generators/module.autofile.js');
+        if (!this._fileExists(autofile)) {
+            autofile = './autofile';
+        }
+
         autofile = require('./autofile');
         automaton.run(autofile, { name: name, location: location });
     },
