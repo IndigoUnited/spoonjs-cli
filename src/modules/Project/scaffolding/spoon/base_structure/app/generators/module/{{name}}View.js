@@ -1,16 +1,17 @@
 define([
     'spoon',
-    'doT',
-    'text!./assets/tmpl/{{hyphenated-name}}.html',
-    'css!./assets/css/{{hyphenated-name}}.css'
-], function (spoon, doT, tmpl) {
+    'jquery',
+    'handlebars',
+    'text!./assets/tmpl/{{hyphenated_name}}.html',
+    'css!./assets/css/{{hyphenated_name}}.css'
+], function (spoon, $, Handlebars, tmpl) {
 
     'use strict';
 
     return spoon.View.extend({
         $name: '{{name}}View',
 
-        _template: doT.template(tmpl)
+        _template: Handlebars.compile(tmpl)
         /*_events: {
             'click .btn': '_onBtnClick'
         },*/

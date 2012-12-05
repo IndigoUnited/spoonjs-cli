@@ -50,7 +50,7 @@ var Module = d.Class.declare({
             autofile = './autofile';
         }
 
-        autofile = require('./autofile');
+        autofile = require(autofile);
         automaton.run(autofile, { name: name, location: location });
     },
 

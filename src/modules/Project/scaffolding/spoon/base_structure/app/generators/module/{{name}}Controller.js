@@ -1,8 +1,7 @@
 define([
     'spoon',
-    './{{name}}View',
-    'jquery'
-], function (spoon, {{name}}View, $) {
+    './{{name}}View'
+], function (spoon, {{name}}View) {
 
     'use strict';
 

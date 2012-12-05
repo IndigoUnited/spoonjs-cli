@@ -15,7 +15,7 @@ requirejs.config({
         'base-adapter/src': '../vendor/base-adapter/src',
         'address': '../vendor/address/src',
         'jquery': '../vendor/jquery/jquery',
-        'doT': '../vendor/doT/doT',
+        'handlebars': '../vendor/handlebars/handlebars',
         'text': '../vendor/requirejs-text/text',
         'has': '../vendor/has/has',
         'bootstrap': '../vendor/bootstrap/js/bootstrap',
@@ -30,9 +30,12 @@ requirejs.config({
         'services/state': '../vendor/spoon.js/src/core/StateRegistry/StateRegistryFactory'
     },
     shim: {
-        'bootstrap' : {
+        'bootstrap': {
             deps: ['jquery'],
             exports: 'jquery'
+        },
+        'handlebars': {
+            exports: 'handlebars'
         }
     },
     packages: [

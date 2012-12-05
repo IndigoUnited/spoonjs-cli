@@ -1,12 +1,9 @@
 var path  = require('path');
 var utils = require('amd-utils');
-var glob  = require('glob');
-var async = require('async');
-var fs    = require('fs');
 
 var task = {
-    id: 'spoon-module-create',
-    name: 'SpoonJS module create',
+    id: 'spoon-view-create',
+    name: 'SpoonJS view create',
     author: 'Indigo United',
     filter: function (opts) {
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
@@ -15,25 +12,24 @@ var task = {
     },
     options: {
         name: {
-            description : 'The name of the module',
-            'default': ''
+            description : 'The name of the view'
         },
         location: {
-            description: 'The location which the module will be created',
+            description: 'The location in which the view will be created',
             'default': path.join(process.cwd(), 'src/Application')
         }
     },
     tasks: [
         {
             task: 'mkdir',
-            description: 'Create the module directory',
+            description: 'Create the view directory',
             options: {
                 dir: '{{dir}}'
             }
         },
         {
             task: 'cp',
-            description: 'Copy the base structure of the module',
+            description: 'Copy the view',
             options: {
                 src: path.join(process.cwd(), 'app/generators/module'),
                 dst: '{{dir}}'
@@ -41,36 +37,21 @@ var task = {
         },
         {
             task: 'scaffolding-file-rename',
-            description: 'Rename files based on the name of the module',
+            description: 'Rename the view',
             options: {
-                dir: '{{dir}}',
+                dir: '{{dir}}/{{name}}View.js',
                 what: 'name',
                 'with': '{{name}}'
             }
         },
         {
-            task: 'scaffolding-file-rename',
-            description: 'Rename files based on the name of the module (hyphenated)',
+            task: 'scaffolding-replace',
+            description: 'Set up view',
             options: {
-                dir: '{{dir}}',
-                what: 'hyphenated_name',
-                'with': '{{nameSlug}}'
+                what: '{{dir}}/{{name}}View.js:name',
+                'with': '{{name}}',
+                type: 'string'
             }
-        },
-        {
-            task: function (opt, next) {
-                glob(opt.dir + '/**/.gitkeep', function (err, files) {
-                    if (err) {
-                        return next(err);
-                    }
-
-                    async.forEach(files, function (file, next) {
-                        fs.unlink(file, next);
-                    }, next);
-                });
-            },
-            description: 'Cleanup dummy files'
-
         }
     ]
 };

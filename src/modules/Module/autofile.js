@@ -15,11 +15,10 @@ var task = {
     },
     options: {
         name: {
-            description : 'The name of the module',
-            'default': ''
+            description : 'The name of the module'
         },
         location: {
-            description: 'The location which the module will be created',
+            description: 'The location in which the module will be created',
             'default': path.join(process.cwd(), 'src/Application')
         }
     },
@@ -55,6 +54,33 @@ var task = {
                 dir: '{{dir}}',
                 what: 'hyphenated_name',
                 'with': '{{nameSlug}}'
+            }
+        },
+        {
+            task: 'scaffolding-replace',
+            description: 'Set up controller',
+            options: {
+                what: '{{dir}}/{{name}}Controller.js:name',
+                'with': '{{name}}',
+                type: 'string'
+            }
+        },
+        {
+            task: 'scaffolding-replace',
+            description: 'Set up view',
+            options: {
+                what: '{{dir}}/{{name}}View.js:name',
+                'with': '{{name}}',
+                type: 'string'
+            }
+        },
+        {
+            task: 'scaffolding-replace',
+            description: 'Set up view (hyphenated)',
+            options: {
+                what: '{{dir}}/{{name}}View.js:hyphenated_name',
+                'with': '{{nameSlug}}',
+                type: 'string'
             }
         },
         {

@@ -1,10 +1,10 @@
 define([
     'spoon',
-    'doT',
+    'handlebars',
     'jquery',
     'text!./assets/tmpl/app.html',
     'css!./assets/css/app.css'
-], function (spoon, doT, $, tmpl) {
+], function (spoon, Handlebars, $, tmpl) {
 
     'use strict';
 
@@ -12,6 +12,6 @@ define([
         $name: 'ApplicationView',
 
         _element: 'div#app',
-        _template: doT.template(tmpl)
+        _template: Handlebars.compile(tmpl)
     });
 });
