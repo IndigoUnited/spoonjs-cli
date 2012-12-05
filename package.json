@@ -10,7 +10,8 @@
     "mkdirp": "~0.3.4",
     "async": "~0.1.22",
     "automaton": "~0.0.6",
-    "bower": "~0.6.4"
+    "bower": "~0.6.4",
+    "glob": "~3.1.14"
   },
   "bin": {
     "spoonjs": "bin/spoon.js"
