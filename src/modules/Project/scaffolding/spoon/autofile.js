@@ -5,7 +5,7 @@ var task = {
     options: {
         dir: {
             description : 'The destination folder where the project should be scaffolded',
-            'default': ''
+            'default': process.cwd()
         },
         title: {
             description: 'The project title',

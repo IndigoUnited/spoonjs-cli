@@ -25,18 +25,6 @@ var task = {
     },
     tasks: [
         {
-            task: function (opt, next) {
-                fs.stat(opt.dir, function (err) {
-                    if (!err || err.code !== 'ENOENT') {
-                        next(new Error(opt.dir + ' already exists.'));
-                    }
-
-                    next();
-                });
-            },
-            description: 'Check if module already exists'
-        },
-        {
             task: 'mkdir',
             description: 'Create the module directory',
             options: {

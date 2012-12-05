@@ -1,4 +1,5 @@
 var d          = require('dejavu'),
+    path       = require('path'),
     automaton  = require('automaton'),
     BaseModule = require('../../BaseModule')
 ;
@@ -8,11 +9,29 @@ var Module = d.Class.declare({
     $extends: BaseModule,
 
     create: function (options, name) {
-        // create the module
-        var autofile = require('./autofile');
+        // ensure this is a spoon project
+        if (!this._isSpoonProject()) {
+            this._printError('Current working directory seems not to be a spoon project', 1);
+        }
 
-        // for each of the plugins that the user requested, run its autofile
-        automaton.run(autofile, { name: name, location: options.location });
+        var cwd = path.normalize(process.cwd()),
+            autofile,
+            location = path.join(options.location + '/' + name);
+
+        // location path must belong to the cwd
+        // TODO: add location guessing
+        if (location.indexOf(cwd) !== 0) {
+            this._printError('Module location does not belong to the current working directory', 1);
+        }
+
+        // check if module already exists
+        if (this._fileExists(location)) {
+            this._printError(location + ' already exists', 1);
+        }
+
+        // create the module
+        autofile = require('./autofile');
+        automaton.run(autofile, { name: name, location: location });
     },
 
     test: function (options, name) {

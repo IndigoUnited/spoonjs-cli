@@ -78,6 +78,39 @@ var BaseModule = d.AbstractClass.declare({
         }
 
         throw new Error('Invalid boolean option'.error);
+    },
+
+    _isSpoonProject: function (dir) {
+        var files,
+            expectedFiles,
+            commonFiles;
+
+        try {
+            files = fs.readdirSync(dir || process.cwd());
+        } catch (e) {
+            return false;
+        }
+
+
+        expectedFiles = ['app', 'src', 'vendor', 'web', 'component.json', '.bowerrc'];
+        commonFiles = utils.array.intersection(files, expectedFiles);
+
+        return utils.array.intersection(commonFiles, expectedFiles).length === expectedFiles.length;
+    },
+
+    _printError: function (err, code) {
+        console.error(err.error);
+        if (code != null) {
+            process.exit(code);
+        }
+    },
+
+    _fileExists: function (path) {
+        try {
+            return !!fs.statSync(path);
+        } catch (e) {
+            return e.code !== 'ENOENT';
+        }
     }
 });
 
