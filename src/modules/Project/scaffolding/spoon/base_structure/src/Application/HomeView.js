@@ -1,16 +1,16 @@
 define([
     'spoon',
-    'doT',
+    'handlebars',
     'jquery',
     'text!./assets/tmpl/home.html',
     'css!./assets/css/home.css'
-], function (spoon, doT, $, tmpl) {
+], function (spoon, Handlebars, $, tmpl) {
 
     'use strict';
 
     return spoon.View.extend({
         $name: 'HomeView',
 
-        _template: doT.template(tmpl)
+        _template: Handlebars.compile(tmpl)
     });
 });

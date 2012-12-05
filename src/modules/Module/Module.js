@@ -45,7 +45,7 @@ var Module = d.Class.declare({
 
         // create the module
         // use the generator autofile or the local one if not available
-        autofile = path.join(process.cwd(), '/app/generators/module.autofile.js');
+        autofile = path.join(process.cwd(), '/tasks/generators/module.autofile.js');
         if (!this._fileExists(autofile)) {
             autofile = './autofile';
         }
