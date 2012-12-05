@@ -27,8 +27,9 @@ define([
 
             // Instantiate and render the application view
             this._view = this._link(new ApplicationView());
-            this._view.appendTo(document.body);
-            this._view.render();
+            this._view
+                .appendTo(document.body)
+                .render();
         },
 
         /**
@@ -40,6 +41,9 @@ define([
             this._destroyContent();
 
             this._current = this._link(new HomeView());
+            this._current
+                .appendTo('#content')
+                .render();
         },
 
         /**

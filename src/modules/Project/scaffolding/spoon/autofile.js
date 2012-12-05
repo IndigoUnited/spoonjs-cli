@@ -56,6 +56,33 @@ var task = {
             }
         },
         {
+            task: 'scaffolding-replace',
+            description: 'Set up index file',
+            options: {
+                what: '{{dir}}/web/index.html:html_first',
+                'with': '',
+                type: 'string'
+            }
+        },
+        {
+            task: 'scaffolding-replace',
+            description: 'Set up index file (prod environment)',
+            options: {
+                what: '{{dir}}/web/index_prod.html:html_first',
+                'with': '',
+                type: 'string'
+            }
+        },
+        {
+            task: 'scaffolding-replace',
+            description: 'Set up index file (staging environment)',
+            options: {
+                what: '{{dir}}/web/index_staging.html:html_first',
+                'with': '',
+                type: 'string'
+            }
+        },
+        {
             on: '{{dir}}',
             task: 'run',
             description: 'Install client environment dependencies',
