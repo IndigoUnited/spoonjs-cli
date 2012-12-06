@@ -52,7 +52,7 @@ var Project = d.Class.declare({
         }
 
         var server = require(path.join(process.cwd(), 'tasks/server.js'));
-        automaton.run(server, { env: options.env });
+        automaton.run(server, options);
     },
 
     // --------------------------------------------------
@@ -82,7 +82,9 @@ var Project = d.Class.declare({
             'run': {
                 description: 'Run the project',
                 options: [
-                    ['-e, --env', 'The environment to run. Defaults to dev', 'dev']
+                    ['-e, --env', 'The environment to run. Defaults to dev', 'dev'],
+                    ['-p, --port', 'The server port. Defaults to 8000', 8000],
+                    ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1']
                 ]
             }
             /*'test': {
