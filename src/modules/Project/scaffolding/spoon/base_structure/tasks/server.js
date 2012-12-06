@@ -24,7 +24,7 @@ var task = {
         },
         rewrite: {
             description: 'Enable or disable URL rewrite (in order to pushState to work)',
-            'default': false
+            'default': true
         },
         port: {
             description: 'The port listen for requests',
@@ -42,6 +42,7 @@ var task = {
 
         if (options.env === 'dev') {
             options.rootSymlink = true;
+            options.rewrite = false;
         }
     },
     tasks: [

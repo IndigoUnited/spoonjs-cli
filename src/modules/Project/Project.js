@@ -47,7 +47,12 @@ var Project = d.Class.declare({
     // --------------------------------------------------
 
     run: function (options) {
+        if (!this._isSpoonProject()) {
+            this._printError('Current working directory seems not to be a spoon project', 1);
+        }
 
+        var server = require(path.join(process.cwd(), 'tasks/server.js'));
+        automaton.run(server, { env: options.env });
     },
 
     // --------------------------------------------------
@@ -75,7 +80,10 @@ var Project = d.Class.declare({
                 ]
             },
             'run': {
-                description: 'Run the project'
+                description: 'Run the project',
+                options: [
+                    ['-e, --env', 'The environment to run. Defaults to dev', 'dev']
+                ]
             }
             /*'test': {
                 description: 'Run the unit tests of the whole project'
