@@ -13,8 +13,10 @@ var Project = d.Class.declare({
     _tmplPackage:   __dirname + '/templates/package.json.tmpl',
 
     create: function (options, name) {
-        console.log(('Creating project: ' + name).info);
-
+        // TODO: add some basic questions and modify project accordingly:
+        //       - What base library to use
+        //       - What template system to use
+        //       - What css pre-processor to use
         var location,
             files,
             spoon_scaffolding;
@@ -37,19 +39,20 @@ var Project = d.Class.declare({
         }
 
         // create spoon.js base project
+        console.log(('Creating project: ' + name).info);
         spoon_scaffolding = require('./scaffolding/spoon/autofile');
         automaton.run(spoon_scaffolding, { dir: location });
     },
 
     // --------------------------------------------------
 
-    test: function (options) {
-        console.log('Not implemented yet'.warning);
+    run: function (options) {
+
     },
 
     // --------------------------------------------------
 
-    run: function (options) {
+    test: function (options) {
         console.log('Not implemented yet'.warning);
     },
 

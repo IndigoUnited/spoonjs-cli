@@ -50,6 +50,7 @@ var Module = d.Class.declare({
             autofile = './autofile';
         }
 
+        console.log(('Creating module: ' + name).info);
         autofile = require(autofile);
         automaton.run(autofile, { name: name, location: location });
     },

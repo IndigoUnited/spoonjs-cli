@@ -1,4 +1,4 @@
-# {{title}}
+# {{name}}
 
 Do not forget to complete the README.
 

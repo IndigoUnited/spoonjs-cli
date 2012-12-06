@@ -1,3 +1,5 @@
+var path = require('path');
+
 var task = {
     id: 'spoon-scaffold',
     name: 'SpoonJS scaffolding',
@@ -7,19 +9,12 @@ var task = {
             description : 'The destination folder where the project should be scaffolded',
             'default': process.cwd()
         },
-        title: {
-            description: 'The project title',
-            'default': 'New project'
+        name: {
+            description: 'The project name (defaults to the basename of the dir)'
         }
     },
     filter: function (opt) {
-        // TODO: check if destination folder already exists, and has contents
-        // TODO: add some basic questions and modify project accordingly:
-        //       - What base library to use
-        //       - What template system to use
-        //       - What css pre-processor to use
-
-        opt.dir = opt.dir || opt.title;
+        opt.name = opt.name || path.basename(opt.dir);
     },
     tasks: [
         {
@@ -41,8 +36,8 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up Bower component file',
             options: {
-                what: '{{dir}}/component.json:title',
-                'with': '{{title}}',
+                what: '{{dir}}/component.json:name',
+                'with': '{{name}}',
                 type: 'string'
             }
         },
@@ -50,8 +45,8 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up README file',
             options: {
-                what: '{{dir}}/README.md:title',
-                'with': '{{title}}',
+                what: '{{dir}}/README.md:name',
+                'with': '{{name}}',
                 type: 'string'
             }
         },
@@ -59,8 +54,8 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up index file',
             options: {
-                what: '{{dir}}/web/index.html:html_first',
-                'with': '',
+                what: '{{dir}}/web/index.html:page_title',
+                'with': '{{name}}',
                 type: 'string'
             }
         },
@@ -68,8 +63,8 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up index file (prod environment)',
             options: {
-                what: '{{dir}}/web/index_prod.html:html_first',
-                'with': '',
+                what: '{{dir}}/web/index_prod.html:page_title',
+                'with': '{{name}}',
                 type: 'string'
             }
         },
@@ -77,8 +72,8 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up index file (staging environment)',
             options: {
-                what: '{{dir}}/web/index_staging.html:html_first',
-                'with': '',
+                what: '{{dir}}/web/index_staging.html:page_title',
+                'with': '{{name}}',
                 type: 'string'
             }
         },
@@ -87,7 +82,7 @@ var task = {
             task: 'run',
             description: 'Install client environment dependencies',
             options: {
-                // TODO: bower should be called programatically
+                // TODO: bower should be called programatically?
                 cmd: 'bower install',
                 cwd: '{{dir}}'
             }
@@ -97,7 +92,6 @@ var task = {
             task: 'run',
             description: 'Install node environment dependencies',
             options: {
-                // TODO: bower should be called programatically
                 cmd: 'npm install',
                 cwd: '{{dir}}'
             }
