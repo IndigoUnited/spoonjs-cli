@@ -6,7 +6,6 @@ var View = d.Class.declare({
     $name: 'View',
     $extends: BaseModule,
 
-
     create: function (options) {
 
     },

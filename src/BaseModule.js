@@ -62,7 +62,7 @@ var BaseModule = d.AbstractClass.declare({
         }
 
         // if template hasn't been compiled yet, compile and cache it
-        if (utils.lang.isUndefined(this.__templateCache[tmplPath])) {
+        if (!this.__templateCache[tmplPath]) {
             this.__templateCache[tmplPath] = doT.template(fs.readFileSync(tmplPath, 'utf8'));
         }
 
@@ -70,6 +70,10 @@ var BaseModule = d.AbstractClass.declare({
     },
 
     _parseBoolean: function (v) {
+        if (v === undefined) {
+            return true;
+        }
+
         if (/t|y|1|true|yes/.exec(v.toString())) {
             return true;
         }

@@ -6,7 +6,6 @@ var Controller = d.Class.declare({
     $name: 'Controller',
     $extends: BaseModule,
 
-
     create: function (options) {
 
     },

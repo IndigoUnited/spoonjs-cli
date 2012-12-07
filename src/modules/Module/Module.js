@@ -13,7 +13,6 @@ var Module = d.Class.declare({
         console.log(('Creating module: ' + name).info);
 
         // ensure this is a spoon project
-        // TODO: add --force option
         if (!this._isSpoonProject()) {
             this._printError('Current working directory seems not to be a spoon project', 1);
         }
@@ -42,7 +41,7 @@ var Module = d.Class.declare({
 
         // check if module already exists
         target = path.join(location, name);
-        if (this._fileExists(target)) {
+        if (!options.force && this._fileExists(target)) {
             this._printError(target + ' already exists', 1);
         }
 
@@ -66,6 +65,7 @@ var Module = d.Class.declare({
             'create <name>': {
                 description: 'Create a new module',
                 options: [
+                    ['-f, --force', 'Force the creation of the module, even if the location already exists.', false, this._parseBoolean],
                     ['-l, --location', 'Where the module will be created. Defaults to the Application module.', process.cwd() + '/src/Application']
                 ]
             }/*,

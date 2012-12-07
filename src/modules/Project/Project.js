@@ -34,8 +34,7 @@ var Project = d.Class.declare({
             location = path.join(location, name);
         }
 
-        // TODO: add --force option
-        if (this._isSpoonProject(location)) {
+        if (!options.force && this._isSpoonProject(location)) {
             this._printError(location + ' seems to be already a spoon project', 1);
         }
 
@@ -75,15 +74,14 @@ var Project = d.Class.declare({
             'create <name>': {
                 description: 'Create a new project',
                 options: [
-//                    ['-b, --boilerplate', 'If the HTML 5 boilerplate should be bundled with the project. Included by default.', true, this._parseBoolean],
-//                    ['--bootstrap', 'If the Twitter Bootstrap should be bundled with the project', false, this._parseBoolean]
+                    ['-f, --force', 'Force the creation of the project, even if a spoon project is already created', false, this._parseBoolean]
                 ]
             },
             'run': {
                 description: 'Run the project',
                 options: [
-                    ['-e, --env', 'The environment to run. Defaults to dev', 'dev'],
-                    ['-p, --port', 'The server port. Defaults to 8000', 8000],
+                    ['-e, --env', 'The environment to run. Defaults to dev.', 'dev'],
+                    ['-p, --port', 'The server port. Defaults to 8000.', 8000],
                     ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1']
                 ]
             }
