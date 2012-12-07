@@ -92,7 +92,7 @@ var BaseModule = d.AbstractClass.declare({
         }
 
 
-        expectedFiles = ['app', 'src', 'vendor', 'web', 'component.json', '.bowerrc'];
+        expectedFiles = ['app', 'src', 'web', 'tasks'];
         commonFiles = utils.array.intersection(files, expectedFiles);
 
         return utils.array.intersection(commonFiles, expectedFiles).length === expectedFiles.length;
