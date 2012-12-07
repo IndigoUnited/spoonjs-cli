@@ -34,7 +34,7 @@ var task = {
             task: 'cp',
             description: 'Copy the base structure of the module',
             options: {
-                src: path.join(process.cwd(), 'app/generators/module'),
+                src: path.join(process.cwd(), 'tasks/generators/module'),
                 dst: '{{dir}}'
             }
         },
@@ -43,44 +43,24 @@ var task = {
             description: 'Rename files based on the name of the module',
             options: {
                 dir: '{{dir}}',
-                what: 'name',
-                'with': '{{name}}'
-            }
-        },
-        {
-            task: 'scaffolding-file-rename',
-            description: 'Rename files based on the name of the module (hyphenated)',
-            options: {
-                dir: '{{dir}}',
-                what: 'hyphenated_name',
-                'with': '{{nameSlug}}'
+                data: {
+                    name: '{{name}}',
+                    hyphenated_name: '{{nameSlug}}'
+                }
             }
         },
         {
             task: 'scaffolding-replace',
-            description: 'Set up controller',
+            description: 'Set up files',
             options: {
-                what: '{{dir}}/{{name}}Controller.js:name',
-                'with': '{{name}}',
-                type: 'string'
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Set up view',
-            options: {
-                what: '{{dir}}/{{name}}View.js:name',
-                'with': '{{name}}',
-                type: 'string'
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Set up view (hyphenated)',
-            options: {
-                what: '{{dir}}/{{name}}View.js:hyphenated_name',
-                'with': '{{nameSlug}}',
-                type: 'string'
+                file: [
+                    '{{dir}}/{{name}}Controller.js',
+                    '{{dir}}/{{name}}View.js'
+                ],
+                data: {
+                    name: '{{name}}',
+                    hyphenated_name: '{{nameSlug}}'
+                }
             }
         },
         {
@@ -96,7 +76,6 @@ var task = {
                 });
             },
             description: 'Cleanup dummy files'
-
         }
     ]
 };

@@ -10,6 +10,8 @@ var Module = d.Class.declare({
     $extends: BaseModule,
 
     create: function (options, name) {
+        console.log(('Creating module: ' + name).info);
+
         // ensure this is a spoon project
         if (!this._isSpoonProject()) {
             this._printError('Current working directory seems not to be a spoon project', 1);
@@ -50,7 +52,6 @@ var Module = d.Class.declare({
             autofile = './autofile';
         }
 
-        console.log(('Creating module: ' + name).info);
         autofile = require(autofile);
         automaton.run(autofile, { name: name, location: location });
     },
