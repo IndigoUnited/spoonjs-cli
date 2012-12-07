@@ -13,6 +13,7 @@ var Module = d.Class.declare({
         console.log(('Creating module: ' + name).info);
 
         // ensure this is a spoon project
+        // TODO: add --force option
         if (!this._isSpoonProject()) {
             this._printError('Current working directory seems not to be a spoon project', 1);
         }

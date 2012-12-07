@@ -34,6 +34,7 @@ var Project = d.Class.declare({
             location = path.join(location, name);
         }
 
+        // TODO: add --force option
         if (this._isSpoonProject(location)) {
             this._printError(location + ' seems to be already a spoon project', 1);
         }

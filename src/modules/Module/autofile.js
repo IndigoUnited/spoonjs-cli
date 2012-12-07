@@ -53,10 +53,7 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up files',
             options: {
-                file: [
-                    '{{dir}}/{{name}}Controller.js',
-                    '{{dir}}/{{name}}View.js'
-                ],
+                file: '{{dir}}/**/*',
                 data: {
                     name: '{{name}}',
                     hyphenated_name: '{{nameSlug}}'
@@ -76,6 +73,7 @@ var task = {
                 });
             },
             description: 'Cleanup dummy files'
+
         }
     ]
 };

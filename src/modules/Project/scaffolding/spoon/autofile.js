@@ -42,9 +42,6 @@ var task = {
                     '{{dir}}/README.md',
                     '{{dir}}/web/index.html',
                     '{{dir}}/web/index_prod.html',
-                    '{{dir}}/web/index_staging.html',
-                    '{{dir}}/web/index.html',
-                    '{{dir}}/web/index_prod.html',
                     '{{dir}}/web/index_staging.html'
                 ],
                 data: {
@@ -75,7 +72,7 @@ var task = {
                     'body_last'
                 ]
             }
-        }/*,
+        },
         {
             task: 'run',
             description: 'Install client environment dependencies',
@@ -92,7 +89,7 @@ var task = {
                 cmd: 'npm install',
                 cwd: '{{dir}}'
             }
-        }*/
+        }
     ]
 };
 
