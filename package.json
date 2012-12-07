@@ -3,7 +3,7 @@
   "description": "Spoon.js CLI tool",
   "version": "0.0.2",
   "dependencies": {
-    "dejavu": "~0.1.8",
+    "dejavu": "~0.1.22",
     "colors": "0.6.x",
     "amd-utils": "0.6.x",
     "dot": "~0.2.6",
