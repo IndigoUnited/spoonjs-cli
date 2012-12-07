@@ -36,14 +36,7 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up files',
             options: {
-                file: [
-                    '{{dir}}/component.json',
-                    '{{dir}}/package.json',
-                    '{{dir}}/README.md',
-                    '{{dir}}/web/index.html',
-                    '{{dir}}/web/index_prod.html',
-                    '{{dir}}/web/index_staging.html'
-                ],
+                file: '{{dir}}/**/*',
                 data: {
                     page_title: '{{name}}',
                     name: '{{name}}'
@@ -54,11 +47,7 @@ var task = {
             task: 'scaffolding-close',
             description: 'Clean files',
             options: {
-                file: [
-                    '{{dir}}/web/index.html',
-                    '{{dir}}/web/index_prod.html',
-                    '{{dir}}/web/index_staging.html'
-                ],
+                file: '{{dir}}/web/index*.html',
                 placeholders: [
                     'html_first',
                     'html_last',
