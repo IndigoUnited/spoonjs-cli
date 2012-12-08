@@ -36,7 +36,10 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up files',
             options: {
-                file: '{{dir}}/**/*',
+                file: [
+                    '{{dir}}/*',
+                    '{{dir}}/web/*'
+                ],
                 data: {
                     page_title: '{{name}}',
                     name: '{{name}}'
