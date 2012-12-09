@@ -41,6 +41,9 @@ var task = {
         if (options.env === 'dev') {
             options.rootSymlink = true;
             options.rewrite = false;
+            options.assetsDir = 'root';
+        } else {
+            options.assetsDir = options.env;
         }
 
         next();
@@ -74,6 +77,21 @@ var task = {
                     }
                 }
 
+                try {
+                    fs.statSync(options.assetsDir);
+                } catch (e) {
+                    if (e.code === 'ENOENT') {
+                        return next(new Error('Assets dir not found, did you forgot to build?'));
+                    }
+                }
+
+                next();
+            },
+            description: 'Prepare server'
+        },
+        {
+            task: function (options, next) {
+                // Check if assets dir exists
                 var site = express();
 
                 // Serve index
@@ -108,7 +126,8 @@ var task = {
                 // Effectively listen
                 site.listen(options.port, options.host);
                 console.log('Listening on http://' + (options.host === '127.0.0.1' ? 'localhost' : options.host) + ':' + options.port + ' (' + options.env + ' environment)');
-            }
+            },
+            description: 'Serve files'
         }
     ]
 };
