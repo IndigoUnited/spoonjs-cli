@@ -1,10 +1,8 @@
-/*jshint node:true, onevar:false, latedef:false*/
+/*jshint node:true, strict:false, onevar:false, latedef:false */
 
-'use strict';
-
-var fs      = require('fs');
-var path    = require('path');
-var express = require('express');
+var fs        = require('fs');
+var path      = require('path');
+var express   = require('express');
 
 var task = {
     id: 'server',
@@ -35,7 +33,7 @@ var task = {
             'default': '127.0.0.1'
         }
     },
-    filter: function (options) {
+    filter: function (options, next) {
         if (!options.index) {
             options.index = options.env === 'dev' ? './index.html' : './index_' + options.env + '.html';
         }
@@ -44,6 +42,8 @@ var task = {
             options.rootSymlink = true;
             options.rewrite = false;
         }
+
+        next();
     },
     tasks: [
         {

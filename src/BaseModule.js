@@ -1,8 +1,8 @@
-var d      = require('dejavu'),
-    Engine = require('./Engine'),
-    utils  = require('amd-utils'),
-    fs     = require('fs'),
-    doT    = require('dot')
+var d         = require('dejavu'),
+    fs        = require('fs'),
+    doT       = require('dot'),
+    Engine    = require('./Engine'),
+    isProject = require('./util/is-project')
 ;
 
 // keep spaces and line changes in templates
@@ -10,6 +10,7 @@ doT.templateSettings.strip = false;
 
 var BaseModule = d.AbstractClass.declare({
     $name: 'BaseModule',
+
     _engine: null,
     __templateCache: {},
 
@@ -23,19 +24,18 @@ var BaseModule = d.AbstractClass.declare({
     },
 
     $abstracts: {
-
         /* Example implementation:
         return {
             {
                 'something': {
-                    description: "Do something and what not. Note that the module must have a 'something' public method"
+                    description: 'Do something and what not. Note that the module must have a "something" public method'
                     options: [
                         ['-s, --some-option', 'The option description. Note that is can have a optional arg', 'the default value for arg'],
                         ['-o, --other-option', 'This option does not have an arg'],
                     ]
                 },
                 'else <arg>': {
-                    description: "Do something else. Note that the module must have a 'else' public method. Also, this 'else' command does not have options, although it has an 'arg' argument. This arg will be passed to the handler"
+                    description: 'Do something and what not. Note that the module must have a "something" public method. All the arguments will be passed to the handler'
                 }
             }
         };
@@ -63,7 +63,7 @@ var BaseModule = d.AbstractClass.declare({
 
         // if template hasn't been compiled yet, compile and cache it
         if (!this.__templateCache[tmplPath]) {
-            this.__templateCache[tmplPath] = doT.template(fs.readFileSync(tmplPath, 'utf8'));
+            this.__templateCache[tmplPath] = doT.template(fs.readFileSync(tmplPath));
         }
 
         return this.__templateCache[tmplPath];
@@ -84,22 +84,10 @@ var BaseModule = d.AbstractClass.declare({
         throw new Error('Invalid boolean option'.error);
     },
 
-    _isSpoonProject: function (dir) {
-        var files,
-            expectedFiles,
-            commonFiles;
-
-        try {
-            files = fs.readdirSync(dir || process.cwd());
-        } catch (e) {
-            return false;
+    _assertProject: function (dir) {
+        if (!isProject(dir)) {
+            this._printError((dir || process.cwd()) + ' doesn\'t look like a spoon project.', 1);
         }
-
-
-        expectedFiles = ['app', 'src', 'web', 'tasks'];
-        commonFiles = utils.array.intersection(files, expectedFiles);
-
-        return utils.array.intersection(commonFiles, expectedFiles).length === expectedFiles.length;
     },
 
     _printError: function (err, code) {

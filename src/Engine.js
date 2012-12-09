@@ -142,7 +142,8 @@ var Engine = d.Class.declare({
         }
 
         // run the command
-        this._modules[module][command].apply(this._modules[module], [opt].concat(args));
+        args.push(opt);
+        this._modules[module][command].apply(this._modules[module], args);
 
         return this;
     },
@@ -160,6 +161,12 @@ var Engine = d.Class.declare({
 
         for (moduleName in this._modules) {
             commands = this._modules[moduleName].getCommands();
+
+            // Skip if the module has no commands
+            if (!utils.object.size(commands)) {
+                continue;
+            }
+
             output.push(moduleName.green);
 
             for (command in commands) {
@@ -231,7 +238,7 @@ var Engine = d.Class.declare({
             }
 
             // load the module
-            this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName + '/' + moduleName);
+            this._loadModule(moduleName.toLowerCase(), this._modulesDir + moduleName);
         }
     },
 

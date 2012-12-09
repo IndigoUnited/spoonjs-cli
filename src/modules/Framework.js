@@ -1,5 +1,5 @@
 var d          = require('dejavu'),
-    BaseModule = require('../../BaseModule')
+    BaseModule = require('../BaseModule')
 ;
 
 var Framework = d.Class.declare({
@@ -15,12 +15,12 @@ var Framework = d.Class.declare({
 
     getCommands: function () {
         return {
-            'update': {
+            /*'update': {
                 description: 'Update the framework',
                 options: [
                     ['-f, --force', 'Force updating into the latest version, regardless of it being backwards compatible']
                 ]
-            }
+            }*/
         };
     }
 });

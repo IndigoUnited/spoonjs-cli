@@ -1,7 +1,5 @@
 var d          = require('dejavu'),
-    path       = require('path'),
-    fs         = require('fs'),
-    BaseModule = require('../../BaseModule'),
+    BaseModule = require('../BaseModule'),
     automaton  = require('automaton')
 ;
 
@@ -12,46 +10,29 @@ var Project = d.Class.declare({
     _tmplComponent: __dirname + '/templates/component.json.tmpl',
     _tmplPackage:   __dirname + '/templates/package.json.tmpl',
 
-    create: function (options, name) {
+    create: function (name, options) {
         console.log(('Creating project: ' + name).info);
-        // TODO: add some basic questions and modify project accordingly:
-        //       - What base library to use
-        //       - What template system to use
-        //       - What css pre-processor to use
-        var location = path.normalize(process.cwd()),
-            files,
-            spoon_scaffolding;
 
-        try {
-            files = fs.readdirSync(location);
-        } catch (e) {
-            this._printError(location + ' is not a valid directory');
-        }
-
-        // If directory is empty, create project there
-        // Otherwise the folder is the project name
-        if (files.length) {
-            location = path.join(location, name);
-        }
-
-        if (!options.force && this._isSpoonProject(location)) {
-            this._printError(location + ' seems to be already a spoon project', 1);
-        }
-
-        // create spoon.js base project
-        spoon_scaffolding = require('./scaffolding/spoon/autofile');
-        automaton.run(spoon_scaffolding, { dir: location });
+        // create spoon project by running the autofile
+        var spoon_scaffolding = require('../../plugins/spoon/project_create.autofile');
+        options.name = name;
+        automaton.run(spoon_scaffolding, options, function (err) {
+            process.exit(err ? 1 : 0);
+        });
     },
 
     // --------------------------------------------------
 
     run: function (options) {
-        if (!this._isSpoonProject()) {
-            this._printError('Current working directory seems not to be a spoon project', 1);
-        }
+        this._assertProject();
 
-        var server = require(path.join(process.cwd(), 'tasks/server.js'));
-        automaton.run(server, options);
+        console.log(('Running server').info);
+
+        // run the server task
+        var server = require(process.cwd() + '/tasks/server.js');
+        automaton.run(server, options, function (err) {
+            process.exit(err ? 1 : 0);
+        });
     },
 
     // --------------------------------------------------

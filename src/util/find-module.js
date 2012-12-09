@@ -3,7 +3,6 @@ var path = require('path');
 var glob = require('glob');
 
 module.exports = function (location, dir) {
-
     // Check if location is already a valid location
     try {
         fs.statSync(location);
