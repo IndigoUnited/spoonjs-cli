@@ -1,5 +1,5 @@
 var d          = require('dejavu'),
-    automaton  = require('automaton'),
+    automaton  = require('automaton').create(),
     BaseModule = require('../BaseModule')
 ;
 

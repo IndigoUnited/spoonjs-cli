@@ -1,6 +1,6 @@
 var d          = require('dejavu'),
-    BaseModule = require('../BaseModule'),
-    automaton  = require('automaton')
+    automaton  = require('automaton').create(),
+    BaseModule = require('../BaseModule')
 ;
 
 var Project = d.Class.declare({

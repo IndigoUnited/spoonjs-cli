@@ -1,6 +1,6 @@
 var path      = require('path');
 var fs        = require('fs');
-var isProject = require(path.dirname(process.argv[1]) + '/../src/util/is-project');
+var isProject = require('../../src/util/is-project');
 
 var task = {
     id: 'spoon-scaffold',
@@ -39,30 +39,35 @@ var task = {
 
             next();
         });
+        opts.__dirname = __dirname;
     },
     tasks: [
         {
             task: 'mkdir',
             description: 'Create the project root folder',
             options: {
-                dir: '{{dir}}'
+                dirs: '{{dir}}'
             }
         },
         {
             task: 'cp',
             description: 'Copy the structure of the project',
             options: {
-                src: __dirname + '/project_structure',
-                dst: '{{dir}}'
+                files: {
+                    '{{__dirname}}/project_structure/*': '{{dir}}'
+                },
+                glob: {
+                    dot: true
+                }
             }
         },
         {
             task: 'scaffolding-replace',
             description: 'Set up files',
             options: {
-                file: [
+                files: [
                     '{{dir}}/*',
-                    '{{dir}}/web/*'
+                    '{{dir}}/web/index*'
                 ],
                 data: {
                     page_title: '{{name}}',
@@ -74,7 +79,7 @@ var task = {
             task: 'scaffolding-close',
             description: 'Finish files setup',
             options: {
-                file: '{{dir}}/web/index*.html',
+                files: '{{dir}}/web/index*.html',
                 placeholders: [
                     'html_first',
                     'html_last',
@@ -93,17 +98,19 @@ var task = {
             task: 'cp',
             description: 'Copy generators',
             options: {
-                src: __dirname,
-                dst: '{{dir}}/tasks/generators'
+                files: {
+                    '{{__dirname}}/*': '{{dir}}/tasks/generators'
+                }
             }
         },
         {
             task: 'rm',
             description: 'Clean up files',
             options: {
-                file: [
+                files: [
                     '{{dir}}/tasks/generators/project_create.autofile.js',
-                    '{{dir}}/tasks/generators/project_structure'
+                    '{{dir}}/tasks/generators/project_structure',
+                    '{{dir}}/**/.gitkeep'
                 ]
             }
         },
