@@ -8,6 +8,7 @@ var task = {
     id: 'spoon-module-create',
     name: 'SpoonJS module create',
     author: 'Indigo United',
+    description: 'Create module'
     options: {
         name: {
             description : 'The name of the module'

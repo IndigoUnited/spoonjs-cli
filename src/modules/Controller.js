@@ -10,8 +10,6 @@ var Controller = d.Class.declare({
     create: function (name, options) {
         this._assertProject();
 
-        console.log(('Creating controller: ' + name).info);
-
         // create spoon controller by running the autofile
         // use the generator autofile or the local one if not available
         var autofile = process.cwd() + '/tasks/generators/controller_create.autofile.js';

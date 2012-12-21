@@ -11,8 +11,6 @@ var Project = d.Class.declare({
     _tmplPackage:   __dirname + '/templates/package.json.tmpl',
 
     create: function (name, options) {
-        console.log(('Creating project: ' + name).info);
-
         // create spoon project by running the autofile
         var spoon_scaffolding = require('../../plugins/spoon/project_create.autofile');
         options.name = name;
@@ -26,8 +24,6 @@ var Project = d.Class.declare({
     run: function (options) {
         this._assertProject();
 
-        console.log(('Running server').info);
-
         // run the server task
         var server = require(process.cwd() + '/tasks/server.js');
         automaton.run(server, options, function (err) {
@@ -40,8 +36,6 @@ var Project = d.Class.declare({
     install: function (options) {
         this._assertProject();
 
-        console.log(('Installing').info);
-
         // create spoon project by running the autofile
         var spoon_install = require('../../plugins/spoon/project_install.autofile');
         automaton.run(spoon_install, options, function (err) {
@@ -52,13 +46,13 @@ var Project = d.Class.declare({
     // --------------------------------------------------
 
     test: function (options) {
-        console.log('Not implemented yet'.warning);
+
     },
 
     // --------------------------------------------------
 
     deploy: function (options) {
-        console.log('Not implemented yet'.warning);
+
     },
 
     // --------------------------------------------------

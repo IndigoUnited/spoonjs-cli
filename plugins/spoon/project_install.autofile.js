@@ -2,6 +2,7 @@ var task = {
     id: 'spoon-install',
     name: 'SpoonJS installation',
     author: 'Indigo United',
+    description: 'Install project dependencies',
     tasks: [
         {
             task: 'run',

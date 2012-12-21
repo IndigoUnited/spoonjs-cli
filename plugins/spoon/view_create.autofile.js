@@ -8,6 +8,7 @@ var task = {
     id: 'spoon-view-create',
     name: 'SpoonJS view create',
     author: 'Indigo United',
+    description: 'Create view',
     options: {
         name: {
             description : 'The name of the view'

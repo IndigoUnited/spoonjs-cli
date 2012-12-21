@@ -8,6 +8,7 @@ var task = {
     id: 'server',
     name: 'Server',
     author: 'Indigo United',
+    description: 'Run server',
     options: {
         env: {
             description: 'The environment that the server will run',

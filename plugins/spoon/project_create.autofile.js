@@ -6,6 +6,7 @@ var task = {
     id: 'spoon-scaffold',
     name: 'SpoonJS scaffolding',
     author: 'Indigo United',
+    description: 'Create a spoon project',
     options: {
         dir: {
             description : 'The destination folder where the project should be scaffolded',
