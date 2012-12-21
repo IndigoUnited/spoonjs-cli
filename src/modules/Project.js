@@ -37,6 +37,20 @@ var Project = d.Class.declare({
 
     // --------------------------------------------------
 
+    install: function (options) {
+        this._assertProject();
+
+        console.log(('Installing').info);
+
+        // create spoon project by running the autofile
+        var spoon_install = require('../../plugins/spoon/project_install.autofile');
+        automaton.run(spoon_install, options, function (err) {
+            process.exit(err ? 1 : 0);
+        });
+    },
+
+    // --------------------------------------------------
+
     test: function (options) {
         console.log('Not implemented yet'.warning);
     },
@@ -65,6 +79,9 @@ var Project = d.Class.declare({
                     ['-p, --port', 'The server port. Defaults to 8000.', 8000],
                     ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1']
                 ]
+            },
+            'install': {
+                description: 'Installs the project dependencies'
             }
             /*'test': {
                 description: 'Run the unit tests of the whole project'

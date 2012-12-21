@@ -108,8 +108,7 @@ var task = {
             description: 'Clean up files',
             options: {
                 files: [
-                    '{{dir}}/tasks/generators/project_create.autofile.js',
-                    '{{dir}}/tasks/generators/project_structure',
+                    '{{dir}}/tasks/generators/project_*',
                     '{{dir}}/**/.gitkeep'
                 ]
             }

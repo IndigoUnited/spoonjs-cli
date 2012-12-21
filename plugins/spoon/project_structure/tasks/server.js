@@ -1,4 +1,4 @@
-/*jshint node:true, strict:false, onevar:false, latedef:false */
+/*jshint node:true, strict:false, latedef:false */
 
 var fs        = require('fs');
 var path      = require('path');
@@ -53,8 +53,9 @@ var task = {
             task: function (options, next) {
                 // Change cwd to the web folder
                 process.chdir('web');
-                var web = process.cwd();
-                var env = options.env;
+                var web = process.cwd(),
+                    env = options.env,
+                    root;
 
                 // Check if the env is valid
                 try {
@@ -69,7 +70,7 @@ var task = {
 
                 // Create root symlink
                 if (options.rootSymlink) {
-                    var root = path.join(web, 'root');
+                    root = path.join(web, 'root');
                     try {
                         fs.statSync(root);
                     } catch (e) {
@@ -90,7 +91,7 @@ var task = {
             description: 'Prepare server'
         },
         {
-            task: function (options, next) {
+            task: function (options) {
                 // Check if assets dir exists
                 var site = express();
 

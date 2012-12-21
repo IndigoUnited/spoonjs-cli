@@ -1,7 +1,7 @@
 {
   "name": "spoonjs",
   "description": "Spoon.js CLI tool",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "dependencies": {
     "dejavu": "~0.1.22",
     "colors": "~0.6.0",
@@ -14,7 +14,7 @@
     "glob": "~3.1.14"
   },
   "bin": {
-    "spoonjs": "bin/spoon.js"
+    "spoon": "bin/spoon.js"
   },
   "preferGlobal": true
 }
