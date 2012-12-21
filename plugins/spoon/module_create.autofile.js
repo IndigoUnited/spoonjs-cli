@@ -1,4 +1,6 @@
-/*jshint node:true, strict:false*/
+/*jshint node:true*/
+
+'use strict';
 
 var path  = require('path');
 var utils = require('amd-utils');
@@ -8,7 +10,7 @@ var task = {
     id: 'spoon-module-create',
     name: 'SpoonJS module create',
     author: 'Indigo United',
-    description: 'Create module'
+    description: 'Create module',
     options: {
         name: {
             description : 'The name of the module'

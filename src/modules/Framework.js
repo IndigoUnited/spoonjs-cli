@@ -1,3 +1,5 @@
+'use strict';
+
 var d          = require('dejavu'),
     BaseModule = require('../BaseModule')
 ;

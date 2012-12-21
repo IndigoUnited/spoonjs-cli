@@ -1,4 +1,6 @@
-/*jshint node:true, strict:false*/
+/*jshint node:true*/
+
+'use strict';
 
 var path  = require('path');
 var utils = require('amd-utils');

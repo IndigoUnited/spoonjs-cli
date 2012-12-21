@@ -1,3 +1,5 @@
+'use strict';
+
 var d          = require('dejavu'),
     automaton  = require('automaton').create(),
     BaseModule = require('../BaseModule')
