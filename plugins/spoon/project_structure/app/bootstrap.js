@@ -56,7 +56,7 @@ requirejs.config({
             location: '../vendor/dejavu/dist/amd/strict'
         }
     ],
-    urlArgs: 'bust=' + (+new Date())    // Fix cache issues
+    urlArgs: (new Date()).getTime()    // Fix cache issues
 });
 
 // Application bootstrap

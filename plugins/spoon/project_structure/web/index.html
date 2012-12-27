@@ -17,7 +17,7 @@
 {{body_first}}
 {{body_before_bootstrap}}
         <script>
-            require(['/root/app/bootstrap.js?' + new Date()]);
+            require(['/root/app/bootstrap.js?' + (new Date()).getTime()]);
         </script>
 {{body_after_bootstrap}}
 {{body}}
