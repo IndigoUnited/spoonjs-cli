@@ -18,7 +18,6 @@ requirejs.config({
         'handlebars': '../vendor/handlebars/handlebars-1.0.0-rc.1',
         'text': '../vendor/requirejs-text/text',
         'has': '../vendor/has/has',
-        'bootstrap': '../vendor/bootstrap/js/bootstrap',
 
         // App & config
         'app': '../app',
@@ -30,10 +29,6 @@ requirejs.config({
         'services/state': '../vendor/spoon.js/src/core/StateRegistry/StateRegistryFactory'
     },
     shim: {
-        'bootstrap': {
-            deps: ['jquery'],
-            exports: 'jquery'
-        },
         'handlebars': {
             exports: 'Handlebars'
         }
