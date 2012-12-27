@@ -127,7 +127,7 @@ var task = {
 
                 // Effectively listen
                 site.listen(options.port, options.host);
-                console.log('Listening on http://' + (options.host === '127.0.0.1' ? 'localhost' : options.host) + ':' + options.port + ' (' + options.env + ' environment)');
+                this.log.infoln('Listening on http://' + (options.host === '127.0.0.1' ? 'localhost' : options.host) + ':' + options.port + ' (' + options.env + ' environment)');
             },
             description: 'Serve files'
         }
