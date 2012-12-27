@@ -30,7 +30,7 @@ var task = {
             target;
 
         if (location.charAt(0) !== '/') {
-            location = '/src/Application/' + location;
+            location = '/src/' + location;
         }
 
         opts.dir = path.join(cwd, location);

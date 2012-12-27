@@ -31,8 +31,7 @@ var Controller = d.Class.declare({
             'create <name>': {
                 description: 'Create a new controller',
                 options: [
-                    ['-f, --force', 'Force the creation of the controller, even if the controller already exists.', false, this._parseBoolean],
-                    ['-l, --location', 'Where the controller will be created. Defaults to the Application module.', process.cwd() + '/src/Application']
+                    ['-f, --force', 'Force the creation of the controller, even if the controller already exists.', false, this._parseBoolean]
                 ]
             }
         };

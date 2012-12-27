@@ -33,8 +33,7 @@ var View = d.Class.declare({
             'create <name>': {
                 description: 'Create a new view',
                 options: [
-                    ['-f, --force', 'Force the creation of the view, even if the view already exists.', false, this._parseBoolean],
-                    ['-l, --location', 'Where the view will be created. Defaults to the Application module.', process.cwd() + '/src/Application']
+                    ['-f, --force', 'Force the creation of the view, even if the view already exists.', false, this._parseBoolean]
                 ]
             }
         };

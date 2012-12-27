@@ -35,8 +35,7 @@ var Module = d.Class.declare({
             'create <name>': {
                 description: 'Create a new module',
                 options: [
-                    ['-f, --force', 'Force the creation of the module, even if the module already exists.', false, this._parseBoolean],
-                    ['-l, --location', 'Where the module will be created. Defaults to the Application module.', process.cwd() + '/src/Application']
+                    ['-f, --force', 'Force the creation of the module, even if the module already exists.', false, this._parseBoolean]
                 ]
             }
         };
