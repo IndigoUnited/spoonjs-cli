@@ -2,5 +2,8 @@
 
 Do not forget to complete the README.
 
-Indigo United
-Spoon.js
+# Installation
+
+- Install [node](http://nodejs.org)
+- `npm install spoonjs -g`
+- `spoon project install`
