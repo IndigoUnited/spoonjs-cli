@@ -58,15 +58,21 @@ var task = {
             options: {
                 files: {
                     '{{__dirname}}/project_structure/*': '{{dir}}'
-                },
-                glob: {
-                    dot: true
+                }
+            }
+        },
+        {
+            task: 'mv',
+            description: 'Rename the gitignore file',
+            options: {
+                files: {
+                    '{{dir}}/gitignore': '{{dir}}/.gitignore'
                 }
             }
         },
         {
             task: 'scaffolding-replace',
-            description: 'Set up files',
+            description: 'Set up file names',
             options: {
                 files: [
                     '{{dir}}/*',

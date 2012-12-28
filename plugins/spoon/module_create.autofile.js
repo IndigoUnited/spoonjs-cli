@@ -25,21 +25,21 @@ var task = {
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name);
 
-        if (location.charAt(0) !== '/') {
-            location = '/src/' + location;
-        }
-
-        opts.dir = path.join(cwd, location);
+        // Extract only the basename
         opts.name = path.basename(opts.name);
 
         // Generate suitable names
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
         opts.nameSlug = utils.string.slugify(opts.name.replace(/[_\-]/g, ' '));
 
+        if (location.charAt(0) !== '/') {
+            location = '/src/' + location;
+        }
+
+        opts.dir = path.join(cwd, location, opts.name);
         opts.__dirname = __dirname;
 
         // Check if module already exists
-        opts.dir = path.join(opts.dir, opts.name);
         if (!opts.force) {
             fs.stat(opts.dir, function (err) {
                 if (!err || err.code !== 'ENOENT') {

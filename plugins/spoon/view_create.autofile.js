@@ -21,25 +21,26 @@ var task = {
         }
     },
     filter: function (opts, next) {
-        // Trim trailing view
-        opts.name = opts.name.replace(/([_\-]?view)$/i, '');
-
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name),
             target;
 
-        if (location.charAt(0) !== '/') {
-            location = '/src/' + location;
-        }
-
-        opts.dir = path.join(cwd, location);
-        opts.name = path.basename(opts.name);
+        // Trim trailing view & extract only the basename
+        opts.name = path.basename(opts.name.replace(/([_\-]?view)$/i, ''));
 
         // Generate suitable names
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
         opts.nameSlug = utils.string.slugify(opts.name.replace(/[_\-]/g, ' '));
 
+        if (location === '.') {
+            return next(new Error('Please specify a folder for the view (e.g. Application/' + opts.name + ')'));
+        }
+        if (location.charAt(0) !== '/') {
+            location = '/src/' + location;
+        }
+
+        opts.dir = path.join(cwd, location);
         opts.__dirname = __dirname;
 
         // Check if create already exists

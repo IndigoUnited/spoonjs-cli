@@ -21,24 +21,25 @@ var task = {
         }
     },
     filter: function (opts, next) {
-        // Trim trailing controller
-        opts.name = opts.name.replace(/([_\-]?controller)$/i, '');
-
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name),
             target;
 
+        // Trim trailing controller and extract only the basename
+        opts.name = path.basename(opts.name.replace(/([_\-]?controller)$/i, ''));
+
+        // Generate suitable name
+        opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
+
+        if (location === '.') {
+            return next(new Error('Please specify a folder for the controller (e.g. Application/' + opts.name + ')'));
+        }
         if (location.charAt(0) !== '/') {
             location = '/src/' + location;
         }
 
         opts.dir = path.join(cwd, location);
-        opts.name = path.basename(opts.name);
-
-        // Generate suitable name
-        opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
-
         opts.__dirname = __dirname;
 
         // Check if create already exists
