@@ -31,7 +31,7 @@ var task = {
 
         // Generate suitable names
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
-        opts.nameSlug = utils.string.slugify(opts.name.replace(/[_\-]/g, ' '));
+        opts.nameSlug = utils.string.underscore(opts.name);
 
         if (location === '.') {
             return next(new Error('Please specify a folder for the view (e.g. Application/' + opts.name + ')'));

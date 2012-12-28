@@ -82,8 +82,7 @@ var task = {
             options: {
                 files: '{{dir}}/**/*',
                 data: {
-                    name: '{{name}}',
-                    hyphenated_name: '{{nameSlug}}'
+                    name: '{{name}}'
                 }
             }
         }
