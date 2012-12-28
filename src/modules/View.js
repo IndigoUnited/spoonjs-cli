@@ -12,8 +12,6 @@ var View = d.Class.declare({
     create: function (name, options) {
         this._assertProject();
 
-        console.log(('Creating view: ' + name).info);
-
         // create spoon view by running the autofile
         // use the generator autofile or the local one if not available
         var autofile = process.cwd() + '/tasks/generators/view_create.autofile.js';
