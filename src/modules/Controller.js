@@ -21,9 +21,12 @@ var Controller = d.Class.declare({
 
         autofile = require(autofile);
         options.name = name;
-        automaton.run(autofile, options, function (err) {
-            process.exit(err ? 1 : 0);
-        });
+
+        automaton
+            .run(autofile, options, function (err) {
+                process.exit(err ? 1 : 0);
+            })
+            .pipe(process.stdout);
     },
 
     getCommands: function () {

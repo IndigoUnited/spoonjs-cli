@@ -16,9 +16,12 @@ var Project = d.Class.declare({
         // create spoon project by running the autofile
         var spoon_scaffolding = require('../../plugins/spoon/project_create.autofile');
         options.name = name;
-        automaton.run(spoon_scaffolding, options, function (err) {
-            process.exit(err ? 1 : 0);
-        });
+
+        automaton
+            .run(spoon_scaffolding, options, function (err) {
+                process.exit(err ? 1 : 0);
+            })
+            .pipe(process.stdout);
     },
 
     // --------------------------------------------------
@@ -40,9 +43,12 @@ var Project = d.Class.declare({
 
         // create spoon project by running the autofile
         var spoon_install = require('../../plugins/spoon/project_install.autofile');
-        automaton.run(spoon_install, options, function (err) {
-            process.exit(err ? 1 : 0);
-        });
+
+        automaton
+            .run(spoon_install, options, function (err) {
+                process.exit(err ? 1 : 0);
+            })
+            .pipe(process.stdout);
     },
 
     // --------------------------------------------------
