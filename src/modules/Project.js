@@ -33,7 +33,8 @@ var Project = d.Class.declare({
         var server = require(process.cwd() + '/tasks/server.js');
         automaton.run(server, options, function (err) {
             process.exit(err ? 1 : 0);
-        });
+        })
+        .pipe(process.stdout);
     },
 
     // --------------------------------------------------
