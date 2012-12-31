@@ -14,7 +14,7 @@ define([
             'home': '_homeState'
         },
 
-        _current: null,
+        _content: null,
         _view: null,
 
         ////////////////////////////////////////////////////////////
@@ -38,10 +38,10 @@ define([
          * @param {Object} state The state parameter bag
          */
         _homeState: function (state) {
-            this._destroyCurrent();
+            this._destroyContent();
 
-            this._current = this._link(new HomeView());
-            this._current
+            this._content = this._link(new HomeView());
+            this._content
                 .appendTo('#content')
                 .render();
         },
@@ -49,10 +49,10 @@ define([
         /**
          * Destroys the current content if any.
          */
-        _destroyCurrent: function () {
-            if (this._current) {
-                this._current.destroy();
-                this._current = null;
+        _destroyContent: function () {
+            if (this._content) {
+                this._content.destroy();
+                this._content = null;
             }
         },
 
@@ -60,7 +60,7 @@ define([
          * {@inheritDoc}
          */
         _onDestroy: function () {
-            this._destroyCurrent();
+            this._destroyContent();
             this.$super();
         }
     });
