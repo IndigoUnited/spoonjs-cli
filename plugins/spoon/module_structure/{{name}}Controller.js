@@ -33,7 +33,9 @@ define([
          * @param {Object} state The state parameter bag
          */
         /*_someState: function (state) {
-            // index state implementation goes here
+            // The index state implementation goes here
+            // The state might instantiate another module or simply a view
+            // See the default ApplicationController implementation for more insight
         },*/
 
         /**
