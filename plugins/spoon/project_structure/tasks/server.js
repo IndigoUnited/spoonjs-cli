@@ -73,10 +73,10 @@ var task = {
                 if (options.rootSymlink) {
                     root = path.join(web, 'root');
                     try {
-                        fs.statSync(root);
-                    } catch (e) {
-                        fs.symlinkSync(path.resolve(web, '..'), root, 'dir');
-                    }
+                        fs.unlink(root);
+                    } catch (e) {}
+
+                    fs.symlinkSync(path.resolve(web, '..'), root, 'dir');
                 }
 
                 try {
