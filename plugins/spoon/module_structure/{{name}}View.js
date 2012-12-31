@@ -20,6 +20,8 @@ define([
          * {@inheritDoc}
          */
         /*render: function (data) {
+            // By default, the render function already
+            // renders the _template with the passed data
             this.$super(data);
 
             // Do other things here
