@@ -19,12 +19,16 @@ define([
 
         /**
          * Constructor.
+         *
+         * @param {Element} element The element in which the module will work on
          */
-        initialize: function () {
+        initialize: function (element) {
             this.$super();
 
             this._view = this._link(new {{name}}View());
-            this._view.render();
+            this._view
+                .appendTo(element)
+                .render();
         },
 
         /**
