@@ -1,3 +1,5 @@
+'use strict';
+
 var d       = require('dejavu'),
     fs      = require('fs'),
     colors  = require('colors'), // https://github.com/Marak/colors.js

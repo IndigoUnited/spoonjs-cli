@@ -1,3 +1,5 @@
+'use strict';
+
 var d         = require('dejavu'),
     fs        = require('fs'),
     doT       = require('dot'),
