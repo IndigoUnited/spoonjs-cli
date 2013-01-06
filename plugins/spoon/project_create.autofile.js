@@ -35,8 +35,10 @@ var task = {
                 opts.dir = path.join(opts.dir, opts.name);
             }
 
+            opts.isProject = isProject(opts.dir);
+
             // Check if directory is already a spoon project
-            if (!opts.force && isProject(opts.dir)) {
+            if (!opts.force && opts.isProject) {
                 return next(new Error(opts.dir + ' seems to be already a spoon project (use the force option to proceed)'));
             }
 
@@ -50,6 +52,9 @@ var task = {
             description: 'Create the project root folder',
             options: {
                 dirs: '{{dir}}'
+            },
+            on: function (opts) {
+                return !opts.isProject;
             }
         },
         {
@@ -58,6 +63,9 @@ var task = {
             options: {
                 files: {
                     '{{__dirname}}/project_structure/*': '{{dir}}'
+                },
+                glob: {
+                    dot: true
                 }
             }
         },
