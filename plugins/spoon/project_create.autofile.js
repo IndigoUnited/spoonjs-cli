@@ -22,7 +22,7 @@ var task = {
             'default': false
         }
     },
-    filter: function (opts, next) {
+    filter: function (opts, ctx, next) {
         opts.name = opts.name || path.basename(opts.dir);
         fs.readdir(opts.dir, function (err, files) {
             if (err) {

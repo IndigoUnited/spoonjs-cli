@@ -7,11 +7,7 @@
     "colors": "~0.6.0",
     "amd-utils": "~0.10.0",
     "dot": "~0.2.6",
-    "automaton": "~0.0.13",
-    "bower": "~0.6.4"
-  },
-  "scripts": {
-    "postinstall": "npm install -g bower"
+    "automaton": "~0.0.13"
   },
   "bin": {
     "spoon": "bin/spoon.js"

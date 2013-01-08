@@ -20,7 +20,7 @@ var task = {
             'default': false
         }
     },
-    filter: function (opts, next) {
+    filter: function (opts, ctx, next) {
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name),
@@ -70,7 +70,7 @@ var task = {
             task: 'scaffolding-file-rename',
             description: 'Rename files according to the name of the controller',
             options: {
-                dirs: '{{dir}}',
+                files: '{{dir}}/**/*',
                 data: {
                     name: '{{name}}'
                 }
