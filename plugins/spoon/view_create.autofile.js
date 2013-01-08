@@ -70,6 +70,9 @@ var task = {
             options: {
                 files: {
                     '{{__dirname}}/view_structure/**/*' : '{{dir}}'
+                },
+                glob: {
+                    dot: true
                 }
             }
         },
