@@ -34,7 +34,7 @@ var task = {
             'default': '127.0.0.1'
         }
     },
-    filter: function (options, next) {
+    filter: function (options, ctx, next) {
         if (!options.index) {
             options.index = options.env === 'dev' ? './index.html' : './index_' + options.env + '.html';
         }
@@ -51,7 +51,7 @@ var task = {
     },
     tasks: [
         {
-            task: function (options, next) {
+            task: function (options, ctx, next) {
                 // Change cwd to the web folder
                 process.chdir('web');
                 var web = process.cwd(),
