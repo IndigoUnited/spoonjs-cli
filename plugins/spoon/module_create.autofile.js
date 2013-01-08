@@ -21,12 +21,17 @@ var task = {
         }
     },
     filter: function (opts, ctx, next) {
+        // Validate name
+        if (/[^a-z0-9_\-\.]/i.test(opts.name)) {
+            return next(new Error('"' + opts.name + '" contains unallowed chars'));
+        }
+
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name);
 
         // Extract only the basename
-        opts.name = path.basename(opts.name);
+        opts.name = path.basename(opts.name, '.js');
 
         // Generate suitable names
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
@@ -43,7 +48,7 @@ var task = {
         if (!opts.force) {
             fs.stat(opts.dir, function (err) {
                 if (!err || err.code !== 'ENOENT') {
-                    return next(new Error(opts.dir + ' already exists'));
+                    return next(new Error('"' + opts.name + '" already exists'));
                 }
 
                 return next();
@@ -58,7 +63,10 @@ var task = {
             description: 'Copy the structure of the module',
             options: {
                 files: {
-                    '{{__dirname}}/module_structure/*' : '{{dir}}'
+                    '{{__dirname}}/module_structure/**/*' : '{{dir}}'
+                },
+                glob: {
+                    dot: true
                 }
             }
         },

@@ -24,9 +24,15 @@ var task = {
     },
     filter: function (opts, ctx, next) {
         opts.name = opts.name || path.basename(opts.dir);
+
+        // Validate name
+        if (/[^a-z0-9_\-\.]i/.test(opts.name)) {
+            return next(new Error('"' + opts.name + '" contains unallowed chars'));
+        }
+
         fs.readdir(opts.dir, function (err, files) {
             if (err) {
-                return next(new Error(opts.dir + ' is not a valid or writable directory'));
+                return next(new Error('"' + opts.dir + '" is not a valid or writable directory'));
             }
 
             // If directory is empty, create project there
@@ -39,7 +45,7 @@ var task = {
 
             // Check if directory is already a spoon project
             if (!opts.force && opts.isProject) {
-                return next(new Error(opts.dir + ' seems to be already a spoon project (use the force option to proceed)'));
+                return next(new Error('"' + opts.dir + '" seems to be already a spoon project (use the force option to proceed)'));
             }
 
             next();
@@ -62,7 +68,7 @@ var task = {
             description: 'Copy the structure of the project',
             options: {
                 files: {
-                    '{{__dirname}}/project_structure/*': '{{dir}}'
+                    '{{__dirname}}/project_structure/**/*': '{{dir}}'
                 },
                 glob: {
                     dot: true
@@ -116,7 +122,10 @@ var task = {
             description: 'Copy generators',
             options: {
                 files: {
-                    '{{__dirname}}/*': '{{dir}}/tasks/generators'
+                    '{{__dirname}}/**/*': '{{dir}}/tasks/generators'
+                },
+                glob: {
+                    dot: true
                 }
             }
         },
