@@ -21,20 +21,21 @@ var task = {
         }
     },
     filter: function (opts, ctx, next) {
-        // Validate name
-        if (/[^a-z0-9_\-\.]/i.test(opts.name)) {
-            return next(new Error('"' + opts.name + '" contains unallowed chars'));
-        }
-
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name),
             target;
 
-        // Trim trailing controller and extract only the basename
-        opts.name = path.basename(opts.name.replace(/([_\-]?controller)$/i, ''), '.js');
+        // Extract only the basename
+        opts.name = path.basename(opts.name);
 
-        // Generate suitable name
+        // Validate name
+        if (/[^a-z0-9_\-\.]/i.test(opts.name)) {
+            return next(new Error('"' + opts.name + '" contains unallowed chars'));
+        }
+
+        // Trim trailing controller and generate a suitable name
+        opts.name = path.basename(opts.name.replace(/([_\-]?controller)$/i, ''), '.js');
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
 
         if (location === '.') {
