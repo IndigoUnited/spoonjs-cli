@@ -32,14 +32,14 @@ define([
         },
 
         /**
-         * Some state handler.
+         * Index state handler.
          *
          * @param {Object} state The state parameter bag
          */
-        /*_someState: function (state) {
+        /*_indexState: function (state) {
             // The index state implementation goes here
             // The state might instantiate another module or simply a view
-            // See the default ApplicationController implementation for more insight
+            // See the default ApplicationController implementation for an example
         },*/
 
         /**
