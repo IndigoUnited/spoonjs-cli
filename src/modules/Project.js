@@ -29,6 +29,7 @@ var Project = d.Class.declare({
     run: function (options) {
         this._assertProject();
 
+        // TODO: use the project install and fallback to the cli one
         // run the server task
         var server = require(process.cwd() + '/tasks/server.js');
         automaton.run(server, options, function (err) {
@@ -42,6 +43,7 @@ var Project = d.Class.declare({
     install: function (options) {
         this._assertProject();
 
+        // TODO: use the project install and fallback to this one
         // create spoon project by running the autofile
         var spoon_install = require('../../plugins/spoon/project_install.autofile');
 
