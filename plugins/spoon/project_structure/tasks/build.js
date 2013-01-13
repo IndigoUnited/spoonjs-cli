@@ -167,7 +167,7 @@ var task = {
             task: 'mv',
             options: {
                 files: {
-                    '{{tempDir}}/src/**/assets/**/*': '{{targetDir}}/src/',
+                    '{{tempDir}}/src/**/assets/!(css|tmpl)/**/*': '{{targetDir}}/src/',
                     '{{tempDir}}/app.js': '{{targetDir}}/app.js',
                     '{{tempDir}}/app.css': '{{targetDir}}/app.css'
                 }
