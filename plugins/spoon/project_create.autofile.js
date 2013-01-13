@@ -39,6 +39,7 @@ var task = {
             // Otherwise the folder is the project name
             if (files.length) {
                 opts.dir = path.join(opts.dir, opts.name);
+                opts.createDir = false;
             }
 
             opts.isProject = isProject(opts.dir);
@@ -60,7 +61,7 @@ var task = {
                 dirs: '{{dir}}'
             },
             on: function (opts) {
-                return !opts.isProject;
+                return !opts.isProject && !opts.isEmpty;
             }
         },
         {
