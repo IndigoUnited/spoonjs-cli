@@ -24,15 +24,15 @@ var task = {
             'default': true
         }
     },
-    filter: function (options, ctx, next) {
+    filter: function (opts, ctx, next) {
         // Validate environment
-        if (options.env === 'dev') {
+        if (opts.env === 'dev') {
             return next(new Error('dev environment can\'t be built'));
         }
 
-        fs.readFile(__dirname + '/../app/config/config_' + options.env + '.js', function (err, contents) {
+        fs.readFile(__dirname + '/../app/config/config_' + opts.env + '.js', function (err, contents) {
             if (err) {
-                return next(new Error('Unknown environment: ' + options.env));
+                return next(new Error('Unknown environment: ' + opts.env));
             }
 
             // Expose the version in the opts
@@ -40,14 +40,14 @@ var task = {
             if (!version) {
                 return next(new Error('Could not increment version'));
             }
-            options.version = Number(version[1]) + 1;
+            opts.version = Number(version[1]) + 1;
 
             // Set some necessary vars to be used bellow
-            options.targetDir = __dirname  + '/../web/' + options.env;
-            options.tempDir = __dirname + '/../tmp';
-            options.projectDir = __dirname + '/..';
+            opts.targetDir = __dirname  + '/../web/' + opts.env;
+            opts.tempDir = __dirname + '/../tmp';
+            opts.projectDir = __dirname + '/..';
 
-            ctx.log.infoln('Will build version ' + String(options.version).green);
+            ctx.log.infoln('Will build version ' + String(opts.version).green);
             next();
         });
     },
