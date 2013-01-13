@@ -130,7 +130,7 @@ var task = {
                     },
                     optimize: 'none',
                     separateCSS: true,
-                    stubModules: ['text', 'css', 'css/css', 'css/normalize']
+                    stubModules: ['has', 'text', 'css', 'css/css', 'css/normalize']
                 }, function (log) {
                     ctx.log.info(log);
                     next();
