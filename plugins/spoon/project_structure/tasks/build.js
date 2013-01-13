@@ -78,6 +78,21 @@ var task = {
                 }
             }
         },
+        {
+            task: dejavuOpt,
+            options: {
+                files: {
+                    '{{tempDir}}/src/**/*.js': '{{tempDir}}/src/',
+                    '{{tempDir}}/vendor/spoon.js/src/**/*.js': '{{tempDir}}/vendor/spoon.js/src/',
+                    '{{tempDir}}/vendor/events-emitter/src/**/*.js': '{{tempDir}}/vendor/events-emitter/src/',
+                    '{{tempDir}}/vendor/dom-responder/src/**/*.js': '{{tempDir}}/vendor/dom-responder/src/',
+                    '{{tempDir}}/vendor/base-adapter/src/**/*.js': '{{tempDir}}/vendor/base-adapter/src/',
+                    '{{tempDir}}/vendor/address/src/**/*.js': '{{tempDir}}/vendor/address/src/'
+                }
+            },
+            description: 'Optimize dejavu usages',
+            on: '{{dejavu}}'
+        },
         // TODO: create automaton task for this (requirejs)
         {
             task: function (opts, ctx, next) {
@@ -110,6 +125,9 @@ var task = {
                     name: '../vendor/almond/almond',                         // Use almond
                     include: 'app/bootstrap',
                     out: opts.tempDir + '/app.js',
+                    has: {
+                        debug: false
+                    },
                     optimize: 'none',
                     separateCSS: true,
                     stubModules: ['text', 'css', 'css/css', 'css/normalize']
@@ -147,21 +165,6 @@ var task = {
                 });
             },
             description: 'Expand css files'
-        },
-        {
-            task: dejavuOpt,
-            options: {
-                files: {
-                    '{{tempDir}}/src/**/*.js': '{{tempDir}}/src/',
-                    '{{tempDir}}/vendor/spoon.js/src/**/*.js': '{{tempDir}}/vendor/spoon.js/src/',
-                    '{{tempDir}}/vendor/events-emitter/src/**/*.js': '{{tempDir}}/vendor/events-emitter/src/',
-                    '{{tempDir}}/vendor/dom-responder/src/**/*.js': '{{tempDir}}/vendor/dom-responder/src/',
-                    '{{tempDir}}/vendor/base-adapter/src/**/*.js': '{{tempDir}}/vendor/base-adapter/src/',
-                    '{{tempDir}}/vendor/address/src/**/*.js': '{{tempDir}}/vendor/address/src/'
-                }
-            },
-            description: 'Optimize dejavu usages',
-            on: '{{dejavu}}'
         },
         {
             task: 'mv',
