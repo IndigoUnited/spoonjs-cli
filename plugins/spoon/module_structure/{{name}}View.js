@@ -25,6 +25,8 @@ define([
             this.$super(data);
 
             // Do other things here
+
+            return this;
         }*/
 
         /**
