@@ -67,13 +67,6 @@ var task = {
             }
         },
         {
-            task: 'rm',
-            description: 'Remove stupid symlinks',
-            options: {
-                files: ['{{projectDir}}/vendor/jquery-timeago/public', '{{projectDir}}/vendor/require-css/example']
-            }
-        },
-        {
             task: 'cp',
             description: 'Copy necessary files to temporary folder',
             options: {
