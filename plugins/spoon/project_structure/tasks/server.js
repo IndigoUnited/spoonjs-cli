@@ -5,6 +5,7 @@
 var fs      = require('fs');
 var path    = require('path');
 var express = require('express');
+var connect = require('connect');
 
 var task = {
     id: 'server',
@@ -27,6 +28,9 @@ var task = {
             description: 'Enable or disable URL rewrite (in order to pushState to work)',
             'default': true
         },
+        gzip: {
+            description: 'Enable gzip compression (defaults to true if environment is not dev)'
+        },
         port: {
             description: 'The port listen for requests',
             'default': 8000
@@ -39,6 +43,9 @@ var task = {
     filter: function (options, ctx, next) {
         if (!options.index) {
             options.index = options.env === 'dev' ? './index.html' : './index_' + options.env + '.html';
+        }
+        if (options.gzip == null) {
+            options.gzip = options.env !== 'dev';
         }
 
         if (options.env === 'dev') {
@@ -94,29 +101,35 @@ var task = {
             description: 'Prepare server'
         },
         {
-            task: function (options) {
+            task: function (opts) {
                 // Check if assets dir exists
-                var site = express();
+                var site = connect();
+
+                // Enable compression?
+                if (opts.gzip) {
+                    connect.use(connect.compress());
+                }
 
                 // Serve index
                 site.get('/', function (req, res) {
-                    return res.sendfile(options.index);
+                    return res.sendfile(opts.index);
                 });
 
                 // Serve favicon.ico
-                site.use(express.favicon(options.favicon));
+                site.use(express.favicon(opts.favicon));
+
 
                 // Serve files & folders
                 site.get('/*', function (req, res) {
                     // Get the requested file
                     // If there are query parameters, remove them
-                    var file = path.join(options.web, req.url.substr(1));
+                    var file = path.join(opts.web, req.url.substr(1));
                     file = file.split('?')[0];
 
                     fs.stat(file, function (err, stat) {
                         // If file does not exists, serve 404 page
                         if (err && err.code === 'ENOENT') {
-                            serve404(options, res);
+                            serve404(opts, res);
                         // If it exists and is a file, serve it
                         } else if (stat.isFile()) {
                             res.sendfile(file);
@@ -128,8 +141,8 @@ var task = {
                 });
 
                 // Effectively listen
-                site.listen(options.port, options.host);
-                this.log.infoln('Listening on http://' + (options.host === '127.0.0.1' ? 'localhost' : options.host) + ':' + options.port + ' (' + options.env + ' environment)');
+                site.listen(opts.port, opts.host);
+                this.log.infoln('Listening on http://' + (opts.host === '127.0.0.1' ? 'localhost' : opts.host) + ':' + opts.port + ' (' + opts.env + ' environment)');
             },
             description: 'Serve files'
         }
