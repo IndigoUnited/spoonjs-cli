@@ -4,7 +4,8 @@ var d       = require('dejavu'),
     fs      = require('fs'),
     colors  = require('colors'), // https://github.com/Marak/colors.js
     utils   = require('amd-utils'),
-    os      = require('os')
+    os      = require('os'),
+    nopt    = require('nopt')
 ;
 
 // set up a useful set of formats
@@ -41,17 +42,7 @@ var Engine = d.Class.declare({
     parse: function () {
         var module,
             command,
-            argvLen = this._argv.length,
-            castFn,
-            eqPos,
-            i,
-            arg,
-            optK,
-            optV
-        ;
-
-        this._request.args    = [];
-        this._request.options = {};
+            parsedOpts;
 
         // build the request
         this._request.module  = module  = this._argv[2];
@@ -65,59 +56,14 @@ var Engine = d.Class.declare({
         // make sure that the command is valid
         this._assertHandlerExists(module, command);
 
-        // divide each of the remaining arguments into args and options
-        for (i = 4; i < argvLen; ++i) {
-            if (this._argv[i] === undefined) {
-                break;
-            }
+        // parse opts with nopt
+        parsedOpts = nopt({}, this._moduleCommands[module][command].optionShortcuts);
 
-            arg = this._argv[i];
-
-            // if user requested help, show command usage
-            if (arg === '--help' || arg === '-h') {
-                this.exitWithCmdUsage(null, module, command);
-            }
-
-            // if arg is a shortcut for an option, translate into its respective option
-            if (/^-[^\-]/.exec(arg)) {
-                if (arg[2] !== '=' && arg[2] !== undefined) {
-                    this.exitWithCmdUsage('Unexpected option format');
-                }
-
-                this._assertOptionShortcutExists(module, command, arg[1]);
-                arg = '--' + this._moduleCommands[module][command].optionShortcuts[arg[1]] + arg.substr(2);
-            }
-
-            // if arg is an option
-            if (/--/.exec(arg)) {
-                eqPos = arg.indexOf('=');
-
-                // if the value was specified, get it and run the casting function, if one is set
-                if (eqPos > 0) {
-                    optK = arg.slice(2, eqPos);
-                    optV = arg.slice(eqPos + 1);
-                } else {
-                    optK = arg.slice(2);
-                    optV = undefined;
-                }
-
-                this._assertOptionExists(module, command, optK);
-                castFn = this._moduleCommands[module][command].options[optK].cast;
-
-                if (utils.lang.isFunction(castFn)) {
-                    optV = castFn(optV);
-                }
-
-                // save the option
-                this._request.options[optK] = optV;
-            // arg is not an option, add it to the arguments list
-            } else {
-                this._request.args.push(arg);
-            }
-        }
+        // parse args
+        this._request.args = parsedOpts.argv.remain.slice(2);
 
         // run the command
-        this.run(this._request.module, this._request.command, this._request.args, this._request.options);
+        this.run(this._request.module, this._request.command, this._request.args, parsedOpts);
 
         return this;
     },
@@ -132,7 +78,6 @@ var Engine = d.Class.declare({
             optName
         ;
 
-        // TODO: do not take into account options (--something or -s)
         if (cmdArgCount !== providedArgCount) {
             this.exitWithCmdUsage('Wrong arguments count', module, command);
         }
@@ -294,7 +239,7 @@ var Engine = d.Class.declare({
 
                 // if option has a shortcut, store it
                 if (!utils.lang.isNull(optionShortcut)) {
-                    this._moduleCommands[name][cmdName].optionShortcuts[optionShortcut] = optionName;
+                    this._moduleCommands[name][cmdName].optionShortcuts[optionShortcut] = ['--' + optionName];
                 }
             }
         }

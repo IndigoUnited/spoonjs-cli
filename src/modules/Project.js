@@ -90,7 +90,10 @@ var Project = d.Class.declare({
                 ]
             },
             'install': {
-                description: 'Installs the project dependencies'
+                description: 'Installs the project dependencies',
+                options: [
+                    ['-f, --force', 'Force fetching of remote sources. Defaults to false.', false]
+                ]
             },
             'build': {
                 description: 'Build the project',
