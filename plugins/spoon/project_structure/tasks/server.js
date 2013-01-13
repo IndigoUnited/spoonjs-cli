@@ -103,11 +103,11 @@ var task = {
         {
             task: function (opts) {
                 // Check if assets dir exists
-                var site = connect();
+                var site = express();
 
                 // Enable compression?
                 if (opts.gzip) {
-                    connect.use(connect.compress());
+                    site.use(connect.compress());
                 }
 
                 // Serve index
