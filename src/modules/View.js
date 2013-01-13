@@ -29,6 +29,9 @@ var View = d.Class.declare({
             .pipe(process.stdout);
     },
 
+    // --------------------------------------------------
+    // --------------------------------------------------
+
     getCommands: function () {
         return {
             'create <name>': {

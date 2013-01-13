@@ -29,9 +29,8 @@ var Module = d.Class.declare({
             .pipe(process.stdout);
     },
 
-    test: function (options, name) {
-
-    },
+    // --------------------------------------------------
+    // --------------------------------------------------
 
     getCommands: function () {
         return {

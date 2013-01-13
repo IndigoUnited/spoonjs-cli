@@ -14,11 +14,11 @@ var Project = d.Class.declare({
 
     create: function (name, options) {
         // create spoon project by running the autofile
-        var spoon_scaffolding = require('../../plugins/spoon/project_create.autofile');
+        var autofile = require('../../plugins/spoon/project_create.autofile');
         options.name = name;
 
         automaton
-            .run(spoon_scaffolding, options, function (err) {
+            .run(autofile, options, function (err) {
                 process.exit(err ? 1 : 0);
             })
             .pipe(process.stdout);
@@ -29,10 +29,10 @@ var Project = d.Class.declare({
     run: function (options) {
         this._assertProject();
 
-        // TODO: use the project install and fallback to the cli one
+        // TODO: use the project run and fallback to the cli one
         // run the server task
-        var server = require(process.cwd() + '/tasks/server.js');
-        automaton.run(server, options, function (err) {
+        var autofile = require(process.cwd() + '/tasks/server.js');
+        automaton.run(autofile, options, function (err) {
             process.exit(err ? 1 : 0);
         })
         .pipe(process.stdout);
@@ -43,12 +43,12 @@ var Project = d.Class.declare({
     install: function (options) {
         this._assertProject();
 
-        // TODO: use the project install and fallback to this one
-        // create spoon project by running the autofile
-        var spoon_install = require('../../plugins/spoon/project_install.autofile');
-
+        // TODO: use the project install and fallback to the cli one
+        //       this should only be done when we decide on the automaton community tasks
+        // install spoon project by running the autofile
+        var autofile = require(process.cwd() + '/tasks/install.js');
         automaton
-            .run(spoon_install, options, function (err) {
+            .run(autofile, options, function (err) {
                 process.exit(err ? 1 : 0);
             })
             .pipe(process.stdout);
@@ -56,14 +56,18 @@ var Project = d.Class.declare({
 
     // --------------------------------------------------
 
-    test: function (options) {
+    build: function (options) {
+        this._assertProject();
 
-    },
-
-    // --------------------------------------------------
-
-    deploy: function (options) {
-
+        // TODO: use the project build and fallback to the cli one
+        //       this should only be done when we decide on the automaton community tasks
+        // build spoon project by running the autofile
+        var autofile = require(process.cwd() + '/tasks/build.js');
+        automaton
+            .run(autofile, options, function (err) {
+                process.exit(err ? 1 : 0);
+            })
+            .pipe(process.stdout);
     },
 
     // --------------------------------------------------
@@ -87,13 +91,13 @@ var Project = d.Class.declare({
             },
             'install': {
                 description: 'Installs the project dependencies'
-            }
-            /*'test': {
-                description: 'Run the unit tests of the whole project'
             },
-            'deploy': {
-                description: 'Deploy the project'
-            }*/
+            'build': {
+                description: 'Build the project',
+                options: [
+                    ['-e, --env', 'The environment to build. Defaults to prod.', 'prod']
+                ]
+            }
         };
     }
 });

@@ -1,6 +1,10 @@
+/*jshint node:true*/
+
+'use strict';
+
 var task = {
-    id: 'spoon-install',
-    name: 'SpoonJS installation',
+    id: 'project-install',
+    name: 'Project installation',
     author: 'Indigo United',
     description: 'Install project dependencies',
     tasks: [

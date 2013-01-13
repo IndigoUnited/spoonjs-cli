@@ -1,4 +1,6 @@
-/*jshint node:true, strict:false, latedef:false */
+/*jshint node:true, latedef:false */
+
+'use strict';
 
 var fs      = require('fs');
 var path    = require('path');
