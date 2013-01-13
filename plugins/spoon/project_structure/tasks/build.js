@@ -30,7 +30,8 @@ var task = {
             return next(new Error('dev environment can\'t be built'));
         }
 
-        fs.readFile(__dirname + '/../app/config/config_' + opts.env + '.js', function (err, contents) {
+        var cwd = process.cwd();
+        fs.readFile(cwd + '/app/config/config_' + opts.env + '.js', function (err, contents) {
             if (err) {
                 return next(new Error('Unknown environment: ' + opts.env));
             }
@@ -43,9 +44,9 @@ var task = {
             opts.version = Number(version[1]) + 1;
 
             // Set some necessary vars to be used bellow
-            opts.targetDir = __dirname  + '/../web/' + opts.env;
-            opts.tempDir = __dirname + '/../tmp';
-            opts.projectDir = __dirname + '/..';
+            opts.targetDir = cwd  + '/web/' + opts.env;
+            opts.tempDir = cwd + '/tmp';
+            opts.projectDir = cwd;
 
             ctx.log.infoln('Will build version ' + String(opts.version).green);
             next();

@@ -26,6 +26,13 @@ var task = {
                 // TODO: should npm be called programatically?
                 cmd: 'npm install'
             }
+        },
+        {
+            task: 'rm',
+            description: 'Cleanup files',
+            options: {
+                files: '.dejavurc'
+            }
         }
     ]
 };
