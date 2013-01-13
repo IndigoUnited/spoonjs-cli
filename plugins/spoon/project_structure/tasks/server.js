@@ -82,7 +82,7 @@ var task = {
                 if (options.rootSymlink) {
                     root = path.join(web, 'root');
                     try {
-                        fs.unlink(root);
+                        fs.unlinkSync(root);
                     } catch (e) {}
 
                     fs.symlinkSync(path.resolve(web, '..'), root, 'dir');
