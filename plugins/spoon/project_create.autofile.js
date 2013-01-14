@@ -160,6 +160,13 @@ var task = {
                 cmd: 'npm install',
                 cwd: '{{dir}}'
             }
+        },
+        {
+            task: 'rm',
+            description: 'Cleanup files',
+            options: {
+                files: '.dejavurc'
+            }
         }
     ]
 };
