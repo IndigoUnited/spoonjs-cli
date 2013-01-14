@@ -26,7 +26,7 @@ var Engine = d.Class.declare({
         FIRST_COLUMN_WIDTH: 30
     },
 
-    _version:        '0.0.1',
+    _version:        '0.0.7',
     _modulesDir:     __dirname + '/modules/',
     _modules:        [],
     _moduleCommands: [],
@@ -267,18 +267,6 @@ var Engine = d.Class.declare({
     _assertHandlerExists: function (module, command) {
         if (!this._existsHandler(module, command)) {
             this.exitWithUsage('Invalid command');
-        }
-    },
-
-    _assertOptionExists: function (module, command, opt) {
-        if (!this._moduleCommands[module][command].options[opt]) {
-            this.exitWithCmdUsage('Invalid option provided \'--' + opt + '\'', module, command);
-        }
-    },
-
-    _assertOptionShortcutExists: function (module, command, shortcut) {
-        if (!this._moduleCommands[module][command].optionShortcuts[shortcut]) {
-            this.exitWithCmdUsage('Invalid option provided \'-' + shortcut + '\'', module, command);
         }
     }
 });
