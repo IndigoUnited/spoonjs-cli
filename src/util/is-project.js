@@ -1,7 +1,7 @@
 'use strict';
 
 var fs    = require('fs');
-var utils = require('amd-utils');
+var utils = require('mout');
 
 module.exports = function (dir) {
     var files,

@@ -2,7 +2,7 @@
   "name": "{{name}}",
   "version": "0.0.1",
   "devDependencies": {
-    "amd-utils": "~0.10.0",
+    "mout": "~0.2.0",
     "async": "~0.1.22",
     "glob": "~3.1.14",
     "express": "~3.0.3",

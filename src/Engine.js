@@ -3,7 +3,7 @@
 var d       = require('dejavu'),
     fs      = require('fs'),
     colors  = require('colors'), // https://github.com/Marak/colors.js
-    utils   = require('amd-utils'),
+    utils   = require('mout'),
     os      = require('os'),
     nopt    = require('nopt')
 ;

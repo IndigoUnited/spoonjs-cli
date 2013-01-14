@@ -3,7 +3,7 @@
 'use strict';
 
 var path  = require('path');
-var utils = require('amd-utils');
+var utils = require('mout');
 var fs    = require('fs');
 
 var task = {

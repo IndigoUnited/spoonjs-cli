@@ -8,7 +8,7 @@ requirejs.config({
     baseUrl: './root/src',
     paths: {
         // Vendors
-        'amd-utils': '../vendor/amd-utils/src',
+        'mout': '../vendor/mout/src',
         'events-emitter': '../vendor/events-emitter/src',
         'dom-responder': '../vendor/dom-responder/src',
         'base-adapter': '../vendor/base-adapter/src/adapters/jquery',

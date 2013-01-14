@@ -1,13 +1,13 @@
 {
   "name": "spoonjs",
   "description": "Spoon.js CLI tool",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "dependencies": {
     "dejavu": "~0.2.0",
     "colors": "~0.6.0",
-    "amd-utils": "~0.10.0",
+    "mout": "~0.2.0",
     "dot": "~0.2.6",
-    "automaton": "~0.0.15",
+    "automaton": "~0.1.0",
     "nopt": "~2.0.0"
   },
   "bin": {

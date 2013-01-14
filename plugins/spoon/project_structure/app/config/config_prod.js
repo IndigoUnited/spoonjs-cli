@@ -1,4 +1,4 @@
-define(['app/config/config', 'amd-utils/object/merge'], function (config, merge) {
+define(['app/config/config', 'mout/object/merge'], function (config, merge) {
 
     'use strict';
 
