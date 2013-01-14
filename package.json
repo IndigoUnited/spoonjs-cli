@@ -8,7 +8,8 @@
     "mout": "~0.2.0",
     "dot": "~0.2.6",
     "automaton": "~0.1.0",
-    "nopt": "~2.0.0"
+    "nopt": "~2.0.0",
+    "update-notifier": "~0.1.1"
   },
   "bin": {
     "spoon": "bin/spoon.js"
