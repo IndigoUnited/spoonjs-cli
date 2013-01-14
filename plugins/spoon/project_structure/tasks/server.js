@@ -92,7 +92,7 @@ var task = {
                     fs.statSync(options.assetsDir);
                 } catch (e) {
                     if (e.code === 'ENOENT') {
-                        return next(new Error('Assets dir not found, did you forgot to build?'));
+                        return next(new Error('Environment public directory not found, did you forgot to build?'));
                     }
                 }
 
