@@ -27,7 +27,7 @@ define([
             // Do other things here
 
             return this;
-        }*/
+        },*/
 
         /**
          * Handles the button click event.
@@ -36,6 +36,15 @@ define([
          */
         /*_onBtnClick: function (event) {
             this._upcast('btn-click');
+        },*/
+
+        /**
+         * {@inheritDoc}
+         */
+        /*_onDestroy: function () {
+            // Dispose any additional resources here
+
+            this.$super();
         }*/
     });
 });
