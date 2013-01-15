@@ -2,7 +2,7 @@
   "name": "{{name}}",
   "version": "0.0.1",
   "dependencies": {
-    "spoon.js": "git@github.com:IndigoUnited/spoon.js.git",
+    "spoon.js": "git://github.com/IndigoUnited/spoon.js.git",
     "requirejs": "~2.1.2",
     "requirejs-text": "~2.0.3",
     "require-css": "latest",
