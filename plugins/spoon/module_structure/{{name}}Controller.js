@@ -11,7 +11,7 @@ define([
         /*_defaultState: 'index',
         _states: {
             'index': '_indexState'
-        }*/
+        },*/
 
         _view: null,
 
