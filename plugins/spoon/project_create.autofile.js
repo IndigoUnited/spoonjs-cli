@@ -29,7 +29,9 @@ var task = {
         if (/[^a-z0-9_\-\.]i/.test(opts.name)) {
             return next(new Error('"' + opts.name + '" contains unallowed chars'));
         }
-
+        
+        opts.__dirname = __dirname;
+        
         fs.readdir(opts.dir, function (err, files) {
             if (err) {
                 return next(new Error('"' + opts.dir + '" is not a valid or writable directory'));
@@ -51,7 +53,6 @@ var task = {
 
             next();
         });
-        opts.__dirname = __dirname;
     },
     tasks: [
         {
@@ -61,7 +62,7 @@ var task = {
                 dirs: '{{dir}}'
             },
             on: function (opts) {
-                return !opts.isProject && !opts.isEmpty;
+                return !opts.isProject && opts.createDir;
             }
         },
         {
