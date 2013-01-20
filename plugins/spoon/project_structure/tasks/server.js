@@ -85,7 +85,20 @@ var task = {
                         fs.unlinkSync(root);
                     } catch (e) {}
 
-                    fs.symlinkSync(path.resolve(web, '..'), root, 'dir');
+                    // In windows, users can't create symlinks in the console
+                    // without running the actual command with Administrator permissions
+                    // see: http://ahtik.com/blog/2012/08/16/fixing-your-virtualbox-shared-folder-symlink-error
+                    if (process.platform === 'win32') {
+                        try {
+                            fs.symlinkSync(path.resolve(web, '..'), root, 'dir');
+                        } catch (e) {
+                            if (e.code === 'EPERM') {
+                                return next(new Error('No permission to create symlink (try running as an Administrator).'));
+                            }
+                        }
+                    } else {
+                        fs.symlinkSync(path.resolve(web, '..'), root, 'dir');
+                    }
                 }
 
                 try {
