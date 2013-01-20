@@ -1,7 +1,7 @@
 {
   "name": "spoonjs",
   "description": "Spoon.js CLI tool",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "dependencies": {
     "dejavu": "~0.2.0",
     "colors": "~0.6.0",
