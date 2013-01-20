@@ -57,7 +57,7 @@ var Engine = d.Class.declare({
         this._assertHandlerExists(module, command);
 
         // parse opts with nopt
-        parsedOpts = nopt({}, this._moduleCommands[module][command].optionShortcuts);
+        parsedOpts = nopt(this._moduleCommands[module][command].optionsTypes, this._moduleCommands[module][command].optionsShortcuts);
 
         // parse args
         this._request.args = parsedOpts.argv.remain.slice(2);
@@ -215,11 +215,12 @@ var Engine = d.Class.declare({
 
             // save information for later validation
             this._moduleCommands[name][cmdName] = {
-                'definition'      : command,
-                'description'     : commands[command].description,
-                'argCount'        : utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0,
-                'options'         : {},
-                'optionShortcuts' : {}
+                definition       : command,
+                description      : commands[command].description,
+                argCount         : utils.lang.isArray(cmdArgs) ? cmdArgs.length : 0,
+                options          : {},
+                optionsTypes     : {},
+                optionsShortcuts : {}
             };
 
             // store option list
@@ -233,13 +234,17 @@ var Engine = d.Class.declare({
                 this._moduleCommands[name][cmdName].options[optionName] = {
                     definition  : opt[0],
                     description : opt[1],
-                    deflt       : opt[2], // default value
-                    cast        : opt[3]  // casting function
+                    deflt       : opt[2] // default value
                 };
+
+                // save the option types
+                if (opt[3]) {
+                    this._moduleCommands[name][cmdName].optionsTypes[optionName] = opt[3];
+                }
 
                 // if option has a shortcut, store it
                 if (!utils.lang.isNull(optionShortcut)) {
-                    this._moduleCommands[name][cmdName].optionShortcuts[optionShortcut] = ['--' + optionName];
+                    this._moduleCommands[name][cmdName].optionsShortcuts[optionShortcut] = ['--' + optionName];
                 }
             }
         }

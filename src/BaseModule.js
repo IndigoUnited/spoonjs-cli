@@ -71,21 +71,6 @@ var BaseModule = d.AbstractClass.declare({
         return this.__templateCache[tmplPath];
     },
 
-    _parseBoolean: function (v) {
-        if (v === undefined) {
-            return true;
-        }
-
-        if (/t|y|1|true|yes/.exec(v.toString())) {
-            return true;
-        }
-        else if (/f|n|0|false|no/.exec(v.toString())) {
-            return false;
-        }
-
-        throw new Error('Invalid boolean option'.error);
-    },
-
     _assertProject: function (dir) {
         if (!isProject(dir)) {
             this._printError((dir || process.cwd()) + ' doesn\'t look like a spoon project.', 1);
