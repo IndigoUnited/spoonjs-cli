@@ -1,16 +1,16 @@
 define([
     'spoon',
-    'handlebars',
-    'jquery',
+    '{{baseLibrary}}',
+    '{{templateLibrary}}',
     'text!./assets/tmpl/home.html',
     'css!./assets/css/home.css'
-], function (spoon, Handlebars, $, tmpl) {
+], function (spoon, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
 
     'use strict';
 
     return spoon.View.extend({
         $name: 'HomeView',
 
-        _template: Handlebars.compile(tmpl)
+        _template: {{templateLibraryVar}}.{{templateLibraryCompileFunc}}(tmpl)
     });
 });

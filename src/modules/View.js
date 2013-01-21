@@ -14,9 +14,9 @@ var View = d.Class.declare({
 
         // create spoon view by running the autofile
         // use the generator autofile or the local one if not available
-        var autofile = process.cwd() + '/tasks/generators/view_create.autofile.js';
+        var autofile = process.cwd() + '/tasks/generators/view_create.js';
         if (!this._fileExists(autofile)) {
-            autofile = '../../plugins/spoon/view-create.autofile';
+            autofile = '../../plugins/spoon/view_create';
         }
 
         autofile = require(autofile);
@@ -37,7 +37,7 @@ var View = d.Class.declare({
             'create <name>': {
                 description: 'Create a new view',
                 options: [
-                    ['-f, --force', 'Force the creation of the view, even if the view already exists.', false, this._parseBoolean]
+                    ['-f, --force', 'Force the creation of the view, even if the view already exists.', false, Boolean]
                 ]
             }
         };

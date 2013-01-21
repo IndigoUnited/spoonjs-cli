@@ -14,7 +14,7 @@ var Project = d.Class.declare({
 
     create: function (name, options) {
         // create spoon project by running the autofile
-        var autofile = require('../../plugins/spoon/project_create.autofile');
+        var autofile = require('../../plugins/spoon/project_create');
         options.name = name;
 
         automaton
@@ -78,27 +78,27 @@ var Project = d.Class.declare({
             'create <name>': {
                 description: 'Create a new project',
                 options: [
-                    ['-f, --force', 'Force the creation of the project, even if a spoon project is already created', false, this._parseBoolean]
+                    ['-f, --force', 'Force the creation of the project, even if a spoon project is already created', false, Boolean]
                 ]
             },
             'run': {
                 description: 'Run the project',
                 options: [
-                    ['-e, --env', 'The environment to run. Defaults to dev.', 'dev'],
-                    ['-p, --port', 'The server port. Defaults to 8000.', 8000],
-                    ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1']
+                    ['-e, --env', 'The environment to run. Defaults to dev.', 'dev', String],
+                    ['-p, --port', 'The server port. Defaults to 8000.', 8000, Number],
+                    ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1', String]
                 ]
             },
             'install': {
                 description: 'Installs the project dependencies',
                 options: [
-                    ['-f, --force', 'Force fetching of remote sources. Defaults to false.', false]
+                    ['-f, --force', 'Force fetching of remote sources. Defaults to false.', false, Boolean]
                 ]
             },
             'build': {
                 description: 'Build the project',
                 options: [
-                    ['-e, --env', 'The environment to build. Defaults to prod.', 'prod']
+                    ['-e, --env', 'The environment to build. Defaults to prod.', 'prod', String]
                 ]
             }
         };

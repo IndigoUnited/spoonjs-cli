@@ -14,9 +14,9 @@ var Module = d.Class.declare({
 
         // create spoon base module by running the autofile
         // use the generator autofile or the local one if not available
-        var autofile = process.cwd() + '/tasks/generators/module_create.autofile.js';
+        var autofile = process.cwd() + '/tasks/generators/module_create.js';
         if (!this._fileExists(autofile)) {
-            autofile = '../../plugins/spoon/module_create.autofile';
+            autofile = '../../plugins/spoon/module_create';
         }
 
         autofile = require(autofile);
@@ -37,7 +37,7 @@ var Module = d.Class.declare({
             'create <name>': {
                 description: 'Create a new module',
                 options: [
-                    ['-f, --force', 'Force the creation of the module, even if the module already exists.', false, this._parseBoolean]
+                    ['-f, --force', 'Force the creation of the module, even if the module already exists.', false, Boolean]
                 ]
             }
         };

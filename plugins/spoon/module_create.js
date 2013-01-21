@@ -35,7 +35,7 @@ var task = {
 
         // Generate suitable names
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
-        opts.nameSlug = utils.string.underscore(opts.name);
+        opts.underscoredName = utils.string.underscore(opts.name);
 
         if (location.charAt(0) !== '/') {
             location = '/src/' + location;
@@ -77,7 +77,7 @@ var task = {
                 files: '{{dir}}/**/*',
                 data: {
                     name: '{{name}}',
-                    hyphenated_name: '{{nameSlug}}'
+                    underscoredName: '{{underscoredName}}'
                 }
             }
         },
@@ -88,7 +88,7 @@ var task = {
                 files: '{{dir}}/**/*',
                 data: {
                     name: '{{name}}',
-                    hyphenated_name: '{{nameSlug}}'
+                    underscoredName: '{{underscoredName}}'
                 }
             }
         },

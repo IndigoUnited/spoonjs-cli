@@ -1,10 +1,10 @@
 define([
     'spoon',
-    'handlebars',
-    'jquery',
+    '{{baseLibrary}}',
+    '{{templateLibrary}}',
     'text!./assets/tmpl/app.html',
     'css!./assets/css/app.css'
-], function (spoon, Handlebars, $, tmpl) {
+], function (spoon, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
 
     'use strict';
 
@@ -12,6 +12,6 @@ define([
         $name: 'ApplicationView',
 
         _element: 'div#app',
-        _template: Handlebars.compile(tmpl)
+        _template: {{templateLibraryVar}}.{{templateLibraryCompileFunc}}(tmpl)
     });
 });

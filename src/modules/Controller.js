@@ -14,9 +14,9 @@ var Controller = d.Class.declare({
 
         // create spoon controller by running the autofile
         // use the generator autofile or the local one if not available
-        var autofile = process.cwd() + '/tasks/generators/controller_create.autofile.js';
+        var autofile = process.cwd() + '/tasks/generators/controller_create.js';
         if (!this._fileExists(autofile)) {
-            autofile = '../../plugins/spoon/controller_create.autofile';
+            autofile = '../../plugins/spoon/controller_create';
         }
 
         autofile = require(autofile);
@@ -37,7 +37,7 @@ var Controller = d.Class.declare({
             'create <name>': {
                 description: 'Create a new controller',
                 options: [
-                    ['-f, --force', 'Force the creation of the controller, even if the controller already exists.', false, this._parseBoolean]
+                    ['-f, --force', 'Force the creation of the controller, even if the controller already exists.', false, Boolean]
                 ]
             }
         };

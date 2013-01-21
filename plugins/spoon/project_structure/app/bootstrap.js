@@ -14,8 +14,8 @@ requirejs.config({
         'base-adapter': '../vendor/base-adapter/src/adapters/jquery',
         'base-adapter/src': '../vendor/base-adapter/src',
         'address': '../vendor/address/src',
-        'jquery': '../vendor/jquery/jquery',
-        'handlebars': '../vendor/handlebars/handlebars',
+        '{{baseLibrary}}': '{{baseLibraryPath}}',
+        '{{templateLibrary}}': '{{templateLibraryPath}}',
         'text': '../vendor/requirejs-text/text',
         'has': '../vendor/has/has',
 
@@ -29,9 +29,7 @@ requirejs.config({
         'services/state': '../vendor/spoon.js/src/core/StateRegistry/StateRegistryFactory'
     },
     shim: {
-        'handlebars': {
-            exports: 'Handlebars'
-        }
+{{shim}}
     },
     packages: [
         // css plugin
@@ -49,7 +47,8 @@ requirejs.config({
         {
             name: 'dejavu',
             location: '../vendor/dejavu/dist/amd/strict'
-        }
+        },
+{{packages}}
     ],
     urlArgs: (new Date()).getTime()    // Fix cache issues
 });
@@ -58,12 +57,12 @@ requirejs.config({
 require([
     'Application/ApplicationController',
     'services/state',
-    'jquery'
-], function (ApplicationController, stateRegistry, $) {
+    'base-adapter/dom/Utilities'
+], function (ApplicationController, stateRegistry, Utilities) {
 
     'use strict';
 
-    $(document).ready(function () {
+    Utilities.ready(function () {
         // Initialize the Application controller
         var appController = new ApplicationController();
 

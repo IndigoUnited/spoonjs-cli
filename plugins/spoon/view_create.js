@@ -37,7 +37,7 @@ var task = {
         // Trim trailing view and generate suitable names
         opts.name = path.basename(opts.name.replace(/([_\-]?view)$/i, ''), '.js');
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
-        opts.nameSlug = utils.string.underscore(opts.name);
+        opts.underscoredName = utils.string.underscore(opts.name);
 
         if (location === '.') {
             return next(new Error('Please specify a folder for the view (e.g. Application/' + opts.name + ')'));
@@ -83,7 +83,7 @@ var task = {
                 files: '{{dir}}/**/*',
                 data: {
                     name: '{{name}}',
-                    hyphenated_name: '{{nameSlug}}'
+                    underscoredName: '{{underscoredName}}'
                 }
             }
         },
@@ -94,7 +94,7 @@ var task = {
                 files: '{{dir}}/**/*',
                 data: {
                     name: '{{name}}',
-                    hyphenated_name: '{{nameSlug}}'
+                    underscoredName: '{{underscoredName}}'
                 }
             }
         }

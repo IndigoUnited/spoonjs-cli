@@ -1,8 +1,10 @@
 'use strict';
 
-var path      = require('path');
-var fs        = require('fs');
-var isProject = require('../../src/util/is-project');
+var path            = require('path');
+var fs              = require('fs');
+var isProject       = require('../../src/util/is-project');
+var baseLibrary     = require('../base_library/setup.js');
+var templateLibrary = require('../template_library/setup.js');
 
 var task = {
     id: 'spoon-scaffold',
@@ -29,9 +31,9 @@ var task = {
         if (/[^a-z0-9_\-\.]i/.test(opts.name)) {
             return next(new Error('"' + opts.name + '" contains unallowed chars'));
         }
-        
+
         opts.__dirname = __dirname;
-        
+
         fs.readdir(opts.dir, function (err, files) {
             if (err) {
                 return next(new Error('"' + opts.dir + '" is not a valid or writable directory'));
@@ -78,17 +80,21 @@ var task = {
             }
         },
         {
-            task: 'mv',
-            description: 'Rename the gitignore file',
+            task: 'cp',
+            description: 'Copy generators',
             options: {
                 files: {
-                    '{{dir}}/gitignore': '{{dir}}/.gitignore'
+                    '{{__dirname}}/!(project_*)': '{{dir}}/tasks/generators',
+                    '{{__dirname}}/!(project_*)**/*': '{{dir}}/tasks/generators'
+                },
+                glob: {
+                    dot: true
                 }
             }
         },
         {
             task: 'scaffolding-replace',
-            description: 'Set up file names',
+            description: 'Saving project name',
             options: {
                 files: [
                     '{{dir}}/*',
@@ -101,8 +107,67 @@ var task = {
             }
         },
         {
+            task: 'mv',
+            description: 'Rename the gitignore file',
+            options: {
+                files: {
+                    '{{dir}}/gitignore': '{{dir}}/.gitignore'
+                }
+            }
+        },
+        {
+            task: baseLibrary,
+            description: 'Setup up base library',
+            options: {
+                name: 'jquery',
+                dir: '{{dir}}'
+            }
+        },
+        {
+            task: templateLibrary,
+            description: 'Setup up template library',
+            options: {
+                name: 'handlebars',
+                dir: '{{dir}}'
+            }
+        },
+        {
+            task: {
+                tasks: [
+                    {
+                        task: 'scaffolding-close',
+                        options: {
+                            files: '{{dir}}/app/bootstrap.js',
+                            placeholders: ['shim', 'packages']
+                        },
+                        description: null
+                    },
+                    {
+                        task: function (opts, ctx, next) {
+                            // Fix trailing commas
+                            var file = opts.dir + '/app/bootstrap.js';
+                            fs.readFile(file, function (err, contents) {
+                                if (err) {
+                                    return next(err);
+                                }
+
+                                contents = contents.toString().replace(/,([\s\n\r]*\})/gm, '$1');
+
+                                fs.writeFile(file, contents, next);
+                            });
+                        },
+                        description: null
+                    }
+                ]
+            },
+            description: 'Finish up loader config',
+            options: {
+                dir: '{{dir}}'
+            }
+        },
+        {
             task: 'scaffolding-close',
-            description: 'Finish files setup',
+            description: 'Finish up index files',
             options: {
                 files: '{{dir}}/web/index*.html',
                 placeholders: [
@@ -120,25 +185,10 @@ var task = {
             }
         },
         {
-            task: 'cp',
-            description: 'Copy generators',
-            options: {
-                files: {
-                    '{{__dirname}}/**/*': '{{dir}}/tasks/generators'
-                },
-                glob: {
-                    dot: true
-                }
-            }
-        },
-        {
             task: 'rm',
-            description: 'Clean up files',
+            description: 'Remove unnecessary files',
             options: {
-                files: [
-                    '{{dir}}/tasks/generators/project_*',
-                    '{{dir}}/**/.gitkeep'
-                ]
+                files: '{{dir}}/**/.gitkeep'
             }
         },
         {
