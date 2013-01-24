@@ -26,9 +26,11 @@ define([
             this.$super();
 
             this._view = this._link(new {{name}}View());
-            this._view
-                .appendTo(element)
-                .render();
+            this._view.appendTo(element);
+
+            this.once('link', function () {
+                this._view.render();
+            }.$bind(this));
         },
 
         /**
