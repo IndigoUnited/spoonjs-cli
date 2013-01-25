@@ -54,14 +54,6 @@ define([
                 this._content.destroy();
                 this._content = null;
             }
-        },
-
-        /**
-         * {@inheritDoc}
-         */
-        _onDestroy: function () {
-            this._destroyContent();
-            this.$super();
         }
     });
 });

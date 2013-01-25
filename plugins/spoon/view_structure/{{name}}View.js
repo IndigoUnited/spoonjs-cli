@@ -42,8 +42,11 @@ define([
          * {@inheritDoc}
          */
         /*_onDestroy: function () {
-            // Dispose any additional resources here
-
+            // Cancel timers and other stuff here
+            // Note that linked child views/controllers are automatically destroyed
+            // when this view is destroyed
+            // The view element is also destroyed, clearing all the events and other stuff
+            // from its element and its descendants
             this.$super();
         }*/
     });
