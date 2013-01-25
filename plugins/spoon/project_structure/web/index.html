@@ -11,7 +11,7 @@
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width">
 
-        <script src="/root/vendor/requirejs/require.js"></script>
+        <script src="/dev/vendor/requirejs/require.js"></script>
 {{head}}
 {{head_last}}
     </head>
@@ -19,7 +19,7 @@
 {{body_first}}
 {{body_before_bootstrap}}
         <script>
-            require(['/root/app/bootstrap.js?' + (new Date()).getTime()]);
+            require(['/dev/app/bootstrap.js?' + (new Date()).getTime()]);
         </script>
 {{body_after_bootstrap}}
 {{body}}

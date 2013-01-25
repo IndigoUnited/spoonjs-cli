@@ -5,7 +5,7 @@
 
 // Loader configuration
 requirejs.config({
-    baseUrl: './root/src',
+    baseUrl: './dev/src',
     paths: {
         // Vendors
         'mout': '../vendor/mout/src',

@@ -9,7 +9,7 @@ npm-debug.*
 
 # Project specific #
 ######################
-/web/root
+/web/dev
 /web/prod
 /web/staging
 /tmp
