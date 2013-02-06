@@ -1,7 +1,7 @@
 {
   "name": "spoonjs",
   "description": "Spoon.js CLI tool",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "keywords": [
     "framework",
     "mvc",
@@ -21,13 +21,13 @@
   "author": "Indigo United",
   "license": "MIT",
   "dependencies": {
-    "dejavu": "~0.2.0",
+    "dejavu": "~0.3.1",
     "colors": "~0.6.0",
-    "mout": "~0.2.0",
-    "dot": "~0.2.6",
-    "automaton": "~0.1.0",
+    "mout": "~0.3.0",
+    "dot": "~1.0.0",
+    "automaton": "~0.1.4",
     "nopt": "~2.0.0",
-    "update-notifier": "~0.1.1"
+    "update-notifier": "~0.1.2"
   },
   "bin": {
     "spoon": "bin/spoon.js"
