@@ -7,7 +7,7 @@ var Engine = require('../src/Engine'),
 
 // Checks for available update
 var notifier = updateNotifier({
-    packagePath: __dirname + '/../package'
+    packagePath:  '../package'
 });
 if (notifier.update) {
     notifier.notify();
