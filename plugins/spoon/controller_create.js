@@ -35,7 +35,7 @@ var task = {
         }
 
         // Trim trailing controller and generate a suitable name
-        opts.name = path.basename(opts.name.replace(/([_\-]?controller)$/i, ''), '.js');
+        opts.name = path.basename(opts.name.replace(/([_\-]?controller)$/i, ''), '.js') || 'Controller';
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
 
         if (location === '.') {

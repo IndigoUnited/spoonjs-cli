@@ -35,7 +35,7 @@ var task = {
         }
 
         // Trim trailing view and generate suitable names
-        opts.name = path.basename(opts.name.replace(/([_\-]?view)$/i, ''), '.js');
+        opts.name = path.basename(opts.name.replace(/([_\-]?view)$/i, ''), '.js') || 'View';
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
         opts.underscoredName = utils.string.underscore(opts.name);
 
