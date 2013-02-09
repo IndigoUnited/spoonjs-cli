@@ -1,4 +1,4 @@
-/*jshint node:true, regexp:false*/
+/*jshint node:true, es5:true, regexp:false*/
 
 'use strict';
 
@@ -17,11 +17,11 @@ var task = {
     options: {
         env: {
             description: 'The environment to build',
-            'default': 'prod'
+            default: 'prod'
         },
         dejavu: {
             description: 'Optimize dejavu usages',
-            'default': true
+            default: true
         }
     },
     filter: function (opts, ctx, next) {

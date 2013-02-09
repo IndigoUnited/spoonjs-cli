@@ -1,4 +1,4 @@
-/*jshint node:true, latedef:false */
+/*jshint node:true, es5:true, latedef:false*/
 
 'use strict';
 
@@ -15,15 +15,15 @@ var task = {
     options: {
         env: {
             description: 'The environment that the server will run',
-            'default': 'dev'
+            default: 'dev'
         },
         port: {
             description: 'The port listen for requests',
-            'default': 8000
+            default: 8000
         },
         host: {
             description: 'The host to listen for requests',
-            'default': '127.0.0.1'
+            default: '127.0.0.1'
         }
     },
     filter: function (options, ctx, next) {

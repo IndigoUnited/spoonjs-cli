@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/*jshint node:true, es5:true*/
 
 'use strict';
 
@@ -10,7 +10,7 @@ var task = {
     options: {
         force: {
             description: 'Force fetching of remote sources',
-            'default': false
+            default: false
         }
     },
     filter: function (opts, ctx, next) {

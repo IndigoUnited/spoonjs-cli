@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/*jshint node:true, es5:true*/
 
 'use strict';
 
@@ -17,7 +17,7 @@ var task = {
         },
         force: {
             description: 'Force the creation of the view, even if it already exists',
-            'default': false
+            default: false
         }
     },
     filter: function (opts, ctx, next) {
