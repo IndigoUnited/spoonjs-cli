@@ -48,7 +48,7 @@ var task = {
             opts.tempDir = cwd + '/tmp';
             opts.projectDir = cwd;
 
-            ctx.log.infoln('Will build version ' + String(opts.version).green);
+            ctx.log.writeln('Will build version ' + String(opts.version).green);
             next();
         });
     },
@@ -133,7 +133,7 @@ var task = {
                     separateCSS: true,
                     stubModules: ['has', 'text', 'css', 'css/css', 'css/normalize']
                 }, function (log) {
-                    ctx.log.info(log);
+                    ctx.log.write(log);
                     next();
                 }, function (err) {
                     next(err);
@@ -150,7 +150,7 @@ var task = {
                     out: opts.tempDir + '/app.css',
                     preserveLicenseComments: opts.licenses
                 }, function (log) {
-                    ctx.log.info(log);
+                    ctx.log.write(log);
 
                     // Replace trailing css from loader defs
                     fs.readFile(opts.tempDir + '/app.js', function (err, contents) {
@@ -230,7 +230,7 @@ var task = {
                     minifiedSize = String(minified.code.length),
                     gzipSize = String(gzip.zip(minified.code, {}).length);
 
-                ctx.log.infoln('Compressed size: ' + gzipSize.green + ' bytes gzipped (' + minifiedSize.green + ' bytes minified).');
+                ctx.log.writeln('Compressed size: ' + gzipSize.green + ' bytes gzipped (' + minifiedSize.green + ' bytes minified).');
 
                 fs.writeFile(opts.targetDir + '/app.min.js', minified.code, next);
             },
@@ -248,7 +248,7 @@ var task = {
                         minifiedSize = String(minified.length),
                         gzipSize = String(gzip.zip(minified, {}).length);
 
-                    ctx.log.infoln('Compressed size: ' + gzipSize.green + ' bytes gzipped (' + minifiedSize.green + ' bytes minified).');
+                    ctx.log.writeln('Compressed size: ' + gzipSize.green + ' bytes gzipped (' + minifiedSize.green + ' bytes minified).');
 
                     fs.writeFile(opts.targetDir + '/app.min.css', minified, next);
                 });
