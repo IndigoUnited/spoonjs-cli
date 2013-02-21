@@ -86,7 +86,7 @@ var task = {
             task: 'scaffolding-replace',
             description: 'Set up controller',
             options: {
-                files: '{{dir}}/**/*',
+                files: '{{dir}}/**/*.+(css|html|js)',
                 data: {
                     name: '{{name}}'
                 }
