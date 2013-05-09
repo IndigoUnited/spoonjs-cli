@@ -5,7 +5,7 @@
     "spoon.js": "git://github.com/IndigoUnited/spoon.js.git",
     "requirejs": "~2.1.2",
     "requirejs-text": "~2.0.3",
-    "require-css": "latest",
+    "require-css": "*",
     "curl-css": "https://raw.github.com/cujojs/curl/master/src/curl/plugin/css.js",
     "almond": "~0.2.1",
     "{{baseLibrary}}": "{{baseLibraryEndpoint}}",
