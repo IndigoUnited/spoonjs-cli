@@ -6,21 +6,16 @@ var path  = require('path');
 var utils = require('mout');
 var fs    = require('fs');
 
-var task = {
-    id: 'spoon-controller-create',
-    name: 'SpoonJS controller create',
-    author: 'Indigo United',
-    description: 'Create controller',
-    options: {
-        name: {
-            description : 'The name of the controller'
-        },
-        force: {
-            description: 'Force the creation of the controller, even if it already exists',
-            default: false
-        }
-    },
-    filter: function (opts, ctx, next) {
+module.exports = function (task) {
+    task
+    .id('spoon-controller-create')
+    .name('SpoonJS controller create')
+    .author('Indigo United')
+    .description('Create controller')
+    .option('name', 'The name of the controller')
+    .option('force', 'Force the creation of the controller, even if it already exists', false)
+
+    .setup(function (opts, ctx, next) {
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name),
@@ -61,38 +56,32 @@ var task = {
         } else {
             next();
         }
-    },
-    tasks: [
-        {
-            task: 'cp',
-            description: 'Copy the controller directory',
-            options: {
-                files: {
-                    '{{__dirname}}/controller_structure/**/*' : '{{dir}}'
-                }
-            }
-        },
-        {
-            task: 'scaffolding-file-rename',
-            description: 'Rename files according to the name of the controller',
-            options: {
-                files: '{{dir}}/**/*',
-                data: {
-                    name: '{{name}}'
-                }
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Set up controller',
-            options: {
-                files: '{{dir}}/**/*.+(css|html|js)',
-                data: {
-                    name: '{{name}}'
-                }
+    })
+
+    .do('cp', {
+        description: 'Copy the controller directory',
+        options: {
+            files: {
+                '{{__dirname}}/controller_structure/**/*' : '{{dir}}'
             }
         }
-    ]
+    })
+    .do('scaffolding-file-rename', {
+        description: 'Rename files according to the name of the controller',
+        options: {
+            files: '{{dir}}/**/*',
+            data: {
+                name: '{{name}}'
+            }
+        }
+    })
+    .do('scaffolding-replace', {
+        description: 'Set up controller',
+        options: {
+            files: '{{dir}}/**/*.+(css|html|js)',
+            data: {
+                name: '{{name}}'
+            }
+        }
+    });
 };
-
-module.exports = task;
