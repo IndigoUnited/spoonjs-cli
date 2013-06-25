@@ -7,26 +7,17 @@ var path    = require('path');
 var express = require('express');
 var connect = require('connect');
 
-var task = {
-    id: 'server',
-    name: 'Server',
-    author: 'Indigo United',
-    description: 'Run server',
-    options: {
-        env: {
-            description: 'The environment that the server will run',
-            default: 'dev'
-        },
-        port: {
-            description: 'The port listen for requests',
-            default: 8000
-        },
-        host: {
-            description: 'The host to listen for requests',
-            default: '127.0.0.1'
-        }
-    },
-    filter: function (options, ctx, next) {
+module.exports = function (task) {
+    task
+    .id('server')
+    .name('Server')
+    .author('Indigo United')
+    .description('Run server')
+    .option('env', 'The environment that the server will run', 'dev')
+    .option('port', 'The port to listen for requests', 8000)
+    .option('host', 'The host to listen for requests', '127.0.0.1')
+
+    .setup(function (options, ctx, next) {
         options.index = options.env === 'dev' ? './index.html' : './index_' + options.env + '.html';
         options.assetsDir = options.env;
 
@@ -36,116 +27,113 @@ var task = {
         }
 
         next();
-    },
-    tasks: [
-        {
-            task: function (options, ctx, next) {
-                // Change cwd to the web folder
-                process.chdir('web');
+    })
 
-                var web = process.cwd(),
-                    env = options.env,
-                    link;
+    .do(function (options, ctx, next) {
+        // Change cwd to the web folder
+        process.chdir('web');
 
-                // Check if the env is valid
-                try {
-                    fs.statSync(options.index);
-                } catch (e) {
-                    if (e.code === 'ENOENT') {
-                        return next(new Error('Invalid environment: ' + env));
-                    }
-                }
+        var web = process.cwd(),
+            env = options.env,
+            link;
 
-                options.web = web;
-
-                // Create dev symlink
-                if (options.env === 'dev') {
-                    try {
-                        link = fs.readlinkSync('dev');
-                    } catch (e) {}
-
-                    if (!link || link !== '..') {
-                        try {
-                            fs.unlinkSync('dev');
-                        } catch (e) {}
-
-                        // In windows, users can't create symlinks in the console
-                        // without running the actual command with Administrator permissions
-                        // see: http://ahtik.com/blog/2012/08/16/fixing-your-virtualbox-shared-folder-symlink-error
-                        if (process.platform === 'win32') {
-                            try {
-                                fs.symlinkSync('..', 'dev', 'dir');
-                            } catch (e) {
-                                if (e.code === 'EPERM') {
-                                    return next(new Error('No permission to create symlink (try running as an Administrator).'));
-                                }
-                            }
-                        } else {
-                            fs.symlinkSync('..', 'dev', 'dir');
-                        }
-                    }
-                // Check assets dir
-                } else {
-                    try {
-                        fs.statSync(options.assetsDir);
-                    } catch (e) {
-                        if (e.code === 'ENOENT') {
-                            return next(new Error('Directory "' + options.assetsDir + '" not found, did you forgot to build?'));
-                        }
-                    }
-                }
-
-                next();
-            },
-            description: 'Prepare server'
-        },
-        {
-            task: function (opts, ctx) {
-                // Check if assets dir exists
-                var site = express();
-
-                // Enable compression?
-                if (opts.gzip) {
-                    site.use(connect.compress());
-                }
-
-                // Serve index
-                site.get('/', function (req, res) {
-                    return res.sendfile(opts.index);
-                });
-
-                // Serve favicon.ico
-                site.use(express.favicon('./favicon.ico'));
-
-
-                // Serve files & folders
-                site.get('/*', function (req, res) {
-                    // Get the requested file
-                    // If there are query parameters, remove them
-                    var file = path.join(opts.web, req.url.substr(1));
-                    file = file.split('?')[0];
-
-                    fs.stat(file, function (err, stat) {
-                        // If file does not exists, serve 404 page
-                        if (err && err.code === 'ENOENT') {
-                            serve404(opts, res);
-                        // If it exists and is a file, serve it
-                        } else if (stat.isFile()) {
-                            res.sendfile(file);
-                        // Otherwise is a folder, so we deny the access
-                        } else {
-                            res.send(403);
-                        }
-                    });
-                });
-
-                // Effectively listen
-                site.listen(opts.port, opts.host);
-                ctx.log.writeln('Listening on http://' + (opts.host === '127.0.0.1' ? 'localhost' : opts.host) + ':' + opts.port + ' (' + opts.env + ' environment)');
-            },
-            description: 'Serve files'
+        // Check if the env is valid
+        try {
+            fs.statSync(options.index);
+        } catch (e) {
+            if (e.code === 'ENOENT') {
+                return next(new Error('Invalid environment: ' + env));
+            }
         }
-    ]
+
+        options.web = web;
+
+        // Create dev symlink
+        if (options.env === 'dev') {
+            try {
+                link = fs.readlinkSync('dev');
+            } catch (e) {}
+
+            if (!link || link !== '..') {
+                try {
+                    fs.unlinkSync('dev');
+                } catch (e) {}
+
+                // In windows, users can't create symlinks in the console
+                // without running the actual command with Administrator permissions
+                // see: http://ahtik.com/blog/2012/08/16/fixing-your-virtualbox-shared-folder-symlink-error
+                if (process.platform === 'win32') {
+                    try {
+                        fs.symlinkSync('..', 'dev', 'dir');
+                    } catch (e) {
+                        if (e.code === 'EPERM') {
+                            return next(new Error('No permission to create symlink (try running as an Administrator).'));
+                        }
+                    }
+                } else {
+                    fs.symlinkSync('..', 'dev', 'dir');
+                }
+            }
+        // Check assets dir
+        } else {
+            try {
+                fs.statSync(options.assetsDir);
+            } catch (e) {
+                if (e.code === 'ENOENT') {
+                    return next(new Error('Directory "' + options.assetsDir + '" not found, did you forgot to build?'));
+                }
+            }
+        }
+
+        next();
+    }, {
+        description: 'Prepare server'
+    })
+    .do(function (opts, ctx) {
+        // Check if assets dir exists
+        var site = express();
+
+        // Enable compression?
+        if (opts.gzip) {
+            site.use(connect.compress());
+        }
+
+        // Serve index
+        site.get('/', function (req, res) {
+            return res.sendfile(opts.index);
+        });
+
+        // Serve favicon.ico
+        site.use(express.favicon('./favicon.ico'));
+
+
+        // Serve files & folders
+        site.get('/*', function (req, res) {
+            // Get the requested file
+            // If there are query parameters, remove them
+            var file = path.join(opts.web, req.url.substr(1));
+            file = file.split('?')[0];
+
+            fs.stat(file, function (err, stat) {
+                // If file does not exists, serve 404 page
+                if (err && err.code === 'ENOENT') {
+                    serve404(opts, res);
+                // If it exists and is a file, serve it
+                } else if (stat.isFile()) {
+                    res.sendfile(file);
+                // Otherwise is a folder, so we deny the access
+                } else {
+                    res.send(403);
+                }
+            });
+        });
+
+        // Effectively listen
+        site.listen(opts.port, opts.host);
+        ctx.log.writeln('Listening on http://' + (opts.host === '127.0.0.1' ? 'localhost' : opts.host) + ':' + opts.port + ' (' + opts.env + ' environment)');
+    }, {
+        description: 'Serve files'
+    });
 };
 
 /**
@@ -171,5 +159,3 @@ function serve404(options, res) {
         res.sendfile(options.index);
     }
 }
-
-module.exports = task;
