@@ -1,14 +1,7 @@
-# Node #
-######################
-node_modules
-npm-debug.*
+/node_modules
+/npm-debug.*
+/components
 
-# Bower #
-######################
-/vendor
-
-# Project specific #
-######################
 /web/dev
 /web/prod
 /web/staging

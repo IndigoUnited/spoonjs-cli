@@ -21,11 +21,11 @@
   "author": "Indigo United",
   "license": "MIT",
   "dependencies": {
-    "dejavu": "~0.3.1",
+    "dejavu": "~0.4.4",
     "colors": "~0.6.0",
-    "mout": "~0.3.0",
+    "mout": "~0.6.0",
     "dot": "~1.0.0",
-    "automaton": "~0.1.4",
+    "automaton": "~0.2.0",
     "nopt": "~2.0.0",
     "update-notifier": "~0.1.2"
   },

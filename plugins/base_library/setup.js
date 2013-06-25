@@ -2,85 +2,73 @@
 
 'use strict';
 
-var task = {
-    id: 'base-library-setup',
-    name: 'SpoonJS base library setup',
-    author: 'Indigo United',
-    description: 'Setups the base library for a new SpoonJS project',
-    options: {
-        dir: {
-            description: 'The location of the project'
-        },
-        name: {
-            description : 'The name of the base library to use. Can be one of these: jquery, mootools, yui3, dojo.',
-            'default': 'jquery'
-        }
-    },
-    filter: function (opts, ctx, next) {
-        var path = '../vendor';
+module.exports = function (task) {
+    task
+    .id('base-library-setup')
+    .name('SpoonJS base library setup')
+    .author('Indigo United')
+    .description('Setups the base library for a new SpoonJS project')
+    .option('dir', 'The location of the project')
+    .option('name', 'The name of the base library to use. Can be one of these: jquery, mootools, yui3, dojo.', 'jquery')
 
+    .setup(function (opts, ctx, next) {
         switch (opts.name) {
         case 'jquery':
-            opts.endpoint = '~1.8.2';
+            opts.endpoint = '~1.10';
             opts.varName = '$';
-            path += '/jquery/jquery';
-            break;
-        case 'mootools':
-            opts.endpoint = '~1.8.2';
-            opts.varName = 'mootools';
-            path += '/mootools/mootools';
+            opts.ready = '$(document.body).ready';
             break;
         case 'yui3':
-            opts.endpoint = '~1.8.2';
-            opts.varName = 'Y';
-            path += '/yui3/yui3';
-            break;
+        case 'mootools':
+        case 'yui3':
         case 'dojo':
-            opts.endpoint = '~1.8.2';
-            opts.varName = 'dojo';
-            path += '/dojo/dojo';
-            break;
+            return next(new Error('Base library not yet supported'));
+        default:
+            return next(new Error('Unknown base library specified'));
         }
-
-        opts.path = path;
 
         next();
-    },
-    tasks: [
-        {
-            task: 'scaffolding-replace',
-            description: 'Setup the component.json',
-            options: {
-                files: '{{dir}}/component.json',
-                data: {
-                    baseLibrary: '{{name}}',
-                    baseLibraryEndpoint: '{{endpoint}}'
-                }
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Setup src files and generators',
-            options: {
-                files: ['{{dir}}/tasks/generators/**/*', '{{dir}}/src/**/*'],
-                data: {
-                    baseLibrary: '{{name}}',
-                    baseLibraryVar: '{{varName}}'
-                }
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Setup loader (bootstrap.js)',
-            options: {
-                files: '{{dir}}/app/bootstrap.js',
-                data: {
-                    baseLibrary: '{{name}}',
-                    baseLibraryPath: '{{path}}'
-                }
+    })
+
+    .do('scaffolding-replace', {
+        description: 'Setup the bower.json',
+        options: {
+            files: '{{dir}}/bower.json',
+            data: {
+                baseLibrary: '{{name}}',
+                baseLibraryEndpoint: '{{endpoint}}'
             }
         }
-    ]
+    })
+    .do('scaffolding-replace', {
+        description: 'Setup src files and generators',
+        options: {
+            files: ['{{dir}}/tasks/generators/**/*', '{{dir}}/src/**/*', '{{dir}}/app/**/*'],
+            data: {
+                baseLibrary: '{{name}}',
+                baseLibraryVar: '{{varName}}',
+                baseLibraryReady: '{{ready}}'
+            }
+        }
+    })
+    .do('scaffolding-append', {
+        description: 'Setup loader paths (bootstrap.js)',
+        options: {
+            files: '{{dir}}/app/bootstrap.js',
+            type: 'file',
+            data: {
+                paths: __dirname + '/templates/{{name}}.path.tmpl'
+            }
+        }
+    })
+    .do('scaffolding-append', {
+        description: 'Setup loader shims (bootstrap.js)',
+        options: {
+            files: '{{dir}}/app/bootstrap.js',
+            type: 'file',
+            data: {
+                shim: __dirname + '/templates/{{name}}.shim.tmpl'
+            }
+        }
+    });
 };
-
-module.exports = task;

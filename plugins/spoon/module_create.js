@@ -6,21 +6,16 @@ var path  = require('path');
 var utils = require('mout');
 var fs    = require('fs');
 
-var task = {
-    id: 'spoon-module-create',
-    name: 'SpoonJS module create',
-    author: 'Indigo United',
-    description: 'Create module',
-    options: {
-        name: {
-            description : 'The name of the module'
-        },
-        force: {
-            description: 'Force the creation of the module, even if it already exists',
-            default: false
-        }
-    },
-    filter: function (opts, ctx, next) {
+module.exports = function (task) {
+    task
+    .id('spoon-module-create')
+    .name('SpoonJS module create')
+    .author('Indigo United')
+    .description('Create module')
+    .option('name', 'The name of the module')
+    .option('force', 'Force the creation of the module, even if it already exists', false)
+
+    .setup(function (opts, ctx, next) {
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name);
@@ -56,50 +51,43 @@ var task = {
         } else {
             next();
         }
-    },
-    tasks: [
-        {
-            task: 'cp',
-            description: 'Copy the structure of the module',
-            options: {
-                files: {
-                    '{{__dirname}}/module_structure/**/*' : '{{dir}}'
-                },
-                glob: {
-                    dot: true
-                }
-            }
-        },
-        {
-            task: 'scaffolding-file-rename',
-            description: 'Rename files based on the name of the module',
-            options: {
-                files: '{{dir}}/**/*',
-                data: {
-                    name: '{{name}}',
-                    underscoredName: '{{underscoredName}}'
-                }
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Set up files',
-            options: {
-                files: '{{dir}}/**/*.+(css|html|js)',
-                data: {
-                    name: '{{name}}',
-                    underscoredName: '{{underscoredName}}'
-                }
-            }
-        },
-        {
-            task: 'rm',
-            description: 'Cleanup dummy files',
-            options: {
-                files: '{{dir}}/**/.gitkeep'
+    })
+
+    .do('cp', {
+        description: 'Copy the structure of the module',
+        options: {
+            files: {
+                '{{__dirname}}/module_structure/**/*' : '{{dir}}'
+            },
+            glob: {
+                dot: true
             }
         }
-    ]
+    })
+    .do('scaffolding-file-rename', {
+        description: 'Rename files based on the name of the module',
+        options: {
+            files: '{{dir}}/**/*',
+            data: {
+                name: '{{name}}',
+                underscoredName: '{{underscoredName}}'
+            }
+        }
+    })
+    .do('scaffolding-replace', {
+        description: 'Set up files',
+        options: {
+            files: '{{dir}}/**/*.+(css|html|js)',
+            data: {
+                name: '{{name}}',
+                underscoredName: '{{underscoredName}}'
+            }
+        }
+    })
+    .do('rm', {
+        description: 'Cleanup dummy files',
+        options: {
+            files: '{{dir}}/**/.gitkeep'
+        }
+    });
 };
-
-module.exports = task;

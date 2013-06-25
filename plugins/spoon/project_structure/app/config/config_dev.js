@@ -10,7 +10,7 @@ define(['app/config/config', 'mout/object/merge', 'has'], function (config, merg
 
     return merge(config, {
         env: 'dev',
-        version: (new Date()).getTime()
+        version: 0
 
         // ...
     });

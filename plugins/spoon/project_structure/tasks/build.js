@@ -63,7 +63,7 @@ module.exports = function (task) {
             files: {
                 '{{projectDir}}/app/**/*': '{{tempDir}}/app/',
                 '{{projectDir}}/src/**/*': '{{tempDir}}/src/',
-                '{{projectDir}}/vendor/**/*': '{{tempDir}}/vendor/',
+                '{{projectDir}}/components/**/*': '{{tempDir}}/components/',
                 '{{projectDir}}/*': '{{tempDir}}/'
             }
         }
@@ -74,7 +74,7 @@ module.exports = function (task) {
             files: {
                 '{{projectDir}}/app/**/*': '{{tempDir}}/app/',
                 '{{projectDir}}/src/**/*': '{{tempDir}}/src/',
-                '{{projectDir}}/vendor/**/*': '{{tempDir}}/vendor/',
+                '{{projectDir}}/components/**/*': '{{tempDir}}/components/',
                 '{{projectDir}}/*': '{{tempDir}}/'
             }
         }
@@ -92,22 +92,12 @@ module.exports = function (task) {
                 // css
                 {
                     name: 'css',
-                    location:  '../vendor/require-css',              // We use the require-css plugin because curl-css
+                    location:  '../components/require-css',          // We use the require-css plugin because curl-css
                     main: 'css'                                      // is not compatible with r.js
-                },
-                // spoon
-                {
-                    name: 'spoon',
-                    location: '../vendor/spoon.js/src'
-                },
-                // dejavu
-                {
-                    name: 'dejavu',
-                    location: '../vendor/dejavu/dist/amd/loose'      // Point to the loose version
                 }
             ],
             // r.js specific settings
-            name: '../vendor/almond/almond',                         // Use almond
+            name: '../components/almond/almond',                     // Use almond
             include: 'app/bootstrap',
             out: opts.tempDir + '/app.js',
             has: {
@@ -117,7 +107,7 @@ module.exports = function (task) {
             separateCSS: true,
             stubModules: ['has', 'text', 'css', 'css/css', 'css/normalize']
         }, function (log) {
-            ctx.log.write(log);
+            ctx.log.info(log);
             next();
         }, function (err) {
             next(err);

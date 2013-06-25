@@ -6,21 +6,16 @@ var path  = require('path');
 var utils = require('mout');
 var fs    = require('fs');
 
-var task = {
-    id: 'spoon-view-create',
-    name: 'SpoonJS view create',
-    author: 'Indigo United',
-    description: 'Create view',
-    options: {
-        name: {
-            description : 'The name of the view'
-        },
-        force: {
-            description: 'Force the creation of the view, even if it already exists',
-            default: false
-        }
-    },
-    filter: function (opts, ctx, next) {
+module.exports = function (task) {
+    task
+    .id('spoon-view-create')
+    .name('SpoonJS view create')
+    .author('Indigo United')
+    .description('Create view')
+    .option('name', 'The name of the view')
+    .option('force', 'Force the creation of the view, even if it already exists', false)
+
+    .setup(function (opts, ctx, next) {
         // Get the location in which the the module will be created
         var cwd = path.normalize(process.cwd()),
             location = path.dirname(opts.name),
@@ -62,43 +57,37 @@ var task = {
         } else {
             next();
         }
-    },
-    tasks: [
-        {
-            task: 'cp',
-            description: 'Copy the view directory',
-            options: {
-                files: {
-                    '{{__dirname}}/view_structure/**/*' : '{{dir}}'
-                },
-                glob: {
-                    dot: true
-                }
-            }
-        },
-        {
-            task: 'scaffolding-file-rename',
-            description: 'Rename files according to the name of the view',
-            options: {
-                files: '{{dir}}/**/*',
-                data: {
-                    name: '{{name}}',
-                    underscoredName: '{{underscoredName}}'
-                }
-            }
-        },
-        {
-            task: 'scaffolding-replace',
-            description: 'Set up view',
-            options: {
-                files: '{{dir}}/**/*.+(css|html|js)',
-                data: {
-                    name: '{{name}}',
-                    underscoredName: '{{underscoredName}}'
-                }
+    })
+
+    .do('cp', {
+        description: 'Copy the view directory',
+        options: {
+            files: {
+                '{{__dirname}}/view_structure/**/*' : '{{dir}}'
+            },
+            glob: {
+                dot: true
             }
         }
-    ]
+    })
+    .do('scaffolding-file-rename', {
+        description: 'Rename files according to the name of the view',
+        options: {
+            files: '{{dir}}/**/*',
+            data: {
+                name: '{{name}}',
+                underscoredName: '{{underscoredName}}'
+            }
+        }
+    })
+    .do('scaffolding-replace', {
+        description: 'Set up view',
+        options: {
+            files: '{{dir}}/**/*.+(css|html|js)',
+            data: {
+                name: '{{name}}',
+                underscoredName: '{{underscoredName}}'
+            }
+        }
+    });
 };
-
-module.exports = task;

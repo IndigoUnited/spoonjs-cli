@@ -4,7 +4,7 @@ var d         = require('dejavu'),
     fs        = require('fs'),
     doT       = require('dot'),
     Engine    = require('./Engine'),
-    isProject = require('./util/is-project')
+    isProject = require('./util/isProject')
 ;
 
 // keep spaces and line changes in templates

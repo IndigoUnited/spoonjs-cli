@@ -14,11 +14,11 @@ module.exports = function (task) {
     .author('Indigo United')
     .description('Run server')
     .option('env', 'The environment that the server will run', 'dev')
-    .option('port', 'The port to listen for requests', 8000)
+    .option('port', 'The port to listen for requests', 8080)
     .option('host', 'The host to listen for requests', '127.0.0.1')
 
     .setup(function (options, ctx, next) {
-        options.index = options.env === 'dev' ? './index.html' : './index_' + options.env + '.html';
+        options.index = './index_' + options.env + '.html';
         options.assetsDir = options.env;
 
         if (options.env !== 'dev') {

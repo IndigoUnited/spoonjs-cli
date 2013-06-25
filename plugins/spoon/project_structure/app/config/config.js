@@ -10,7 +10,7 @@ define(['./states'], function (states) {
         address: {
             basePath: '/',
             html5: false,     // Disable HTML5 address because it needs the correct base path and mod rewrite activated
-            translate: true   // Transte from HTML5 url's to hash automatically (and vice-versa)
+            translate: true   // Translate from HTML5 URLs to hash automatically (and vice-versa)
         },
 
         // State configuration

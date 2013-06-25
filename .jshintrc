@@ -1,8 +1,6 @@
 {
     "predef": [
-        "console",
-        "require",
-        "define"
+        "console"
     ],
 
     "node": true,
@@ -30,7 +28,7 @@
     "boss": false,
     "debug": false,
     "eqnull": true,
-    "es5": false,
+    "es5": true,
     "esnext": false,
     "evil": false,
     "expr": false,

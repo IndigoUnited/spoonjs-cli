@@ -11,12 +11,12 @@ requirejs.config({
         'mout': '../components/mout/src',
         'events-emitter': '../components/events-emitter/src',
         'address': '../components/address/src',
-        '{{baseLibrary}}': '{{baseLibraryPath}}',
-        '{{templateLibrary}}': '{{templateLibraryPath}}',
         'text': '../components/requirejs-text/text',
         'has': '../components/has/has',
+{{paths}}
 
         // App & config
+        // TODO: review this
         'app': '../app',
         'app-config': '../app/config/config_dev'
     },
@@ -54,12 +54,12 @@ requirejs.config({
 require([
     'Application/ApplicationController',
     'services/state',
-    'jquery'
-], function (ApplicationController, stateRegistry, $) {
+    '{{baseLibrary}}'
+], function (ApplicationController, stateRegistry, {{baseLibraryVar}}) {
 
     'use strict';
 
-    $(document.body).ready(function () {
+    {{baseLibraryReady}}(function () {
         // Initialize the Application controller
         var appController = new ApplicationController();
 
