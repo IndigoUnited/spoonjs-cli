@@ -1,14 +1,14 @@
 define([
-    'spoon',
+    'spoon/View',
     '{{baseLibrary}}',
     '{{templateLibrary}}',
     'text!./assets/tmpl/{{underscoredName}}.html',
     'css!./assets/css/{{underscoredName}}.css'
-], function (spoon, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
+], function (View, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
 
     'use strict';
 
-    return spoon.View.extend({
+    return View.extend({
         $name: '{{name}}View',
 
         _template: {{templateLibraryVar}}.{{templateLibraryCompileFunc}}(tmpl)
@@ -22,7 +22,7 @@ define([
         /*render: function (data) {
             // By default, the render function already
             // renders the _template with the passed data
-            this.$super(data);
+            View.prototype.render.call(this, data);
 
             // Do other things here
 
@@ -47,7 +47,7 @@ define([
             // when this view is destroyed
             // The view element is also destroyed, clearing all the events and other stuff
             // from its element and its descendants
-            this.$super();
+            View.prototype._onDestroy.call(this);
         }*/
     });
 });

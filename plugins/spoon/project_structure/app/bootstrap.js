@@ -7,26 +7,33 @@
 requirejs.config({
     baseUrl: './dev/src',
     paths: {
-        // Vendors
-        'mout': '../vendor/mout/src',
-        'events-emitter': '../vendor/events-emitter/src',
-        'dom-responder': '../vendor/dom-responder/src',
-        'base-adapter': '../vendor/base-adapter/src/adapters/jquery',
-        'base-adapter/src': '../vendor/base-adapter/src',
-        'address': '../vendor/address/src',
+        // Components
+        'mout': '../components/mout/src',
+        'events-emitter': '../components/events-emitter/src',
+        'address': '../components/address/src',
         '{{baseLibrary}}': '{{baseLibraryPath}}',
         '{{templateLibrary}}': '{{templateLibraryPath}}',
-        'text': '../vendor/requirejs-text/text',
-        'has': '../vendor/has/has',
+        'text': '../components/requirejs-text/text',
+        'has': '../components/has/has',
 
         // App & config
         'app': '../app',
-        'app-config': '../app/config/config_dev',
+        'app-config': '../app/config/config_dev'
+    },
+    map: {
+        '*': {
+            // Spoon
+            'spoon': '../components/spoon.js/src/index',
 
-        // Services
-        'services/broadcaster': '../vendor/spoon.js/src/core/Broadcaster/BroadcasterFactory',
-        'services/address': '../vendor/spoon.js/src/core/Address/AddressFactory',
-        'services/state': '../vendor/spoon.js/src/core/StateRegistry/StateRegistryFactory'
+            // Spoon aliases
+            'spoon/Controller': '../components/spoon.js/src/core/Controller',
+            'spoon/View': '../components/spoon.js/src/core/View',
+
+            // Spoon services
+            'services/broadcaster': '../components/spoon.js/src/core/Broadcaster/BroadcasterFactory',
+            'services/address': '../components/spoon.js/src/core/Address/AddressFactory',
+            'services/state': '../components/spoon.js/src/core/StateRegistry/StateRegistryFactory'
+        }
     },
     shim: {
 {{shim}}
@@ -35,19 +42,9 @@ requirejs.config({
         // css plugin
         {
             name: 'css',
-            location: '../vendor/curl-css',
+            location: '../components/curl-css',
             main: 'index'
-        },
-        // spoon
-        {
-            name: 'spoon',
-            location: '../vendor/spoon.js/src'
-        },
-        // dejavu
-        {
-            name: 'dejavu',
-            location: '../vendor/dejavu/dist/amd/strict'
-        },
+        }
 {{packages}}
     ],
     urlArgs: (new Date()).getTime()    // Fix cache issues
@@ -57,12 +54,12 @@ requirejs.config({
 require([
     'Application/ApplicationController',
     'services/state',
-    'base-adapter/dom/Utilities'
-], function (ApplicationController, stateRegistry, Utilities) {
+    'jquery'
+], function (ApplicationController, stateRegistry, $) {
 
     'use strict';
 
-    Utilities.ready(function () {
+    $(document.body).ready(function () {
         // Initialize the Application controller
         var appController = new ApplicationController();
 

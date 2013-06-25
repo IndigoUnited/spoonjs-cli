@@ -1,14 +1,14 @@
 define([
-    'spoon',
+    'spoon/View',
     '{{baseLibrary}}',
     '{{templateLibrary}}',
     'text!./assets/tmpl/home.html',
     'css!./assets/css/home.css'
-], function (spoon, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
+], function (View, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
 
     'use strict';
 
-    return spoon.View.extend({
+    return View.extend({
         $name: 'HomeView',
 
         _template: {{templateLibraryVar}}.{{templateLibraryCompileFunc}}(tmpl)
