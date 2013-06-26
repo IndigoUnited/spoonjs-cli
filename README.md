@@ -1,5 +1,5 @@
-spoon.js cli
-========
+# spoon.js cli
+
 `Indigo United 2012`
 
 [indigounited.com](http://indigounited.com/)
