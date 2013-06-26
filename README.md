@@ -1,4 +1,4 @@
-# spoon.js cli
+# SpoonJS CLI tool
 
 `Indigo United 2012`
 

@@ -23,16 +23,16 @@ requirejs.config({
     map: {
         '*': {
             // Spoon
-            'spoon': '../components/spoon.js/src/index',
+            'spoon': '../components/spoonjs/src/index',
 
             // Spoon aliases
-            'spoon/Controller': '../components/spoon.js/src/core/Controller',
-            'spoon/View': '../components/spoon.js/src/core/View',
+            'spoon/Controller': '../components/spoonjs/src/core/Controller',
+            'spoon/View': '../components/spoonjs/src/core/View',
 
             // Spoon services
-            'services/broadcaster': '../components/spoon.js/src/core/Broadcaster/BroadcasterFactory',
-            'services/address': '../components/spoon.js/src/core/Address/AddressFactory',
-            'services/state': '../components/spoon.js/src/core/StateRegistry/StateRegistryFactory'
+            'services/broadcaster': '../components/spoonjs/src/core/Broadcaster/BroadcasterFactory',
+            'services/address': '../components/spoonjs/src/core/Address/AddressFactory',
+            'services/state': '../components/spoonjs/src/core/StateRegistry/StateRegistryFactory'
         }
     },
     shim: {
