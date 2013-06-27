@@ -79,26 +79,29 @@ module.exports = function (task) {
             }
         }
     })
+    .do(function (opts, ctx, next) {
+        var loaderFile = opts.tempDir + '/app/loader.js';
+
+        fs.readFile(loaderFile, function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            contents = contents.toString().replace(/\/app\/config\/config_\w+/g, '/app/config/config_' + opts.env);
+            fs.writeFile(loaderFile, contents, next);
+        });
+    }, {
+        description: 'Change target environment in loader config'
+    })
     // TODO: create automaton task for this (requirejs)
     .do(function (opts, ctx, next) {
         rjs.optimize({
             // Loader settings
-            mainConfigFile: opts.projectDir + '/app/bootstrap.js',   // Include the main configuration file
-            baseUrl: opts.projectDir + '/tmp/src',                   // Point to the tmp folder
-            paths: {
-                'app-config': '../app/config/config_' + opts.env     // Point the prod config
-            },
-            packages: [
-                // css
-                {
-                    name: 'css',
-                    location:  '../components/require-css',          // We use the require-css plugin because curl-css
-                    main: 'css'                                      // is not compatible with r.js
-                }
-            ],
+            mainConfigFile: opts.tempDir + '/app/loader.js',       // Include the main configuration file
+            baseUrl: opts.tempDir + '/src',                        // Point to the tmp folder
             // r.js specific settings
-            name: '../components/almond/almond',                     // Use almond
-            include: 'app/bootstrap',
+            name: '../components/almond/almond',                      // Use almond
+            include: ['../app/loader', '../app/bootstrap'],
             out: opts.tempDir + '/app.js',
             has: {
                 debug: false

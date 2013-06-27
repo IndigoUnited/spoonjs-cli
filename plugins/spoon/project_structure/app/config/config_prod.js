@@ -1,4 +1,4 @@
-define(['app/config/config', 'mout/object/merge'], function (config, merge) {
+define(['./config', 'mout/object/merge'], function (config, merge) {
 
     'use strict';
 
@@ -8,7 +8,7 @@ define(['app/config/config', 'mout/object/merge'], function (config, merge) {
 
     return merge(config, {
         env: 'prod',
-        version: 3,
+        version: 0,
 
         // Address overrides
         address: {

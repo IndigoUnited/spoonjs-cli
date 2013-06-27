@@ -1,4 +1,4 @@
-define(['app/config/config', 'mout/object/merge'], function (config, merge) {
+define(['./config', 'mout/object/merge'], function (config, merge) {
 
     'use strict';
 
