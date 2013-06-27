@@ -85,7 +85,7 @@ var Project = d.Class.declare({
                 description: 'Run the project',
                 options: [
                     ['-e, --env', 'The environment to run. Defaults to dev.', 'dev', String],
-                    ['-p, --port', 'The server port. Defaults to 8000.', 8000, Number],
+                    ['-p, --port', 'The server port. Defaults to 8080.', 8080, Number],
                     ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1', String]
                 ]
             },
