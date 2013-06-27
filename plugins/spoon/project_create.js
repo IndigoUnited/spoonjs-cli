@@ -117,15 +117,15 @@ module.exports = function (task) {
         }
     })
     .do('scaffolding-close', {
-        description: 'Closing loader placeholders (bootstrap.js)',
+        description: 'Closing loader placeholders (loader.js)',
         options: {
-            files: '{{dir}}/app/bootstrap.js',
+            files: '{{dir}}/app/loader.js',
             placeholders: ['shim', 'paths', 'packages']
         },
     })
     .do(function (opts, ctx, next) {
         // Fix trailing commas
-        var file = opts.dir + '/app/bootstrap.js';
+        var file = opts.dir + '/app/loader.js';
         fs.readFile(file, function (err, contents) {
             if (err) {
                 return next(err);
@@ -136,7 +136,7 @@ module.exports = function (task) {
             fs.writeFile(file, contents, next);
         });
     }, {
-        description: 'Fixing loader format (bootstrap.js)'
+        description: 'Fixing loader format (loader.js)'
     })
     .do('scaffolding-close', {
         description: 'Finish up index files',

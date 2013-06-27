@@ -6,17 +6,14 @@ requirejs.config({
         'mout': '../components/mout/src',
         'events-emitter': '../components/events-emitter/src',
         'address': '../components/address/src',
-        'jquery': '../components/jquery/jquery',
-        'doT': '../components/doT/doT',
         'text': '../components/requirejs-text/text',
         'has': '../components/has/has',
         'bootstrap': '../components/bootstrap/js/bootstrap',
-        'bootstrap-css': '../components/bootstrap/css'
+        'bootstrap-css': '../components/bootstrap/css',
+{{paths}}
     },
     shim: {
-        'handlebars': {
-            exports: 'Handlebars'
-        }
+{{shim}}
     },
     map: {
         '*': {

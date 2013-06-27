@@ -52,9 +52,9 @@ module.exports = function (task) {
         }
     })
     .do('scaffolding-append', {
-        description: 'Setup loader paths (bootstrap.js)',
+        description: 'Setup loader paths (loader.js)',
         options: {
-            files: '{{dir}}/app/bootstrap.js',
+            files: '{{dir}}/app/loader.js',
             type: 'file',
             data: {
                 paths: __dirname + '/templates/{{name}}.path.tmpl'
@@ -62,9 +62,9 @@ module.exports = function (task) {
         }
     })
     .do('scaffolding-append', {
-        description: 'Setup loader shims (bootstrap.js)',
+        description: 'Setup loader shims (loader.js)',
         options: {
-            files: '{{dir}}/app/bootstrap.js',
+            files: '{{dir}}/app/loader.js',
             type: 'file',
             data: {
                 shim: __dirname + '/templates/{{name}}.shim.tmpl'

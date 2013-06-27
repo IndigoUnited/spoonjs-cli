@@ -6,7 +6,6 @@
     "requirejs": "~2.1",
     "requirejs-text": "~2.0",
     "require-css": "*",
-    "curl-css": "https://raw.github.com/cujojs/curl/master/src/curl/plugin/css.js",
     "almond": "~0.2",
     "{{baseLibrary}}": "{{baseLibraryEndpoint}}",
     "{{templateLibrary}}": "{{templateLibraryEndpoint}}"

@@ -1,22 +1,27 @@
 <!DOCTYPE html>
+{{html_first}}
 <html>
+{{html_last}}
     <head>
+{{head_first}}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>spoon.js-sample-app</title>
+        <title>{{page_title}}</title>
         <meta name="description" content="">
+        <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width">
-        <script type="text/javascript">
-        var require = {
-            // Fix cache issues
-            urlArgs: (new Date()).getTime()
-        };
-        </script>
         <script data-main="/dev/app/loader" src="/dev/components/requirejs/require.js"></script>
+{{head}}
+{{head_last}}
     </head>
     <body>
+{{body_first}}
+{{body_before_bootstrap}}
         <script>
             require(['../app/bootstrap']);
         </script>
+{{body_after_bootstrap}}
+{{body}}
+{{body_last}}
     </body>
 </html>
