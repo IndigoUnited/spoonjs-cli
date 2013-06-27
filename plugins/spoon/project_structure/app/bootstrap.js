@@ -1,12 +1,12 @@
 require([
     'Application/ApplicationController',
     'services/state',
-    'jquery'
-], function (ApplicationController, stateRegistry, $) {
+    '{{baseLibrary}}'
+], function (ApplicationController, stateRegistry, {{baseLibraryVar}}) {
 
     'use strict';
 
-    $(document).ready(function () {
+    {{baseLibraryReady}}(function () {
         // Initialize the Application controller
         var appController = new ApplicationController();
 
