@@ -11,7 +11,7 @@ require([
         var appController = new ApplicationController();
 
         // Listen to the state change event
-        stateRegistry.on('change', appController.setState, appController);
+        stateRegistry.on('change', appController.delegateState, appController);
 
         // Call parse() to make the state registry read the address value
         stateRegistry.parse();
