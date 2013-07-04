@@ -31,6 +31,7 @@ module.exports = function (task) {
         // Generate suitable names
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
         opts.underscoredName = utils.string.underscore(opts.name);
+        opts.hyphenatedName = utils.string.hyphenate(opts.name);
 
         if (location.charAt(0) !== '/') {
             location = '/src/' + location;
@@ -70,7 +71,8 @@ module.exports = function (task) {
             files: '{{dir}}/**/*',
             data: {
                 name: '{{name}}',
-                underscoredName: '{{underscoredName}}'
+                underscoredName: '{{underscoredName}}',
+                hyphenatedName: '{{hyphenatedName}}'
             }
         }
     })
@@ -80,7 +82,8 @@ module.exports = function (task) {
             files: '{{dir}}/**/*.+(css|html|js)',
             data: {
                 name: '{{name}}',
-                underscoredName: '{{underscoredName}}'
+                underscoredName: '{{underscoredName}}',
+                hyphenatedName: '{{hyphenatedName}}'
             }
         }
     })

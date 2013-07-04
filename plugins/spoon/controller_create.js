@@ -32,6 +32,8 @@ module.exports = function (task) {
         // Trim trailing controller and generate a suitable name
         opts.name = path.basename(opts.name.replace(/([_\-]?controller)$/i, ''), '.js') || 'Controller';
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
+        opts.underscoredName = utils.string.underscore(opts.name);
+        opts.hyphenatedName = utils.string.hyphenate(opts.name);
 
         if (location === '.') {
             return next(new Error('Please specify a folder for the controller (e.g. Application/' + opts.name + ')'));
@@ -71,7 +73,9 @@ module.exports = function (task) {
         options: {
             files: '{{dir}}/**/*',
             data: {
-                name: '{{name}}'
+                name: '{{name}}',
+                underscoredName: '{{underscoredName}}',
+                hyphenatedName: '{{hyphenatedName}}'
             }
         }
     })
@@ -80,7 +84,9 @@ module.exports = function (task) {
         options: {
             files: '{{dir}}/**/*.+(css|html|js)',
             data: {
-                name: '{{name}}'
+                name: '{{name}}',
+                underscoredName: '{{underscoredName}}',
+                hyphenatedName: '{{hyphenatedName}}'
             }
         }
     });

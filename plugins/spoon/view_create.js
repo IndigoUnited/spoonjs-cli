@@ -33,6 +33,7 @@ module.exports = function (task) {
         opts.name = path.basename(opts.name.replace(/([_\-]?view)$/i, ''), '.js') || 'View';
         opts.name = utils.string.pascalCase(opts.name.replace(/_/g, '-'));
         opts.underscoredName = utils.string.underscore(opts.name);
+        opts.hyphenatedName = utils.string.hyphenate(opts.name);
 
         if (location === '.') {
             return next(new Error('Please specify a folder for the view (e.g. Application/' + opts.name + ')'));
@@ -76,7 +77,8 @@ module.exports = function (task) {
             files: '{{dir}}/**/*',
             data: {
                 name: '{{name}}',
-                underscoredName: '{{underscoredName}}'
+                underscoredName: '{{underscoredName}}',
+                hyphenatedName: '{{hyphenatedName}}'
             }
         }
     })
@@ -86,7 +88,8 @@ module.exports = function (task) {
             files: '{{dir}}/**/*.+(css|html|js)',
             data: {
                 name: '{{name}}',
-                underscoredName: '{{underscoredName}}'
+                underscoredName: '{{underscoredName}}',
+                hyphenatedName: '{{hyphenatedName}}'
             }
         }
     });

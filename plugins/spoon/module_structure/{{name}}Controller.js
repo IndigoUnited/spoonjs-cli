@@ -8,12 +8,10 @@ define([
     return Controller.extend({
         $name: '{{name}}Controller',
 
-        /*_defaultState: 'index',
+        _defaultState: 'index',
         _states: {
             'index': '_indexState'
-        },*/
-
-        ////////////////////////////////////////////////////////////
+        },
 
         /**
          * Constructor.
@@ -23,12 +21,7 @@ define([
         initialize: function (element) {
             Controller.call(this);
 
-            this._view = this._link(new {{name}}View());
-            this._view.appendTo(element);
-
-            this.once('link', function () {
-                this._view.render();
-            }.bind(this));
+            this._element = element;
         },
 
         /**
@@ -36,11 +29,23 @@ define([
          *
          * @param {Object} state The state parameter bag
          */
-        /*_indexState: function (state) {
-            // The index state implementation goes here
-            // The state might instantiate another module or simply a view
-            // See the default ApplicationController implementation for an example
-        },*/
+        _indexState: function (state) {
+            this._destroyContent();
+
+            this._content = this._link(new {{name}}View());
+            this._content.appendTo(this._element);
+            this._content.render();
+        },
+
+        /**
+         * Destroys the current content if any.
+         */
+        _destroyContent: function () {
+            if (this._content) {
+                this._content.destroy();
+                this._content = null;
+            }
+        }
 
         /**
          * {@inheritDoc}
