@@ -4,7 +4,7 @@
 
 module.exports = function (task) {
     task
-    .id('project-install')
+    .id('install')
     .name('Project installation')
     .author('Indigo United')
     .description('Install project dependencies')
