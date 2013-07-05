@@ -8,8 +8,6 @@ requirejs.config({
         'address': '../components/address/src',
         'text': '../components/requirejs-text/text',
         'has': '../components/has/has',
-        'bootstrap': '../components/bootstrap/js/bootstrap',
-        'bootstrap-css': '../components/bootstrap/css',
 {{paths}}
     },
     shim: {
