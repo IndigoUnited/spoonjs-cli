@@ -11,6 +11,7 @@ define([
     return View.extend({
         $name: 'HomeView',
 
+        _element: 'div.home',
         _template: {{templateLibraryVar}}.{{templateLibraryCompileFunc}}(tmpl)
     });
 });
