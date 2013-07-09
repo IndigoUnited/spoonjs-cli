@@ -112,7 +112,7 @@ module.exports = function (task) {
     .do(templateLibrary, {
         description: 'Setup up template library',
         options: {
-            name: 'handlebars',
+            name: 'doT',
             dir: '{{dir}}'
         }
     })
