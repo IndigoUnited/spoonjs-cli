@@ -68,17 +68,6 @@ module.exports = function (task) {
             }
         }
     })
-    .do('cp', {
-        description: 'Copy necessary files to temporary folder',
-        options: {
-            files: {
-                '{{projectDir}}/app/**/*': '{{tempDir}}/app/',
-                '{{projectDir}}/src/**/*': '{{tempDir}}/src/',
-                '{{projectDir}}/bower_components/**/*': '{{tempDir}}/bower_components/',
-                '{{projectDir}}/*': '{{tempDir}}/'
-            }
-        }
-    })
     .do(function (opts, ctx, next) {
         var loaderFile = opts.tempDir + '/app/loader.js';
 
