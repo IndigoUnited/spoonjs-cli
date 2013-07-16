@@ -63,7 +63,7 @@ module.exports = function (task) {
             files: {
                 '{{projectDir}}/app/**/*': '{{tempDir}}/app/',
                 '{{projectDir}}/src/**/*': '{{tempDir}}/src/',
-                '{{projectDir}}/components/**/*': '{{tempDir}}/components/',
+                '{{projectDir}}/bower_components/**/*': '{{tempDir}}/bower_components/',
                 '{{projectDir}}/*': '{{tempDir}}/'
             }
         }
@@ -74,7 +74,7 @@ module.exports = function (task) {
             files: {
                 '{{projectDir}}/app/**/*': '{{tempDir}}/app/',
                 '{{projectDir}}/src/**/*': '{{tempDir}}/src/',
-                '{{projectDir}}/components/**/*': '{{tempDir}}/components/',
+                '{{projectDir}}/bower_components/**/*': '{{tempDir}}/bower_components/',
                 '{{projectDir}}/*': '{{tempDir}}/'
             }
         }
@@ -100,7 +100,7 @@ module.exports = function (task) {
             mainConfigFile: opts.tempDir + '/app/loader.js',       // Include the main configuration file
             baseUrl: opts.tempDir + '/src',                        // Point to the tmp folder
             // r.js specific settings
-            name: '../components/almond/almond',                      // Use almond
+            name: '../bower_components/almond/almond',                      // Use almond
             include: ['../app/loader', '../app/bootstrap'],
             out: opts.tempDir + '/app.js',
             has: {
