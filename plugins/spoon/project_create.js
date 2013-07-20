@@ -169,7 +169,7 @@ module.exports = function (task) {
             //       this would avoid having a global dependency on bower
             //       on the other hand.. its a good idea to force the user to install
             //       bower because it will be used as package manager for every project
-            cmd: 'bower install',
+            cmd: 'bower install --force-latest',
             cwd: '{{dir}}'
         }
     })
