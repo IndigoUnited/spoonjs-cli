@@ -1,4 +1,4 @@
-/*jshint node:true, es5:true*/
+/*jshint node:true, es3:false*/
 
 'use strict';
 
