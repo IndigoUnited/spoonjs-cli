@@ -1,4 +1,4 @@
-require([
+requirejs([
     'Application/ApplicationController',
     'services/state',
     '{{baseLibrary}}'
