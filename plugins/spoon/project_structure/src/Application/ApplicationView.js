@@ -2,8 +2,8 @@ define([
     'spoon/View',
     '{{baseLibrary}}',
     '{{templateLibrary}}',
-    'text!./assets/tmpl/app.html',
-    'css!./assets/css/app.css'
+    'text!./assets/tmpl/application.html',
+    'css!./assets/css/application.css'
 ], function (View, {{baseLibraryVar}}, {{templateLibraryVar}}, tmpl) {
 
     'use strict';
