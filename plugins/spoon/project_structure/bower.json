@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "dependencies": {
     "spoonjs": "*",
-    "requirejs": "~2.1",
-    "requirejs-text": "~2.0",
+    "requirejs": "~2.1.0",
+    "requirejs-text": "~2.0.0",
     "require-css": "*",
-    "almond": "~0.2",
+    "almond": "~0.2.0",
     "{{baseLibrary}}": "{{baseLibraryEndpoint}}",
     "{{templateLibrary}}": "{{templateLibraryEndpoint}}"
   }
