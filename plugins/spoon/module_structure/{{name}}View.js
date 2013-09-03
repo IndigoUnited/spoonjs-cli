@@ -11,7 +11,7 @@ define([
     return View.extend({
         $name: '{{name}}View',
 
-        _element: 'div.{{hyphenatedName}}',
+        _element: 'div.{{hyphenatedName}}-view',
         _template: {{templateLibraryVar}}.{{templateLibraryCompileFunc}}(tmpl)
         /*_events: {
             'click .btn': '_onBtnClick'
