@@ -14,7 +14,7 @@ module.exports = function (task) {
     .setup(function (opts, ctx, next) {
         switch (opts.name) {
         case 'jquery':
-            opts.endpoint = '~1.10';
+            opts.endpoint = '~1.9||~2';
             opts.varName = '$';
             opts.ready = '$(document.body).ready';
             break;
