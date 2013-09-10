@@ -1,7 +1,7 @@
 {
   "name": "spoonjs",
   "description": "SpoonJS CLI tool",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "keywords": [
     "framework",
     "mvc",
