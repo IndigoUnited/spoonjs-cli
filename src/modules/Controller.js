@@ -37,7 +37,7 @@ var Controller = d.Class.declare({
             'create <name>': {
                 description: 'Create a new controller',
                 options: [
-                    ['-f, --force', 'Force the creation of the controller, even if the controller already exists.', false, Boolean]
+                    ['-f, --force', 'Force the creation of the controller, even if the controller already exists.', null, Boolean]
                 ]
             }
         };

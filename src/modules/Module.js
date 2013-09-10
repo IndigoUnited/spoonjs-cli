@@ -37,7 +37,7 @@ var Module = d.Class.declare({
             'create <name>': {
                 description: 'Create a new module',
                 options: [
-                    ['-f, --force', 'Force the creation of the module, even if the module already exists.', false, Boolean]
+                    ['-f, --force', 'Force the creation of the module, even if the module already exists.', null, Boolean]
                 ]
             }
         };

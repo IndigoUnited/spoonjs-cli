@@ -86,6 +86,9 @@ var Engine = d.Class.declare({
         opt = {};
         for (optName in this._moduleCommands[module][command].options) {
             opt[optName] = options[optName] !== undefined ? options[optName] : this._moduleCommands[module][command].options[optName].deflt;
+            if (opt[optName] == null) {
+                delete opt[optName];
+            }
         }
 
         // run the command

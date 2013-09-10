@@ -37,7 +37,7 @@ var View = d.Class.declare({
             'create <name>': {
                 description: 'Create a new view',
                 options: [
-                    ['-f, --force', 'Force the creation of the view, even if the view already exists.', false, Boolean]
+                    ['-f, --force', 'Force the creation of the view, even if the view already exists.', null, Boolean]
                 ]
             }
         };

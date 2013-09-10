@@ -84,21 +84,21 @@ var Project = d.Class.declare({
             'run': {
                 description: 'Run the project',
                 options: [
-                    ['-e, --env', 'The environment to run. Defaults to dev.', 'dev', String],
-                    ['-p, --port', 'The server port. Defaults to 8080.', 8080, Number],
-                    ['-h, --host', 'The server host. Defaults to 127.0.0.1', '127.0.0.1', String]
+                    ['-e, --env', 'The environment to run.', null, String],
+                    ['-p, --port', 'The server port.', null, Number],
+                    ['-h, --host', 'The server host.', null, String]
                 ]
             },
             'install': {
                 description: 'Installs the project dependencies',
                 options: [
-                    ['-f, --force', 'Force fetching of remote sources. Defaults to false.', false, Boolean]
+                    ['-f, --force', 'Force fetching of remote sources.', null, Boolean]
                 ]
             },
             'build': {
                 description: 'Build the project',
                 options: [
-                    ['-e, --env', 'The environment to build. Defaults to prod.', 'prod', String]
+                    ['-e, --env', 'The environment to build.', null, String]
                 ]
             }
         };
