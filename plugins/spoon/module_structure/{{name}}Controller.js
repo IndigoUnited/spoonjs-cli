@@ -10,7 +10,7 @@ define([
 
         _defaultState: 'index',
         _states: {
-            'index': '_indexState'
+            'index': 'indexState'
         },
 
         /**
@@ -29,7 +29,7 @@ define([
          *
          * @param {Object} state The state parameter bag
          */
-        _indexState: function (state) {
+        indexState: function (state) {
             this._destroyContent();
 
             this._content = this._link(new {{name}}View());

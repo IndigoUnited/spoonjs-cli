@@ -11,7 +11,7 @@ define([
 
         _defaultState: 'home',
         _states: {
-            'home': '_homeState'
+            'home': 'homeState'
         },
 
         /**
@@ -31,7 +31,7 @@ define([
          *
          * @param {Object} state The state parameter bag
          */
-        _homeState: function (state) {
+        homeState: function (state) {
             this._destroyContent();
 
             this._content = this._link(new HomeView());
