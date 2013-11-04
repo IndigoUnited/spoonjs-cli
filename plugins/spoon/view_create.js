@@ -36,10 +36,7 @@ module.exports = function (task) {
         opts.hyphenatedName = utils.string.hyphenate(opts.name);
 
         if (location === '.') {
-            return next(new Error('Please specify a folder for the view (e.g. Application/' + opts.name + ')'));
-        }
-        if (location.charAt(0) !== '/') {
-            location = '/src/' + location;
+            return next(new Error('Please specify a folder for the view (e.g. src/Application/' + opts.name + ')'));
         }
 
         opts.dir = path.join(cwd, location);

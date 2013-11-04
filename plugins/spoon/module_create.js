@@ -33,8 +33,8 @@ module.exports = function (task) {
         opts.underscoredName = utils.string.underscore(opts.name);
         opts.hyphenatedName = utils.string.hyphenate(opts.name);
 
-        if (location.charAt(0) !== '/') {
-            location = '/src/' + location;
+        if (location === '.') {
+            return next(new Error('Please specify a folder for the module (e.g. src/' + opts.name + ')'));
         }
 
         opts.dir = path.join(cwd, location, opts.name);
