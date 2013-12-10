@@ -90,7 +90,7 @@ module.exports = function (task) {
             baseUrl: opts.tempDir + '/src',                        // Point to the tmp folder
             // r.js specific settings
             name: '../bower_components/almond/almond',                      // Use almond
-            include: ['../app/bootstrap'],
+            include: ['../app/loader', '../app/bootstrap'],
             out: opts.tempDir + '/app.js',
             has: {
                 debug: false
@@ -106,6 +106,34 @@ module.exports = function (task) {
         });
     }, {
         description: 'Run r.js optimizer'
+    })
+    .do(function (opts, ctx, next) {
+        // Replace baseUrl with the correct environment
+        fs.readFile(opts.tempDir + '/app.js', function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            contents = contents.toString().replace('\'./dev/src\'', '\'./' + opts.env + '/src\'');
+
+            fs.writeFile(opts.tempDir + '/app.js', contents, next);
+        });
+    }, {
+        description: 'Replace base URL'
+    })
+    .do(function (opts, ctx, next) {
+        // Replace baseUrl with the correct environment
+        fs.readFile(opts.tempDir + '/app.js', function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            contents = contents.toString().replace('"./dev/src"', '"./' + opts.env + '/src"');
+
+            fs.writeFile(opts.tempDir + '/app.js', contents, next);
+        });
+    }, {
+        description: 'Replace base URL'
     })
     // TODO: create automaton task for this (requirejs)
     .do(function (opts, ctx, next) {
