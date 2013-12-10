@@ -90,7 +90,7 @@ module.exports = function (task) {
             baseUrl: opts.tempDir + '/src',                        // Point to the tmp folder
             // r.js specific settings
             name: '../bower_components/almond/almond',                      // Use almond
-            include: ['../app/loader', '../app/bootstrap'],
+            include: ['../app/bootstrap'],
             out: opts.tempDir + '/app.js',
             has: {
                 debug: false
