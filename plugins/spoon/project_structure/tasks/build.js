@@ -29,18 +29,15 @@ module.exports = function (task) {
             }
 
             // Expose the version in the opts
-            var version = contents.toString().match(/["']?version['"]?\s*:\s*(\d+)/);
-            if (!version) {
-                return next(new Error('Could not increment version'));
-            }
-            opts.version = Number(version[1]) + 1;
+            // Convert from decimal base to base36 to decrease the size of the number
+            opts.version = Date.now().toString(36);
 
             // Set some necessary vars to be used bellow
             opts.targetDir = cwd  + '/web/' + opts.env;
             opts.tempDir = cwd + '/tmp';
             opts.projectDir = cwd;
 
-            ctx.log.writeln('Will build version ' + String(opts.version).green);
+            ctx.log.writeln('Will build version ' + opts.version.green);
             next();
         });
     })
@@ -115,20 +112,6 @@ module.exports = function (task) {
             }
 
             contents = contents.toString().replace('\'./dev/src\'', '\'./' + opts.env + '/src\'');
-
-            fs.writeFile(opts.tempDir + '/app.js', contents, next);
-        });
-    }, {
-        description: 'Replace base URL'
-    })
-    .do(function (opts, ctx, next) {
-        // Replace baseUrl with the correct environment
-        fs.readFile(opts.tempDir + '/app.js', function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-
-            contents = contents.toString().replace('"./dev/src"', '"./' + opts.env + '/src"');
 
             fs.writeFile(opts.tempDir + '/app.js', contents, next);
         });
@@ -243,23 +226,6 @@ module.exports = function (task) {
         });
     }, {
         description: 'Minify css file'
-    })
-    .do(function (opts, ctx, next) {
-        var configFile = opts.projectDir + '/app/config/config_' + opts.env + '.js';
-        fs.readFile(configFile, function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-
-            // Update the version in the config
-            contents = contents.toString().replace(/(["']?version['"]?\s*:\s*)\d+/, function (all, match) {
-                return match + opts.version;
-            });
-
-            fs.writeFile(configFile, contents, next);
-        });
-    }, {
-        description: 'Save version number'
     })
     .do('rm', {
         description: 'Clean up temporary files',

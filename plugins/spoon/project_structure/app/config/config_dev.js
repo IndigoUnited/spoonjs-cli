@@ -9,8 +9,7 @@ define(['./config', 'mout/object/merge', 'has'], function (config, merge, has) {
     // This configuration can be used by any module by simply requiring 'app-config' while in the dev environment
 
     return merge(config, {
-        env: 'dev',
-        version: 0
+        env: 'dev'
 
         // ...
     });
