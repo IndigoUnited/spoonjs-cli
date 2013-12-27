@@ -166,7 +166,7 @@ module.exports = function (task) {
 
             contents = contents
                 .toString()
-                .replace(/(app(?:\.min)?\.(?:css|js))(?:\?\d+)?/g, function (all, match) {
+                .replace(/(app(?:\.min)?\.(?:css|js))(?:\?\w+)?/g, function (all, match) {
                     return match + '?' + opts.version;
                 });
 
