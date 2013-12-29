@@ -14,12 +14,12 @@ module.exports = function (task) {
     .setup(function (opts, ctx, next) {
         switch (opts.name) {
         case 'handlebars':
-            opts.endpoint = '~1.0';
+            opts.endpoint = '~1.0.0';
             opts.varName = 'Handlebars';
             opts.compileFunc = 'compile';
             break;
         case 'doT':
-            opts.endpoint = '~0.2';
+            opts.endpoint = '~1.0.1';
             opts.varName = 'doT';
             opts.compileFunc = 'template';
             break;
