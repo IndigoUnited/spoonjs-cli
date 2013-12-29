@@ -5,7 +5,8 @@
     "spoonjs": "*",
     "requirejs": "~2.1.0",
     "requirejs-text": "~2.0.0",
-    "require-css": "*",
+    "require-css": "~0.1.0",
+    "curl-css": "https://raw.github.com/cujojs/curl/master/src/curl/plugin/css.js",
     "almond": "~0.2.0",
     "{{baseLibrary}}": "{{baseLibraryEndpoint}}",
     "{{templateLibrary}}": "{{templateLibraryEndpoint}}"

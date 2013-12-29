@@ -1,4 +1,4 @@
-/*jshint node:true, es3:false, regexp:false*/
+/*jshint node:true, es3:false, regexp:false, evil:true*/
 
 'use strict';
 
@@ -7,6 +7,7 @@ var rjs       = require('requirejs');
 var UglifyJS  = require('uglify-js');
 var cleanCSS  = require('clean-css');
 var gzip      = require('gzip-js');
+var mout      = require('mout');
 
 module.exports = function (task) {
     task
@@ -23,23 +24,19 @@ module.exports = function (task) {
         }
 
         var cwd = process.cwd();
-        fs.readFile(cwd + '/app/config/config_' + opts.env + '.js', function (err, contents) {
-            if (err) {
-                return next(new Error('Unknown environment: ' + opts.env));
-            }
 
-            // Expose the version in the opts
-            // Convert from decimal base to base36 to decrease the size of the number
-            opts.version = Date.now().toString(36);
+        // Expose the version in the opts
+        // Convert from decimal base to base36 to decrease the size of the number
+        opts.version = Date.now().toString(36);
 
-            // Set some necessary vars to be used bellow
-            opts.targetDir = cwd  + '/web/' + opts.env;
-            opts.tempDir = cwd + '/tmp';
-            opts.projectDir = cwd;
+        // Set some necessary vars to be used bellow
+        opts.targetDir = cwd  + '/web/' + opts.env;
+        opts.tempDir = cwd + '/tmp';
+        opts.projectDir = cwd;
 
-            ctx.log.writeln('Will build version ' + opts.version.green);
-            next();
-        });
+        ctx.log.writeln('Will build version ' + opts.version.green);
+
+        next();
     })
 
     .do('rm', {
@@ -69,25 +66,81 @@ module.exports = function (task) {
         var loaderFile = opts.tempDir + '/app/loader.js';
 
         fs.readFile(loaderFile, function (err, contents) {
+            var start,
+                end,
+                config;
+
             if (err) {
                 return next(err);
             }
 
-            contents = contents.toString().replace(/\/app\/config\/config_\w+/g, '/app/config/config_' + opts.env);
-            fs.writeFile(loaderFile, contents, next);
+            contents = contents.toString();
+            start = contents.indexOf('({');
+            end = contents.indexOf('});');
+
+            if (start === -1 || end === -1) {
+                return next(new Error('Could not locate start/end of loader config'));
+            }
+
+            start += 1;
+            end += 1;
+
+            try {
+                eval('config = ' + contents.slice(start, end));
+            } catch (err) {
+                return next(err);
+            }
+
+            // Pass config bellow
+            opts.loader = {
+                start: start,
+                end: end,
+                contents: contents,
+                config: config
+            };
+
+            next();
         });
     }, {
-        description: 'Change target environment in loader config'
+        description: 'Read loader config'
+    })
+    .do(function (opts, ctx, next) {
+        var loader = opts.loader,
+            config = loader.config,
+            configStr = loader.contents,
+            pkg;
+
+        // Change baseUrl
+        config.baseUrl = './' + opts.env + '/src',
+
+        // Change app-config path to point to the correct environment
+        config.map['*']['app-config'] = '../app/config/config_' + opts.env;
+
+        // Replace css package location to use require-css
+        // We use curl-css in dev because it works on IE9 but it's not
+        // compatible with r.js builder
+        pkg = config.packages && mout.array.find(config.packages, function (pkg) {
+            return pkg.name === 'css';
+        });
+        if (pkg) {
+            pkg.location = '../bower_components/require-css';
+            pkg.main = 'css';
+        }
+
+        // Write back config
+        configStr = configStr.slice(0, loader.start) + JSON.stringify(config, null, '    ') + configStr.substr(loader.end);
+        fs.writeFile(opts.tempDir + '/app/loader.js', configStr, next);
+    }, {
+        description: 'Transform loader config'
     })
     // TODO: create automaton task for this (requirejs)
     .do(function (opts, ctx, next) {
-        rjs.optimize({
-            // Loader settings
-            mainConfigFile: opts.tempDir + '/app/loader.js',       // Include the main configuration file
-            baseUrl: opts.tempDir + '/src',                        // Point to the tmp folder
-            // r.js specific settings
-            name: '../bower_components/almond/almond',                      // Use almond
-            include: ['../app/loader', '../app/bootstrap'],
+        var config;
+
+        config = mout.object.deepMixIn(opts.loader.config, {
+            baseUrl: opts.tempDir + '/src',                  // Point to the tmp folder
+            name: '../bower_components/requirejs/require',   // Include require.js (you can switch to almond if compatible)
+            include: ['../app/loader', '../app/bootstrap'],  // Include main files
             out: opts.tempDir + '/app.js',
             has: {
                 debug: false
@@ -95,7 +148,9 @@ module.exports = function (task) {
             optimize: 'none',
             separateCSS: true,
             stubModules: ['has', 'text', 'css', 'css/css', 'css/normalize']
-        }, function (log) {
+        });
+
+        rjs.optimize(config, function (log) {
             ctx.log.info(log);
             next();
         }, function (err) {
@@ -103,20 +158,6 @@ module.exports = function (task) {
         });
     }, {
         description: 'Run r.js optimizer'
-    })
-    .do(function (opts, ctx, next) {
-        // Replace baseUrl with the correct environment
-        fs.readFile(opts.tempDir + '/app.js', function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-
-            contents = contents.toString().replace('\'./dev/src\'', '\'./' + opts.env + '/src\'');
-
-            fs.writeFile(opts.tempDir + '/app.js', contents, next);
-        });
-    }, {
-        description: 'Replace base URL'
     })
     // TODO: create automaton task for this (requirejs)
     .do(function (opts, ctx, next) {
