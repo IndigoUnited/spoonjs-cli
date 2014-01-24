@@ -127,6 +127,9 @@ module.exports = function (task) {
             pkg.main = 'css';
         }
 
+        // Set cache busting
+        config.urlArgs = opts.version;
+
         // Write back config
         configStr = configStr.slice(0, loader.start) + JSON.stringify(config, null, '    ') + configStr.substr(loader.end);
         fs.writeFile(opts.tempDir + '/app/loader.js', configStr, next);
