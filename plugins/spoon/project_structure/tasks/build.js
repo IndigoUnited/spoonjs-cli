@@ -111,7 +111,7 @@ module.exports = function (task) {
             pkg;
 
         // Change baseUrl
-        config.baseUrl = './' + opts.env + '/src',
+        config.baseUrl = '/' + opts.env + '/src',
 
         // Change app-config path to point to the correct environment
         config.map['*']['app-config'] = '../app/config/config_' + opts.env;

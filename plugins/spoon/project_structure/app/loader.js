@@ -1,7 +1,7 @@
 /*global requirejs*/
 
 requirejs.config({
-    baseUrl: './dev/src',
+    baseUrl: '/dev/src',
     paths: {
         'mout': '../bower_components/mout/src',
         'events-emitter': '../bower_components/events-emitter/src',

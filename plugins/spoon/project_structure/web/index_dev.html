@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width">
-        <script data-main="dev/app/loader" src="dev/bower_components/requirejs/require.js"></script>
+        <script src="dev/bower_components/requirejs/require.js"></script>
 {{head}}
 {{head_last}}
     </head>
@@ -18,7 +18,10 @@
 {{body_first}}
 {{body_before_bootstrap}}
         <script>
-            require(['../app/bootstrap']);
+            require({ urlArgs: 'bust=' + (+new Date()) });
+            require(['dev/app/loader'], function () {
+                require(['../app/bootstrap']);
+            });
         </script>
 {{body_after_bootstrap}}
 {{body}}
