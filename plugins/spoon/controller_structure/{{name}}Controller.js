@@ -14,7 +14,7 @@ define([
             Controller.call(this);
 
             // Do things here
-        },
+        }
 
         /**
          * {@inheritDoc}
