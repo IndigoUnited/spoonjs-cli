@@ -221,13 +221,22 @@ module.exports = function (task) {
 
                 // Update css file
                 fs.readFile(css, function (err, contents) {
+                    var dataUriRegExp;
+
                     if (err) {
                         return next(err);
                     }
 
+                    dataUriRegExp = /^data:/;
+
                     contents = contents
                         .toString()
                         .replace(/(url\s*\(["']?)(.*?)(["']?\))/ig, function (match, start, url, end) {
+                            // Ignore data URIs
+                            if (dataUriRegExp.test(url)) {
+                                return start + url + end;
+                            }
+
                             url = start + url.split('?', 2)[0] + '?' + opts.version + end;
                             return url;
                         });
