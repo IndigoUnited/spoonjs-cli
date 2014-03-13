@@ -24,6 +24,7 @@ requirejs.config({
             // Spoon aliases
             'spoon/Controller': '../bower_components/spoonjs/src/core/Controller',
             'spoon/View': '../bower_components/spoonjs/src/core/View',
+            'spoon/Joint': '../bower_components/spoonjs/src/core/Joint',
 
             // Spoon services
             'services/broadcaster': '../bower_components/spoonjs/src/core/Broadcaster/BroadcasterFactory',
