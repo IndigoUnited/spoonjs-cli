@@ -1,4 +1,4 @@
-define(['./states'], function (states) {
+define(['./states', 'json!./parameters.json'], function (states, parameters) {
 
     'use strict';
 
@@ -8,7 +8,7 @@ define(['./states'], function (states) {
     return {
         // Address configuration
         address: {
-            basePath: '/',
+            basePath: parameters.basePath,
             html5: false,     // Disable HTML5 address because it needs the correct base path and mod rewrite activated
             translate: true   // Translate from HTML5 URLs to hash automatically (and vice-versa)
         },

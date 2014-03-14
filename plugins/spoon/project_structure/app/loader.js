@@ -7,6 +7,7 @@ requirejs.config({
         'events-emitter': '../bower_components/events-emitter/src',
         'address': '../bower_components/address/src',
         'text': '../bower_components/requirejs-text/text',
+        'json': '../bower_components/requirejs-plugins/src/json',
         'has': '../bower_components/has/has',
 {{paths}}
     },
@@ -15,9 +16,6 @@ requirejs.config({
     },
     map: {
         '*': {
-            // App config (defaults to dev but changes during build)
-            'app-config': '../app/config/config_dev',
-
             // Spoon
             'spoon': '../bower_components/spoonjs/src/index',
 
@@ -38,6 +36,12 @@ requirejs.config({
             name: 'css',
             location: '../bower_components/require-css',
             main: 'css'
+        },
+        // App config (defaults to dev but changes during build)
+        {
+            name: 'app-config',
+            location: '../app/config',
+            main: 'config_dev'
         }
     ]
 });

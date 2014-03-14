@@ -33,6 +33,7 @@ module.exports = function (task) {
         opts.targetDir = cwd  + '/web/' + opts.env;
         opts.tempDir = cwd + '/tmp';
         opts.projectDir = cwd;
+        opts.parameters = require(__dirname + '/../app/config/parameters.json');
 
         ctx.log.writeln('Will build version ' + opts.version.green);
 
@@ -111,10 +112,15 @@ module.exports = function (task) {
             pkg;
 
         // Change baseUrl
-        config.baseUrl = '/' + opts.env + '/src',
+        config.baseUrl = mout.string.trim(opts.parameters.basePath, '/') + opts.env + '/src',
 
         // Change app-config path to point to the correct environment
-        config.map['*']['app-config'] = '../app/config/config_' + opts.env;
+        pkg = config.packages && mout.array.find(config.packages, function (pkg) {
+            return pkg.name === 'app-config';
+        });
+        if (pkg) {
+            pkg.main = 'config_' + opts.env;
+        }
 
         // Replace css package location to use require-css
         // We use curl-css in dev because it works on IE9 but it's not
@@ -283,7 +289,11 @@ module.exports = function (task) {
     .do('rm', {
         description: 'Clean up temporary files',
         options: {
-            files: '{{tempDir}}'
+            files: [
+                '{{tempDir}}',
+                '{{targetDir}}/app.js',
+                '{{targetDir}}/app.css'
+            ]
         }
     });
 };

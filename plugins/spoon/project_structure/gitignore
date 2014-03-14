@@ -3,6 +3,7 @@
 /components
 /bower_components
 
+/app/config/parameters.js
 /web/dev
 /web/prod
 /web/staging
