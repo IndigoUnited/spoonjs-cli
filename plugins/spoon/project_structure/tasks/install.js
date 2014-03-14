@@ -21,8 +21,7 @@ module.exports = function (task) {
             files: {
                 'app/config/parameters.json.dist': 'app/config/parameters.json'
             }
-        },
-        fatal: false
+        }
     })
     .do('run', {
         description: 'Install client environment dependencies',
