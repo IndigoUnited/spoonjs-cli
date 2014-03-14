@@ -15,6 +15,15 @@ module.exports = function (task) {
         next();
     })
 
+    .do('cp', {
+        description: 'Copying parameters.json',
+        options: {
+            files: {
+                'app/config/parameters.json.dist': 'app/config/parameters.json'
+            }
+        },
+        fatal: false
+    })
     .do('run', {
         description: 'Install client environment dependencies',
         options: {
