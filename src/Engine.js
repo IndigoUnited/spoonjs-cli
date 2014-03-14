@@ -91,6 +91,12 @@ var Engine = d.Class.declare({
             }
         }
 
+        for (optName in options) {
+            if (optName !== 'argv' && !utils.object.hasOwn(opt, optName)) {
+                opt[optName] = options[optName];
+            }
+        }
+
         // run the command
         args.push(opt);
         this._modules[module][command].apply(this._modules[module], args);
