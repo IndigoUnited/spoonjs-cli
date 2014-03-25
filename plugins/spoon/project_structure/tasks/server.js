@@ -116,8 +116,12 @@ module.exports = function (task) {
 
             fs.stat(file, function (err, stat) {
                 // If file does not exists, serve 404 page
-                if (err && err.code === 'ENOENT') {
-                    serve404(opts, res);
+                if (err) {
+                    if (err.code === 'ENOENT') {
+                        serve404(opts, res);
+                    } else {
+                        res.send(500);
+                    }
                 // If it exists and is a file, serve it
                 } else if (stat.isFile()) {
                     res.sendfile(file);
