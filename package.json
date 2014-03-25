@@ -1,7 +1,7 @@
 {
   "name": "spoonjs",
   "description": "SpoonJS CLI tool",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "keywords": [
     "framework",
     "mvc",
@@ -12,11 +12,11 @@
     "model"
   ],
   "bugs": {
-    "url" : "http://github.com/IndigoUnited/automaton/issues"
+    "url" : "http://github.com/IndigoUnited/spoonjs-cli/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/IndigoUnited/automaton.git"
+    "url": "git://github.com/IndigoUnited/spoonjs-cli.git"
   },
   "author": "Indigo United",
   "license": "MIT",
