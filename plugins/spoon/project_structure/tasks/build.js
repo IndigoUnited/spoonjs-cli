@@ -112,7 +112,7 @@ module.exports = function (task) {
             pkg;
 
         // Change baseUrl
-        config.baseUrl = mout.string.trim(opts.parameters.basePath, '/') + '/' + opts.env + '/src',
+        config.baseUrl = mout.string.trim(opts.parameters.basePath, '/') + '/' + opts.env + '/src';
 
         // Change app-config path to point to the correct environment
         pkg = config.packages && mout.array.find(config.packages, function (pkg) {
