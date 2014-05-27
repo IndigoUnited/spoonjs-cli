@@ -109,10 +109,11 @@ module.exports = function (task) {
         var loader = opts.loader,
             config = loader.config,
             configStr = loader.contents,
+            baseUrl = opts.parameters.basePath.replace(/index[^\.]*\.[a-z0-9]{1,4}\/?$/i, ''),
             pkg;
 
         // Change baseUrl
-        config.baseUrl = mout.string.trim(opts.parameters.basePath, '/') + '/' + opts.env + '/src';
+        config.baseUrl = mout.string.rtrim(baseUrl, '/') + '/' + opts.env + '/src';
 
         // Change app-config path to point to the correct environment
         pkg = config.packages && mout.array.find(config.packages, function (pkg) {
