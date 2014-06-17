@@ -26,7 +26,6 @@ var Engine = d.Class.declare({
         FIRST_COLUMN_WIDTH: 30
     },
 
-    _version:        '0.0.7',
     _modulesDir:     __dirname + '/modules/',
     _modules:        [],
     _moduleCommands: [],

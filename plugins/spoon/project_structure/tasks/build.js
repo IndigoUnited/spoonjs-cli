@@ -113,7 +113,8 @@ module.exports = function (task) {
             pkg;
 
         // Change baseUrl
-        config.baseUrl = mout.string.rtrim(baseUrl, '/') + '/' + opts.env + '/src';
+        opts.basePath = mout.string.rtrim(baseUrl, '/') + '/' + opts.env;
+        config.baseUrl = opts.basePath + '/src';
 
         // Change app-config path to point to the correct environment
         pkg = config.packages && mout.array.find(config.packages, function (pkg) {
@@ -254,6 +255,25 @@ module.exports = function (task) {
         });
     }, {
         description: 'Apply cache busting'
+    })
+    .do(function (opts, ctx, next) {
+        var index = opts.projectDir + '/web/index_' + opts.env + '.html';
+
+        // Update index file
+        fs.readFile(index, function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            contents = contents
+                .toString()
+                .replace(/src=(["']).*?(\/app(?:\.min)\.js(?:\?.*?)?)["']/, 'src=$1' + opts.basePath + '$2$1')
+                .replace(/href=(["']).*?(\/app(?:\.min)\.css(?:\?.*?)?)["']/, 'href=$1' + opts.basePath + '$2$1');
+
+            fs.writeFile(index, contents, next);
+        });
+    }, {
+        description: 'Apply base path'
     })
     // TODO: create automaton task for this (minjs)
     .do(function (opts, ctx, next) {
