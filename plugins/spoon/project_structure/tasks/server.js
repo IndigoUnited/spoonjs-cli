@@ -115,10 +115,10 @@ module.exports = function (task) {
             file = file.split('?')[0];
 
             fs.stat(file, function (err, stat) {
-                // If file does not exists, serve 404 page
+                // If file does not exists
                 if (err) {
                     if (err.code === 'ENOENT') {
-                        serve404(opts, res);
+                        inexistentFile(file, opts, res, ctx);
                     } else {
                         res.send(500);
                     }
@@ -141,14 +141,15 @@ module.exports = function (task) {
 };
 
 /**
- * Serve 404 page.
+ * Handles a request to an inexistent file.
  *
- * @param {Object} The task options
- * @param {Object} The express response object
+ * @param {Object} file    The request file
+ * @param {Object} options The task options
+ * @param {Object} res     The express response object
+ * @param {Object} ctx     The automaton context
  */
-function serve404(options, res) {
+function inexistentFile(file, options, res, ctx) {
     // If the rewrite is disabled, we attempt to serve the 404.html page
-    // Otherwise we rewrite to the front controller (index)
     if (!options.rewrite) {
         var file404 = path.join(options.web, '404.html');
         fs.stat(file404, function (err) {
@@ -159,9 +160,10 @@ function serve404(options, res) {
                 res.send(404);
             }
         });
+    // Otherwise we rewrite to the front controller (index)
     } else {
         if (/\.[a-z0-9]{1,4}$/i.test(file)) {
-            ctx.log.warnln('File does not exist', file);
+            ctx.log.warnln('Could not locate file', file);
         }
 
         res.sendfile(options.index);
