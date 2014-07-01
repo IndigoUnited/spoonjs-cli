@@ -160,6 +160,10 @@ function serve404(options, res) {
             }
         });
     } else {
+        if (/\.[a-z0-9]{1,4}$/i.test(file)) {
+            ctx.log.warnln('File does not exist', file);
+        }
+
         res.sendfile(options.index);
     }
 }
