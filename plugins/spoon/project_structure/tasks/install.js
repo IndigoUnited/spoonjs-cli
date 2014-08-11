@@ -39,11 +39,5 @@ module.exports = function (task) {
             // TODO: should npm be called programatically?
             cmd: 'npm install{{trailCmd}}'
         }
-    })
-    .do('rm', {
-        description: 'Cleanup files',
-        options: {
-            files: '.dejavurc'
-        }
     });
 };
