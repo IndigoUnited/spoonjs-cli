@@ -98,6 +98,12 @@ module.exports = function (task) {
             site.use(connect.compress());
         }
 
+        // Serve utf-8 by default
+        site.use(function (req, res, next) {
+            res.charset = 'utf-8';
+            next();
+        });
+
         // Serve index
         site.get('/', function (req, res) {
             return res.sendfile(opts.index);
@@ -105,7 +111,6 @@ module.exports = function (task) {
 
         // Serve favicon.ico
         site.use(express.favicon('./favicon.ico'));
-
 
         // Serve files & folders
         site.get('/*', function (req, res) {
