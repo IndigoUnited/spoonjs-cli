@@ -115,9 +115,11 @@ module.exports = function (task) {
         // Serve files & folders
         site.get('/*', function (req, res) {
             // Get the requested file
-            // If there are query parameters, remove them
             var file = path.join(opts.web, req.url.substr(1));
-            file = file.split('?')[0];
+
+            // If there are query parameters, remove them
+            // Also decode the string
+            file = decodeURI(file.split('?')[0]);
 
             fs.stat(file, function (err, stat) {
                 // If file does not exists
