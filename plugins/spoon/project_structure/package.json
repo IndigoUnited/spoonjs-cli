@@ -2,7 +2,7 @@
   "name": "{{name}}",
   "version": "0.0.0",
   "devDependencies": {
-    "mout": "~0.6.0",
+    "mout": "~0.10.0",
     "async": "~0.2.9",
     "glob": "~3.2.3",
     "express": "~3.3.4",

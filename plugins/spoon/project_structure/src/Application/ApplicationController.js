@@ -24,6 +24,9 @@ define([
             this._view = this._link(new ApplicationView());
             this._view.appendTo(document.body);
             this._view.render();
+
+            // Any module that upcasts an error will be handled
+            this.on('error', this.handleError, this);
         },
 
         /**
@@ -38,6 +41,18 @@ define([
             this._content.appendTo('#content');
             this._content.render();
         },
+
+        /**
+         * Handles an error, possibly coming from the state registry.
+         *
+         * @param {Error} err The error
+         */
+        handleError: function (err) {
+            // TODO:
+            throw err;
+        },
+
+        // --------------------------------------
 
         /**
          * Destroys the current content if any.
