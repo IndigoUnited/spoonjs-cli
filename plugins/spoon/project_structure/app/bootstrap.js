@@ -2,7 +2,7 @@ requirejs([
     'Application/ApplicationController',
     'services/state',
     '{{baseLibrary}}'
-], function (ApplicationController, stateRegistry, {{baseLibraryVar}}) {
+], function (ApplicationController, stateService, {{baseLibraryVar}}) {
 
     'use strict';
 
@@ -11,17 +11,17 @@ requirejs([
         var appController = new ApplicationController();
 
         // Glue between the StateRegistry and the AppController
-        stateRegistry
+        stateService
         .on('change', appController.delegateState, appController)
         .on('error', appController.handleError, appController)
         .on('unknown', function () {
             // If there's a current state, simply ignore
             // Otherwise transition to the default state
-            if (!stateRegistry.getCurrent()) {
+            if (!stateService.getCurrent()) {
                 appController.setState();
             }
         });
 
-        stateRegistry.parse();
+        stateService.parse();
     });
 });
