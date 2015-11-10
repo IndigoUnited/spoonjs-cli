@@ -33,9 +33,9 @@ define([
         /**
          * Handles the button click event.
          *
-         * @param {Event} event The event
+         * @param {Event} e The event
          */
-        /*_onBtnClick: function (event) {
+        /*_onBtnClick: function (e) {
             this._upcast('btn-click');
         },*/
 
