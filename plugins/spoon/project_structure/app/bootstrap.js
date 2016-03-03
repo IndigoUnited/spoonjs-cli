@@ -19,7 +19,7 @@ requirejs([
 
             // Handle the error
             appController.handleError(err);
-        }, appController)
+        })
         .on('unknown', function () {
             // Navigate to the home if not in any state
             !stateService.getCurrent() && appController.setState();
