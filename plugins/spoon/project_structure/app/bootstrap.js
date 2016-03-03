@@ -13,13 +13,16 @@ requirejs([
         // Glue between the StateRegistry and the AppController
         stateService
         .on('change', appController.delegateState, appController)
-        .on('error', appController.handleError, appController)
+        .on('error', function (err) {
+            // Navigate to the home if not in any state
+            !stateService.getCurrent() && appController.setState();
+
+            // Handle the error
+            appController.handleError(err);
+        }, appController)
         .on('unknown', function () {
-            // If there's a current state, simply ignore
-            // Otherwise transition to the default state
-            if (!stateService.getCurrent()) {
-                appController.setState();
-            }
+            // Navigate to the home if not in any state
+            !stateService.getCurrent() && appController.setState();
         });
 
         stateService.parse();
