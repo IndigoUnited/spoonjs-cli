@@ -14,11 +14,10 @@ requirejs([
         stateService
         .on('change', appController.delegateState, appController)
         .on('error', function (err) {
-            // Navigate to the home if not in any state
-            !stateService.getCurrent() && appController.setState();
-
             // Handle the error
             appController.handleError(err);
+            // Navigate to the home if not in any state
+            !stateService.getCurrent() && appController.setState();
         })
         .on('unknown', function () {
             // Navigate to the home if not in any state
