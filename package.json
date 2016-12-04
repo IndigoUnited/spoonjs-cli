@@ -22,12 +22,12 @@
   "license": "MIT",
   "dependencies": {
     "dejavu": "~0.4.4",
-    "colors": "~0.6.0",
-    "mout": "~0.6.0",
-    "dot": "~1.0.0",
+    "colors": "~1.1.2",
+    "mout": "~1.0.0",
+    "dot": "~1.1.1",
     "automaton": "~0.2.1",
-    "nopt": "~2.0.0",
-    "update-notifier": "~0.1.2"
+    "nopt": "~3.0.6",
+    "update-notifier": "~1.0.3"
   },
   "bin": {
     "spoon": "bin/spoon.js"
